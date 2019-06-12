@@ -11,7 +11,8 @@ double Params::decay_func(double stress,
                           double duration,
                           double decay_ms) {
   // This is defined directly
-  return stress - (decay_ms * duration);
+  double out = stress - (decay_ms * duration);
+  return out < 0 ? 0 : out;
 }
 
 // Required: double stress, with additional arguments

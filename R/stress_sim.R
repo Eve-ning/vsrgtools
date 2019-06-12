@@ -36,7 +36,8 @@ stressSim <- function(chart,
     chart.k.sim <- cpp_simulate_key(
       chart.k$offsets,
       chart.k$types,
-      decay_ms
+      decay_ms = decay_ms,
+      stress = 0
     )
 
     chart.k.sim %<>%
