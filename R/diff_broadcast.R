@@ -17,8 +17,6 @@ diff.broadcast <- function(chart,
   require(Rfast)
   require(dplyr)
 
-  Rcpp::sourceCpp("src/diff_broadcast.cpp")
-
   # Drop NA rows
   chart.bcst <- chart %>%
 

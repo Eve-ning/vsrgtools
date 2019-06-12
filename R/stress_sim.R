@@ -17,7 +17,6 @@ stress.sim <- function(chart,
   require(dplyr)
   require(Rcpp)
 
-  Rcpp::sourceCpp("src/stress_sim.cpp")
   # Allocate columns in advance
   chart %<>%
     arrange(offsets)

@@ -15,7 +15,7 @@ using namespace Rcpp;
 // Output
   // A list containing stress_base and stress_spike,
   //  accessible via "base" & "spike" names
-
+// [[Rcpp::export]]
 DataFrame cpp_simulate_key(NumericVector offsets,
                            CharacterVector types,
                            double decay_alpha = 1.5,
