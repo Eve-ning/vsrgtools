@@ -87,8 +87,12 @@ createMoveMapping <- function(keyset.select=NA,
     # If not defined, we will load default
     if (is.na(mapping)){
       fngr[] = c(
-        read.table("src/r/defaults/move_mapping",
-                   header = F, sep = ",")
+        # [P] [R] [M] [I] [T]
+        c(7.0,5.0,3.0,2.7,2.7), # [P] pp,pr,pm,pi,pt
+        c(6.0,6.0,2.5,2.0,2.0), # [R] rp,rr,rm,ri,rt
+        c(3.5,3.0,5.0,1.0,1.3), # [M] mp,mr,mm,mi,mt
+        c(2.7,1.2,1.2,5.0,2.4), # [I] ip,ir,im,ii,it
+        c(2.7,1.7,1.5,1.9,5.0)  # [T] tp,tr,tm,ti,tt
       )
     } else {
       fngr[] <- mapping
@@ -96,8 +100,12 @@ createMoveMapping <- function(keyset.select=NA,
 
     if (is.na(mapping.opp)){
       fngr.opp[] <- c(
-        read.table("src/r/defaults/move_mapping_opp",
-                   header = F, sep = ",")
+        # [P] [R] [M] [I] [T]
+        c(1.9,1.8,1.7,1.6,1.5), # [P] pp,pr,pm,pi,pt
+        c(1.8,1.7,1.6,1.5,1.4), # [R] rp,rr,rm,ri,rt
+        c(1.7,1.6,1.5,1.4,1.3), # [M] mp,mr,mm,mi,mt
+        c(1.6,1.5,1.4,1.3,1.2), # [I] ip,ir,im,ii,it
+        c(1.5,1.4,1.3,1.2,1.1)  # [T] tp,tr,tm,ti,tt
       )
     } else {
       fngr.opp[] = mapping.opp
