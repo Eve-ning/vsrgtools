@@ -19,10 +19,10 @@ chart.parse <- function(chart.path = NA,
     if (and(is.na(chart.path), is.na(chart.lines))) {
       stop("Both Arguments cannot be NA")
     } else if (is.na(chart.path)) {
-      chart <- chart.lines
+      chart <<- chart.lines
     } else {
       chart.f <- file(chart.path, open='r')
-      chart <- readLines(chart.f)
+      chart <<- readLines(chart.f)
       close(chart.f)
     }
   }
