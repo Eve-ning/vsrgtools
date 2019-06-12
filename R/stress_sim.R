@@ -10,8 +10,7 @@
 
 stressSim <- function(chart,
                       stress.init = 0.0,
-                      decay_alpha = 1.5,
-                      decay_beta = 1000){
+                      decay_ms = 0.01){
 
   require(magrittr)
   require(dplyr)
@@ -37,8 +36,7 @@ stressSim <- function(chart,
     chart.k.sim <- cpp_simulate_key(
       chart.k$offsets,
       chart.k$types,
-      decay_alpha = decay_alpha,
-      decay_beta = decay_beta
+      decay_ms
     )
 
     chart.k.sim %<>%

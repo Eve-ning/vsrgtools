@@ -7,9 +7,9 @@ using namespace Rcpp;
 // to how it improves performance by multiple folds.
 
 class Params {
-  
+
 private:
-  // note, lnoteh and lnotel names must be present if 
+  // note, lnoteh and lnotel names must be present if
   // the mapping is used!
   List mapping = List::create(
     _["adds"]  = NumericVector::create(
@@ -27,13 +27,12 @@ private:
   );
 
 public:
-  
+
   double decay_choice(std::string choice = "basic");
   // Required: double stress, double duration only
   double decay_func(double stress,
                     double duration,
-                    double alpha,
-                    double beta);
+                    double decay_ms);
 
   // Required: double stress, with additional arguments
   double spike_func(double stress,

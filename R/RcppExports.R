@@ -5,7 +5,7 @@ cpp_broadcast <- function(offsets, resets) {
     .Call(`_osutools_cpp_broadcast`, offsets, resets)
 }
 
-cpp_simulate_key <- function(offsets, types, decay_alpha = 1.5, decay_beta = 1000, stress = 0.0) {
-    .Call(`_osutools_cpp_simulate_key`, offsets, types, decay_alpha, decay_beta, stress)
+cpp_simulate_key <- function(offsets, types, decay_ms = 0.01, stress = 0.0) {
+    .Call(`_osutools_cpp_simulate_key`, offsets, types, decay_ms, stress)
 }
 

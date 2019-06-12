@@ -9,23 +9,21 @@ using namespace Rcpp;
 // Required: double stress, double duration only
 double Params::decay_func(double stress,
                           double duration,
-                          double alpha,
-                          double beta) {  
+                          double decay_ms) {
   // This is defined directly
-  return stress / pow(alpha, (duration / beta));
-
+  return stress - (decay_ms * duration);
 }
 
 // Required: double stress, with additional arguments
 double Params::spike_func(double stress,
                           std::string type) {
-  
+
   // Note the cast before the 2nd indexing, it is required.
   double adds = as<NumericVector>(mapping["adds"])[type];
   double mults = as<NumericVector>(mapping["mults"])[type];
 
   return (stress + adds) * mults;
-  
+
   // Template
   // <type> <name> = as<<vectorClass>>(df_mapping["<name>"])[type];
 }

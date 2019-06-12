@@ -18,8 +18,7 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 DataFrame cpp_simulate_key(NumericVector offsets,
                            CharacterVector types,
-                           double decay_alpha = 1.5,
-                           double decay_beta = 1000,
+                           double decay_ms = 0.01,
                            double stress = 0.0) {
 
   Params params;
@@ -54,13 +53,11 @@ DataFrame cpp_simulate_key(NumericVector offsets,
     if (type == "NA") {
       stress_base[row] = params.decay_func(stress,
                                            duration,
-                                           decay_alpha,
-                                           decay_beta);
+                                           decay_ms);
     } else {
       stress = params.decay_func(stress,
                                  duration,
-                                 decay_alpha,
-                                 decay_beta);
+                                 decay_ms);
 
       // stress_decay[row] = stress;
       stress = params.spike_func(stress, type);
