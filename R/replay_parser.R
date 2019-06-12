@@ -15,12 +15,12 @@
 #'
 #' @export
 
-replay.parse <- function(chart, replay.path, ignore.threshold = 100){
+replayParse <- function(chart, replay.path, ignore.threshold = 100){
 
   require(dplyr)
   require(feather)
 
-  f.similarity.match <- function(chart, replay){
+  similarityMatch <- function(chart, replay){
     #' Does a similarity match between chart and replay
     "chart should only come in keys, we will need to
     transform it into actions, which will help in
@@ -54,8 +54,8 @@ replay.parse <- function(chart, replay.path, ignore.threshold = 100){
   }
 
   replay <- read_feather(replay.path)
-  chart %<>%  f.similarity.match(replay)
   chart %<>%
+    similarityMatch(replay) %>%
     mutate(devs = abs(offsets - replay.offsets)) %>%
     filter(devs < ignore.threshold)
 

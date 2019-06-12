@@ -8,10 +8,10 @@
 #'
 #' @export
 
-stress.sim <- function(chart,
-                         stress.init = 0.0,
-                         decay_alpha = 1.5,
-                         decay_beta = 1000){
+stressSim <- function(chart,
+                      stress.init = 0.0,
+                      decay_alpha = 1.5,
+                      decay_beta = 1000){
 
   require(magrittr)
   require(dplyr)
@@ -27,6 +27,7 @@ stress.sim <- function(chart,
 
   # We will be looping through the chart by key
   chart.k.split <- split(x = chart, f = chart$keys)
+
   for (key in 1:length(chart.k.split)){
     chart.k <- chart.k.split[[key]]
     chart.k %<>%

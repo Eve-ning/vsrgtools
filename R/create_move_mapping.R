@@ -56,13 +56,13 @@
 #'
 #' @export
 
-create.move.mapping <- function(keyset.select=NA,
-                                  keyset=NA,
-                                  mapping=NA,
-                                  mapping.opp=NA){
+createMoveMapping <- function(keyset.select=NA,
+                              keyset=NA,
+                              mapping=NA,
+                              mapping.opp=NA){
 
   # Loads Mapping, if NA, it's defaulted
-  f.load.mapping <- function(mapping){
+  loadMapping <- function(mapping){
     #' Loads the fngr mapping
     #'
     #' @description
@@ -128,7 +128,7 @@ create.move.mapping <- function(keyset.select=NA,
   }
 
   # Chooses between keyset or keyset.select, if both NA, stop()
-  f.load.keyset <- function(keyset, keyset.select){
+  loadKeyset <- function(keyset, keyset.select){
     if (!is.na(keyset)){
       return(keyset)
     } else if (!is.na(keyset.select)){
@@ -162,12 +162,12 @@ create.move.mapping <- function(keyset.select=NA,
     }
   }
 
-  move.mapping <- f.load.mapping(mapping)
-  move.keyset <- f.load.keyset(keyset,
+  move.mapping <- loadMapping(mapping)
+  move.keyset <- loadKeyset(keyset,
                                as.character(keyset.select))
 
   # Merges both data.frames together
-  f.merge <- function(mapping, keyset) {
+  mergeMapping <- function(mapping, keyset) {
     mapping %<>%
       merge(keyset,
             by.x = 'froms',
@@ -186,7 +186,7 @@ create.move.mapping <- function(keyset.select=NA,
   }
 
   move.mapping %<>%
-    f.merge(move.keyset)
+    mergeMapping(move.keyset)
 
   return(move.mapping)
 }

@@ -23,9 +23,9 @@
 #'
 #' @export
 
-stress.tf <- function(chart,
-                        tf.group,
-                        func){
+stressTransfer <- function(chart,
+                           transfer.group,
+                           func){
 
   require(magrittr)
   require(reshape2)
@@ -34,23 +34,5 @@ stress.tf <- function(chart,
   chart <- chart.sim %>%
     dcast(offsets ~ keys, value.var = 'types')
 
-
-
-
-  # chart <- chart.sim
-  # chart <- chart[!is.na(chart$types),]
-  # chart.k.split <- split(chart, chart$keys)
-  #
-  # for(row in 1:nrow(chart)){
-  #   row.offset <- chart[row,'offsets']
-  #   row.key <- chart[row, 'keys']
-  #
-  #   chart.next.l = list()
-  #
-  #   for(k in length(chart.k.split)){ # Find next
-  #     chart.k <- chart.k.split[[k]]
-  #     chart.knth(abs(chart.k$offsets - row.offset),k = 2,index.return = T)
-  #   }
-  # }
 
 }

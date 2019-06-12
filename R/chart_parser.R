@@ -10,26 +10,27 @@
 #'
 #' @export
 
-chart.parse <- function(chart.path = NA,
+chartParse <- function(chart.path = NA,
                         chart.lines = NA){
 
   require(magrittr)
 
-  f.load.input <- function(){
+  loadInput <- function(){
     if (and(is.na(chart.path), is.na(chart.lines))) {
       stop("Both Arguments cannot be NA")
     } else if (is.na(chart.path)) {
-      chart <<- chart.lines
+      chart <- chart.lines
     } else {
       chart.f <- file(chart.path, open='r')
-      chart <<- readLines(chart.f)
+      chart <- readLines(chart.f)
       close(chart.f)
     }
+    return(chart)
   }
 
-  suppressWarnings(f.load.input())
+  chart <- suppressWarnings(loadInput())
 
-  f.chart.parse.osu <- function(chart) {
+  chartParseOsu <- function(chart) {
     #' Parses the osu chart into a data.frame
     #'
     #' @param chart The chart to be parsed, in a vector of characters.
@@ -85,6 +86,6 @@ chart.parse <- function(chart.path = NA,
   }
 
   # To add a switch/ifelse statement if more formats are done
-  return(f.chart.parse.osu(chart))
+  return(chartParseOsu(chart))
 }
 

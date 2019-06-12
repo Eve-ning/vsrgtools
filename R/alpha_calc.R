@@ -13,7 +13,7 @@
 #'
 #' @export
 
-alpha.calc <- function(chart, mapping, f.alpha){
+alphaCalc <- function(chart, mapping, f.alpha){
 
   chart <- merge(chart, mapping, by = c('keys.froms', 'keys.tos'))
   chart$alphas <- f.alpha(diffs = chart$diffs,

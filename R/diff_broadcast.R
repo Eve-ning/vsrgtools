@@ -9,8 +9,8 @@
 #'
 #' @export
 
-diff.broadcast <- function(chart,
-                           ignore.types = c('lnotel')){
+diffBroadcast <- function(chart,
+                          ignore.types = c('lnotel')){
 
   require(magrittr)
   require(reshape2)
