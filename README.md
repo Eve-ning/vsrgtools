@@ -67,6 +67,20 @@ In other words, we calculate this via finger motion instead of what column goes 
 
 This will be really hard to calculate correctly, but thankfully it's flexible enough to allow Tensorflow to try to decrease its loss.
 
+### Jack Inverse Overlapping
+
+As both **Motion Bias** and **Jack Inverse** are dealing with patterns, we will exclude jacks from **Motion Bias**.
+
+# Small Diff Correction
+
+**Jack Inverse** and **Motion Bias** will value `diffs` that are very low in value, and possibly inflate them too much.
+
+## Jack Inverse
+Despite *mini-jacks* being arguably easy to execute, we will **assume** that its justified.
+
+## Motion Bias
+The biggest issue here would be graces, small diffs are essentially just graced chords, so we shouldn't weight that too highly.
+
 # Expected Code Workflow
 
 ```{r}

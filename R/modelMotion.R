@@ -11,7 +11,10 @@
 #' values refer to ?createMoveMapping
 
 model.motion <- function(chart.bcst, move.mapping = NA,
-                         keyset.select = NA){
+                         keyset.select = NA,
+                         suppress.low.diff = T,
+                         suppress.threshold = 50,
+                         suppress.power = 2){
 
   # Preemptive check on correct arguments
   if (is.na(move.mapping) & is.na(keyset.select)) {
