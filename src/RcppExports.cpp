@@ -5,21 +5,21 @@
 
 using namespace Rcpp;
 
-// cpp_broadcast
-NumericMatrix cpp_broadcast(NumericVector offsets, LogicalMatrix resets);
-RcppExport SEXP _osutools_cpp_broadcast(SEXP offsetsSEXP, SEXP resetsSEXP) {
+// cppBroadcast
+NumericMatrix cppBroadcast(NumericVector offsets, LogicalMatrix resets);
+RcppExport SEXP _osutools_cppBroadcast(SEXP offsetsSEXP, SEXP resetsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type offsets(offsetsSEXP);
     Rcpp::traits::input_parameter< LogicalMatrix >::type resets(resetsSEXP);
-    rcpp_result_gen = Rcpp::wrap(cpp_broadcast(offsets, resets));
+    rcpp_result_gen = Rcpp::wrap(cppBroadcast(offsets, resets));
     return rcpp_result_gen;
 END_RCPP
 }
-// cpp_simulate_key
-DataFrame cpp_simulate_key(NumericVector offsets, CharacterVector types, double decay_ms, double stress);
-RcppExport SEXP _osutools_cpp_simulate_key(SEXP offsetsSEXP, SEXP typesSEXP, SEXP decay_msSEXP, SEXP stressSEXP) {
+// cppSimulateKey
+DataFrame cppSimulateKey(NumericVector offsets, CharacterVector types, double decay_ms, double stress);
+RcppExport SEXP _osutools_cppSimulateKey(SEXP offsetsSEXP, SEXP typesSEXP, SEXP decay_msSEXP, SEXP stressSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -27,14 +27,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< CharacterVector >::type types(typesSEXP);
     Rcpp::traits::input_parameter< double >::type decay_ms(decay_msSEXP);
     Rcpp::traits::input_parameter< double >::type stress(stressSEXP);
-    rcpp_result_gen = Rcpp::wrap(cpp_simulate_key(offsets, types, decay_ms, stress));
+    rcpp_result_gen = Rcpp::wrap(cppSimulateKey(offsets, types, decay_ms, stress));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_osutools_cpp_broadcast", (DL_FUNC) &_osutools_cpp_broadcast, 2},
-    {"_osutools_cpp_simulate_key", (DL_FUNC) &_osutools_cpp_simulate_key, 4},
+    {"_osutools_cppBroadcast", (DL_FUNC) &_osutools_cppBroadcast, 2},
+    {"_osutools_cppSimulateKey", (DL_FUNC) &_osutools_cppSimulateKey, 4},
     {NULL, NULL, 0}
 };
 

@@ -39,7 +39,7 @@ diffBroadcast <- function(chart,
   # Broadcast with cpp and assign back to the [2:] columns
   reset.columns <- 2:ncol(chart.bcst)
   chart.bcst[,reset.columns] <-
-    cpp_broadcast(chart.bcst$offsets,
+    .cppBroadcast(chart.bcst$offsets,
                   as.matrix(chart.bcst[,reset.columns]))
 
   chart.bcst %<>%

@@ -33,7 +33,7 @@ stressSim <- function(chart,
       merge(chart.frame, by='offsets', all=T) %>%
       mutate(is.spike = !is.na(types))
 
-    chart.k.sim <- cpp_simulate_key(
+    chart.k.sim <- .cppSimulateKey(
       chart.k$offsets,
       chart.k$types,
       decay_ms = decay_ms,

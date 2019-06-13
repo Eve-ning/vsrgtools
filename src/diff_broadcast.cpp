@@ -8,9 +8,9 @@ using namespace Rcpp;
   //  broadcasted notes, where broadcasting must reset.
   //  Positive numbers indicate a reset, 0 or lower
   //  otherwise
-// [[Rcpp::export]]
-NumericMatrix cpp_broadcast(NumericVector offsets,
-                            LogicalMatrix resets){
+// [[Rcpp::export(name=".cppBroadcast")]]
+NumericMatrix cppBroadcast(NumericVector offsets,
+                           LogicalMatrix resets){
 
   unsigned int rows = offsets.length();
 
