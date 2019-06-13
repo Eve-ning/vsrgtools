@@ -2,17 +2,15 @@
 #'
 #' @description This uses diffBroadcast and just inverses
 #' the difference between equal keys.froms and keys.tos
-#' @param chart The chart generated from chartParse
+#' @param chart.bcst The chart generated from diffBroadcast
 #' @param ignore.types The types of notes to be ignored
 #' when calculating jacks
 
-model.jackInv <- function(chart, ignore.types = c('lnotel')){
+model.jackInv <- function(chart.bcst){
   require(magrittr)
   require(dplyr)
-  bcst <- diffBroadcast(chart = chart,
-                        ignore.types = ignore.types)
 
-  bcst %<>%
+  chart.bcst %<>%
     filter(keys.froms == keys.tos) %>%
     rename(keys = keys.froms) %>%
     mutate(jack.invs = 1/diffs) %>%
