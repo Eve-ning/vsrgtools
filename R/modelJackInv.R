@@ -14,7 +14,9 @@ model.jackInv <- function(chart, ignore.types = c('lnotel')){
 
   bcst %<>%
     filter(keys.froms == keys.tos) %>%
-    mutate(jack.invs = 1/diffs)
+    rename(keys = keys.froms) %>%
+    mutate(jack.invs = 1/diffs) %>%
+    select(-c(keys.froms, diffs))
 
   return(bcst)
 }
