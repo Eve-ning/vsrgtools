@@ -1,4 +1,4 @@
-#' Static Model generater for Jack Inverse
+#' Static Model generator for Jack Inverse
 #'
 #' @description This uses diffBroadcast and just inverses
 #' the difference between equal keys.froms and keys.tos
