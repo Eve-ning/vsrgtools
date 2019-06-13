@@ -8,7 +8,7 @@
 #' @param chart The chart generated from chartParse
 #' @param window The window to check for objects
 
-modelDensity <- function(chart, window = 1000) {
+model.density <- function(chart, window = 1000) {
 
   require(magrittr)
   require(dplyr)
