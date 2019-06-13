@@ -64,3 +64,25 @@ Motion Bias is essentially a hardcoded table of parameter to describe how hard i
 In other words, we calculate this via finger motion instead of what column goes to what column.
 
 This will be really hard to calculate correctly, but thankfully it's flexible enough to allow Tensorflow to try to decrease its loss.
+
+# Expected Code Workflow
+
+```{r}
+# Parse
+chart <- chart.parse("path/to/osu")
+
+# Static Models
+sm.1 <- chart %>% staticModel.1() 
+sm.2 <- chart %>% staticModel.2() 
+...
+sm.n <- chart %>% staticModel.n() 
+
+# Dynamic Model (stressSim)
+ss <- chart %>% stressSim(sm.1, sm.2, ..., sm.n)
+
+# Combine
+diff <- ss %>% diffCalc(...)
+```
+
+
+
