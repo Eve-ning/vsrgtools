@@ -10,14 +10,25 @@
 
 modelDensity <- function(chart, window = 1000) {
 
-  chart <- chartParse("../requests/src/reqs/fletch_04062019/Hyper Potions - Jungle Cruise (Theresa May) [Stage 2 - Excitement].osu")
-  chart %>%
-    arrange(offsets) %>%
-    mutate(no.objects = sapply(.$offsets, function(x){
-      sum(.$offsets <= x & .$offsets >= x - window)
-    })) %>%
-    group_by(offsets) %>%
-    summarise(no.objects = first(no.objects))
+  require(magrittr)
+  require(dplyr)
+  require(reshape2)
+
+  chart %<>%
+    dcast(offsets + keys ~ types,
+          value.var = 'offsets',
+          fun.aggregate = length) %>%
+    melt(id.vars = 1:2,
+         variable.name = "types",
+         value.name = "value") %>%
+    group_by(types) %>%
+    mutate(no.objects = sapply(offsets, function(x){
+                          sum((offsets <= x & offsets >= x - window) * value)
+                        })) %>%
+    dcast(offsets + keys ~ types,
+          value.var = 'no.objects',
+          fun.aggregate = first)
+
 
   return(chart)
 }
