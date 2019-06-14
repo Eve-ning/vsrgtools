@@ -17,6 +17,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// cppModelDensity
+NumericVector cppModelDensity(NumericVector unq_offsets, NumericVector obj_offsets, double window, bool is_sorted);
+RcppExport SEXP _osutools_cppModelDensity(SEXP unq_offsetsSEXP, SEXP obj_offsetsSEXP, SEXP windowSEXP, SEXP is_sortedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type unq_offsets(unq_offsetsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type obj_offsets(obj_offsetsSEXP);
+    Rcpp::traits::input_parameter< double >::type window(windowSEXP);
+    Rcpp::traits::input_parameter< bool >::type is_sorted(is_sortedSEXP);
+    rcpp_result_gen = Rcpp::wrap(cppModelDensity(unq_offsets, obj_offsets, window, is_sorted));
+    return rcpp_result_gen;
+END_RCPP
+}
 // cppSimulateKey
 DataFrame cppSimulateKey(NumericVector offsets, CharacterVector types, double decay_ms, double stress);
 RcppExport SEXP _osutools_cppSimulateKey(SEXP offsetsSEXP, SEXP typesSEXP, SEXP decay_msSEXP, SEXP stressSEXP) {
@@ -34,6 +48,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_osutools_cppBroadcast", (DL_FUNC) &_osutools_cppBroadcast, 2},
+    {"_osutools_cppModelDensity", (DL_FUNC) &_osutools_cppModelDensity, 4},
     {"_osutools_cppSimulateKey", (DL_FUNC) &_osutools_cppSimulateKey, 4},
     {NULL, NULL, 0}
 };
