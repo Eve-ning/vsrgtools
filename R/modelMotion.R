@@ -9,6 +9,8 @@
 #' @param keyset.select If move.mapping is NA, this must be
 #' specified to generate a default move.mapping. For valid
 #' values refer to ?createMoveMapping
+#'
+#' @export
 
 model.motion <- function(chart.bcst, move.mapping = NA,
                          keyset.select = NA,

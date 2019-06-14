@@ -5,6 +5,8 @@
 #' @param chart.bcst The chart generated from diffBroadcast
 #' @param ignore.types The types of notes to be ignored
 #' when calculating jacks
+#'
+#' @export
 
 model.jackInv <- function(chart.bcst){
   require(magrittr)
@@ -14,7 +16,9 @@ model.jackInv <- function(chart.bcst){
     filter(keys.froms == keys.tos) %>%
     rename(keys = keys.froms) %>%
     mutate(jack.invs = 1/diffs) %>%
-    select(-c(keys.froms, diffs))
+    select(-c(keys, diffs))
 
-  return(bcst)
+  # We may need to add suppression on low diffs
+
+  return(chart.bcst)
 }
