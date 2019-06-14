@@ -16,7 +16,7 @@ model.jackInv <- function(chart.bcst){
     filter(keys.froms == keys.tos) %>%
     rename(keys = keys.froms) %>%
     mutate(jack.invs = 1/diffs) %>%
-    select(-c(keys, diffs))
+    select(-c(types, diffs))
 
   # We may need to add suppression on low diffs
 
