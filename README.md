@@ -79,7 +79,9 @@ As both **Motion Bias** and **Jack Inverse** are dealing with patterns, we will 
 Despite *mini-jacks* being arguably easy to execute, we will **assume** that its justified.
 
 ## Motion Bias
-The biggest issue here would be graces, small diffs are essentially just graced chords, so we shouldn't weight that too highly.
+The biggest issue here would be graces, small `diffs` are essentially just graced chords, so we shouldn't weight that too highly.
+
+In other words, we'd have a weighting system that supresses `diffs` that are too low.
 
 # Expected Code Workflow
 
