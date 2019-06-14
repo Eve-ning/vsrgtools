@@ -4,10 +4,10 @@
 \alias{model.jackInv}
 \title{Static Model generator for Jack Inverse}
 \usage{
-model.jackInv(chart, ignore.types = c("lnotel"))
+model.jackInv(chart.bcst)
 }
 \arguments{
-\item{chart}{The chart generated from chartParse}
+\item{chart.bcst}{The chart generated from diffBroadcast}
 
 \item{ignore.types}{The types of notes to be ignored
 when calculating jacks}
