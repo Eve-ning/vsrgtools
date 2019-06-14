@@ -35,5 +35,9 @@ model.motion <- function(chart.bcst, move.mapping = NA,
 
   chart.motion <- merge(chart.bcst, move.mapping,
                         by = c('keys.froms', 'keys.tos'))
+
+  chart.motion %<>%
+    filter(keys.froms != keys.tos)
+
   return(chart.motion)
 }
