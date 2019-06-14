@@ -8,7 +8,7 @@
 #'
 #' @export
 
-model.jackInv <- function(chart.bcst){
+model.jackInv <- function(chart.bcst, quant){
   require(magrittr)
   require(dplyr)
 
@@ -16,9 +16,11 @@ model.jackInv <- function(chart.bcst){
     filter(keys.froms == keys.tos) %>%
     rename(keys = keys.froms) %>%
     mutate(jack.invs = 1/diffs) %>%
-    select(-c(types, diffs))
+    select(-c(types, diffs)) %>%
 
-  # We may need to add suppression on low diffs
+    # We summarize the values here
+    group_by(offsets) %>%
+    summarise(jack.invs = quantile(jack.invs, quant))
 
   return(chart.bcst)
 }
