@@ -16,31 +16,21 @@ model.density <- function(chart, window = 1000) {
   require(dplyr)
   require(reshape2)
 
-  chart %<>%
+  chart <- chartParse("../requests/src/reqs/felix_04062019/Camellia - werewolf howls. ['Growling' Long ver.] (FelixSpade) [__fullmoon.exe].osu")
 
-    # The cast and melt is to add offsets to types that dont
-    # have offsets
-    dcast(offsets + keys ~ types,
-          value.var = 'offsets',
-          fun.aggregate = length) %>%
-    melt(id.vars = 1:2,
-         variable.name = "types",
-         value.name = "value") %>%
+  unq_offsets <- unique(chart$offsets)
+  chart <- split(chart, chart$types,drop = T)
 
-    # Separate by types to do moving average
-    group_by(types) %>%
+  for (x in 1:length(chart)){
+    counts <- .cppModelDensity(unq_offsets, chart[[x]]$offsets, window)
+    chart[[x]] <- data.frame(
+      counts = counts,
+      offsets = unq_offsets,
+      types = names(chart[x]),
+      stringsAsFactors = F
+    )
+  }
 
-    # This calculates the moving average, with a bool, but excludes
-    # extrapolated values by multiplying with the value
-    mutate(no.objects = sapply(offsets, function(x){
-                          sum((offsets <= x & offsets >= x - window) * value)
-                        })) %>%
-
-    # Cast back to wide table
-    dcast(offsets + keys ~ types,
-          value.var = 'no.objects',
-          fun.aggregate = first)
-
-
+  chart <- bind_rows(chart)
   return(chart)
 }
