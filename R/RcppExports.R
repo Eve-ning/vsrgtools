@@ -5,6 +5,10 @@
     .Call(`_osutools_cppBroadcast`, offsets, resets)
 }
 
+.cppModelDensity <- function(unq_offsets, obj_offsets, window, is_sorted = FALSE) {
+    .Call(`_osutools_cppModelDensity`, unq_offsets, obj_offsets, window, is_sorted)
+}
+
 .cppSimulateKey <- function(offsets, types, decay_ms = 0.01, stress = 0.0) {
     .Call(`_osutools_cppSimulateKey`, offsets, types, decay_ms, stress)
 }
