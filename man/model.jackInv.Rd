@@ -4,13 +4,20 @@
 \alias{model.jackInv}
 \title{Static Model generator for Jack Inverse}
 \usage{
-model.jackInv(chart.bcst, quant)
+model.jackInv(chart.bcst, is.summarised = T, summarised.fun = NA)
 }
 \arguments{
 \item{chart.bcst}{The chart generated from diffBroadcast}
 
-\item{ignore.types}{The types of notes to be ignored
-when calculating jacks}
+\item{is.summarised}{A Logical to indicate if the chart
+produced should be summarized by keys.}
+
+\item{summarised.fun}{The function to use to group
+different jack.invs together. This function must
+contain (jack.invs) as function argument and output
+a numeric for jack.invs.
+
+If it's NA, it'll default to a quantile(jack.invs, 0.85)}
 }
 \description{
 This uses diffBroadcast and just inverses
