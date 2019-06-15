@@ -11,16 +11,12 @@
 #' @export
 
 model.density <- function(chart, window = 1000) {
-
-  require(magrittr)
   require(dplyr)
-  require(reshape2)
-
-  chart <- chartParse("../requests/src/reqs/felix_04062019/Camellia - werewolf howls. ['Growling' Long ver.] (FelixSpade) [__fullmoon.exe].osu")
 
   unq_offsets <- unique(chart$offsets)
   chart <- split(chart, chart$types,drop = T)
 
+  # We will use the .cpp function by types
   for (x in 1:length(chart)){
     counts <- .cppModelDensity(unq_offsets, chart[[x]]$offsets, window)
     chart[[x]] <- data.frame(
