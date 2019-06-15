@@ -39,6 +39,8 @@ model.density <- function(chart, window = 1000,
     )
   }
 
+  chart <- bind_rows(chart)
+
   if(is.summarised) {
     require(magrittr)
     require(dplyr)
@@ -56,6 +58,5 @@ model.density <- function(chart, window = 1000,
                                         types = types))
   }
 
-  chart <- bind_rows(chart)
   return(chart)
 }
