@@ -56,7 +56,7 @@ model.motion <- function(chart.bcst, move.mapping = NA,
     mutate(diffs.invs =
              ifelse(diffs >= suppress.threshold,
                     # Inverse Function
-                    1/diffs.invs,
+                    1/diffs,
                     # Suppress Function
                     1/abs(((diffs - suppress.threshold)
                           * suppress.scale)
