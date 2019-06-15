@@ -5,7 +5,7 @@
 \title{Static Model generator for Motion}
 \usage{
 model.motion(chart.bcst, move.mapping = NA, keyset.select = NA,
-  suppress.low.diff = T, suppress.threshold = 50, suppress.power = 2)
+  suppress = T, suppress.threshold = 50, suppress.scale = 2)
 }
 \arguments{
 \item{chart.bcst}{The chart generated from diffBroadcast}
@@ -17,8 +17,28 @@ to generate a default move.mapping}
 \item{keyset.select}{If move.mapping is NA, this must be
 specified to generate a default move.mapping. For valid
 values refer to ?createMoveMapping}
+
+\item{suppress}{A Logical determining if suppresion should
+occur}
+
+\item{suppress.threshold}{If suppress is True, this will
+reflect the inverse function at this point. Creating a
+piecewise function where the suppress function is}
+
+\item{suppress.scale}{If suppress is True, this will
+expand the x range. In other words, smaller diffs will
+have a lower diffs.inv when this increases.}
 }
 \description{
 This uses diffBroadcast and createMoveMapping
-to
+to summarize the occurences of different patterns.
+
+Suppression
+
+Suppression works by reflecting the inverse function used
+by diffs.inv on specified suppress.threshold value.
+
+Suppression for smaller values can be further controled
+via suppress.scale. Where smaller values are suppressed
+further with higher suppress.scale.
 }
