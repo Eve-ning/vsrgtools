@@ -6,15 +6,14 @@
 #' @param chart.lines Lines of the chart to be parsed, if the chart
 #' is not in a file format
 #' @return A data.frame consisting of the note's data only.
-#' Columns: keys, types, offsets
+#' Columns: keys, len, types, offsets
 #'
 #' @export
 
 chartParse <- function(chart.path = NA,
-                        chart.lines = NA){
+                       chart.lines = NA){
 
   require(magrittr)
-
   loadInput <- function(){
     if (and(is.na(chart.path), is.na(chart.lines))) {
       stop("Both Arguments cannot be NA")
@@ -27,8 +26,6 @@ chartParse <- function(chart.path = NA,
     }
     return(chart)
   }
-
-  chart <- suppressWarnings(loadInput())
 
   chartParseOsu <- function(chart) {
     #' Parses the osu chart into a data.frame
@@ -52,40 +49,28 @@ chartParse <- function(chart.path = NA,
     }
 
     extract <- f.extract(chart)
-    chart <- extract$chart
-    keys <- extract$keys
+    chart <- as.data.frame(nm = "raw", extract$chart, stringsAsFactors = F)
+    chart.keys <- extract$keys
 
-    chart <- data.frame(chart, stringsAsFactors = F)
-    colnames(chart) <- "txt"
+    chart %<>%
+      mutate(is.ln = str_count(string = raw, pattern = ":") == 5) %>%
+      separate(col=raw, sep=":", into=c("txt",".0"), extra="drop") %>%
+      separate(col=txt, sep=",", into=c("axis",".0","note",".1",".2","lnotel")) %>%
+      select(axis, note, lnotel, is.ln) %>%
+      mutate_if(is.character, as.numeric) %>%
+      mutate(len = ifelse(is.ln, lnotel - note, -1),
+             keys = round((axis * chart.keys - 256) / 512) + 1) %>%
+      melt(id.vars = c('keys', 'len'),
+           measure.vars = c('note', 'lnotel'),
+           na.rm = T, variable.name = 'types',
+           value.name = 'offsets') %>%
+      mutate(types = ifelse(len != -1, 'lnoteh', as.character(types)))
 
-    chart$is.ln <- str_count(string = chart$txt,
-                             pattern = ":") == 5
-
-    chart %<>% separate(col=txt,
-                        sep=":",
-                        into=c("txt","_"),
-                        extra="drop")
-
-    chart %<>% separate(col=txt,
-                        sep=",",
-                        into=c("axis",".0","note",".1",".2","lnotel"))
-
-    chart$keys = round((as.integer(chart$axis) * keys - 256) / 512) + 1
-    chart %<>% na.omit()
-    chart$lnotel[chart$is.ln == F] <- NA
-    chart %<>% mutate_if(is.character, as.numeric)
-
-    chart <- chart[c('note', 'lnotel', 'keys', 'is.ln')]
-    chart$lnoteh[chart$is.ln] <- chart$note[chart$is.ln]
-    chart$note[chart$is.ln] <- NA
-    chart <- melt(chart, id.vars = 'keys',
-                  na.rm = T, variable.name = 'types',
-                  value.name = 'offsets')
-    chart <- subset(chart, types != 'is.ln')
     return(chart)
   }
-
   # To add a switch/ifelse statement if more formats are done
+
+  chart <- suppressWarnings(loadInput())
   return(chartParseOsu(chart))
 }
 
