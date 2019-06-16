@@ -105,7 +105,7 @@ model.motion <- function(chart.bcst, move.mapping = NA,
     } else if (!is.na(summarised.num.fun)) {
       chart.motion %<>%
         group_by(offsets) %>%
-        summarise(counts = summarised.num.fun(diffs.invs = diffs.invs,
+        summarise(diffs.invs = summarised.num.fun(diffs.invs = diffs.invs,
                                               keys.froms = keys.froms,
                                               keys.tos = keys.tos))
     } else {
