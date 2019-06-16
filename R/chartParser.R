@@ -63,8 +63,11 @@ chartParse <- function(chart.path = NA,
       melt(id.vars = c('keys', 'len'),
            measure.vars = c('note', 'lnotel'),
            na.rm = T, variable.name = 'types',
-           value.name = 'offsets') %>%
-      mutate(types = ifelse(len != -1, 'lnoteh', as.character(types)))
+           value.name = 'offsets')  %>%
+      filter(!(len == -1 & types == 'lnotel')) %>%
+      mutate(types = ifelse(len != -1 & types == 'note',
+                            'lnoteh', as.character(types)))
+
 
     return(chart)
   }
@@ -74,3 +77,5 @@ chartParse <- function(chart.path = NA,
   return(chartParseOsu(chart))
 }
 
+
+t <- chartParse(chart.path)
