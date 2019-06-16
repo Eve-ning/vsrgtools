@@ -14,9 +14,7 @@ diffBroadcast <- function(chart,
 
   require(magrittr)
   require(reshape2)
-  require(Rfast)
   require(dplyr)
-
   # Drop NA rows
   chart.bcst <- chart %>%
 
