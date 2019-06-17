@@ -6,6 +6,7 @@ using namespace Rcpp;
 // obj_offsets
 // To elaborate on this later
 
+//' @export
 // [[Rcpp::export(name=".cppModelDensity")]]
 NumericVector cppModelDensity(NumericVector unq_offsets,
                               NumericVector obj_offsets,
