@@ -10,9 +10,9 @@
 #' @param ignore.threshold **Numeric** to indicate what deviations should
 #' be ignored.
 #'
-#' @return Returns a joined **data.frame** with replay.offsets
-#' on the following column.
-#'
+#' @importFrom magrittr %<>% %>%
+#' @importFrom dplyr mutate filter bind_rows
+#' @importFrom rlang .data
 #' @export
 
 replayParse <- function(chart, replay.path, ignore.threshold = 100){
@@ -22,8 +22,11 @@ replayParse <- function(chart, replay.path, ignore.threshold = 100){
     transform it into actions, which will help in
     pairing"
     chart %<>%
-      dplyr::mutate(actions = ifelse(types == 'lnotel', -keys, keys),
-             replay.offsets = NA)
+      dplyr::mutate(
+        .data$actions = ifelse
+        (.data$types == 'lnotel', -.data$keys, .data$keys),
+        replay.offsets = NA)
+
     actions.unq <- unique(chart$actions)
 
     chart.ac.split <- split(chart, f=chart$actions)
@@ -52,8 +55,10 @@ replayParse <- function(chart, replay.path, ignore.threshold = 100){
   replay <- read_feather(replay.path)
   chart %<>%
     similarityMatch(replay) %>%
-    dplyr::mutate(devs = abs(offsets - replay.offsets)) %>%
-    dplyr::filter(devs < ignore.threshold)
+    dplyr::mutate(.data$devs = abs
+                  (.data$offsets - .data$replay.offsets)
+                  ) %>%
+    dplyr::filter(.data$devs < ignore.threshold)
 
   return(chart)
 }

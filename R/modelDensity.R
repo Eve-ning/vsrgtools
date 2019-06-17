@@ -7,6 +7,9 @@
 #' time frame to be processed.
 #' @param chart The chart generated from chartParse
 #' @param window The window to check for objects
+#'
+#' @importFrom dplyr bind_rows
+#'
 #' @export
 
 model.density <- function(chart, window = 1000) {

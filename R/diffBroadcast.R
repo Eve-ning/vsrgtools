@@ -7,6 +7,10 @@
 #' @param ignore.lnotel A **logical** to determine if lnotel
 #' should be included in the broadcasting
 #'
+#' @importFrom magrittr %>%
+#' @importFrom dplyr mutate filter arrange rename desc
+#' @importFrom reshape2 dcast melt
+#' @importFrom rlang .data
 #' @export
 
 diffBroadcast <- function(chart,
@@ -16,20 +20,21 @@ diffBroadcast <- function(chart,
   chart.bcst <- chart %>%
 
   # Ignores any types that matches the list
-    dplyr::filter(!(types %in% ignore.types)) %>%
+    dplyr::filter(!(.data$types %in% ignore.types)) %>%
 
     # As per the cpp function's requirements, the types
     # that we would want to participate is TRUE, while
     # the spectators are FALSE
-    dplyr::mutate(types = T) %>%
+    dplyr::mutate(.data$types = T) %>%
 
   # Cast keys to longer table.
-    reshape2::dcast(offsets ~ keys, value.var = 'types', fill = F) %>%
+    reshape2::dcast(.data$offsets ~ .data$keys,
+                    value.var = 'types', fill = F) %>%
 
   # The plan is to flip the chart up-side down, then
   # we track different columns on the accumulated
   # offsets.
-    dplyr::arrange(desc(offsets))
+    dplyr::arrange(dplyr::desc(.data$offsets))
 
   # Broadcast with cpp and assign back to the [2:] columns
   reset.columns <- 2:ncol(chart.bcst)
@@ -48,13 +53,13 @@ diffBroadcast <- function(chart,
                    na.rm = T) %>%
 
     # Rename for clarity
-    dplyr::rename(keys.froms = keys) %>%
+    dplyr::rename(.data$keys.froms = .data$keys) %>%
 
     # Coerce to numeric
-    dplyr::mutate(keys.tos = as.numeric(keys.tos)) %>%
+    dplyr::mutate(.data$keys.tos = as.numeric(.data$keys.tos)) %>%
 
     # Remove invalid diffs
-    dplyr::filter(diffs > 0)
+    dplyr::filter(.data$diffs > 0)
 
   return(chart.bcst)
 }

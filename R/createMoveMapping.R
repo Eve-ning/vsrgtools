@@ -64,6 +64,11 @@
 #' Same format as `mapping`. However, pr would mean
 #' FROM Hand 1 Pinky to Hand 2 Ring. Rest is the same idea.
 #'
+#' @importFrom magrittr %<>%
+#' @importFrom dplyr mutate
+#' @importFrom reshape2 melt
+#' @importFrom rlang .data
+#'
 #' @export
 
 createMoveMapping <- function(keyset.select=NA,
@@ -132,8 +137,8 @@ createMoveMapping <- function(keyset.select=NA,
     # FROM 1 TO 1 to 2 TO 2
     fngr.s <- fngr
     fngr.s %<>%
-      dplyr::mutate(froms = sub("[[:digit:]]", "2", froms),
-                    tos = sub("[[:digit:]]", "2", tos))
+      dplyr::mutate(.data$froms = sub("[[:digit:]]", "2", froms),
+                    .data$tos = sub("[[:digit:]]", "2", tos))
 
     fngr <- rbind(fngr, fngr.s, fngr.opp, fngr.opp.s)
 
@@ -176,8 +181,7 @@ createMoveMapping <- function(keyset.select=NA,
   }
 
   move.mapping <- loadMapping(mapping)
-  move.keyset <- loadKeyset(keyset,
-                               as.character(keyset.select))
+  move.keyset <- loadKeyset(keyset, as.character(keyset.select))
 
   # Merges both data.frames together
   mergeMapping <- function(mapping, keyset) {

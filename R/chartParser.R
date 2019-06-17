@@ -5,8 +5,13 @@
 #' @param chart.path Path of the chart to be parsed
 #' @param chart.lines Lines of the chart to be parsed, if the chart
 #' is not in a file format
-#' @return A data.frame consisting of the note's data only.
-#' Columns: keys, len, types, offsets
+#'
+#' @importFrom magrittr %<>% %>%
+#' @importFrom dplyr mutate filter mutate_if select
+#' @importFrom stringr str_count
+#' @importFrom tidyr separate
+#' @importFrom reshape2 melt
+#' @importFrom rlang .data
 #'
 #' @export
 
@@ -14,7 +19,7 @@ chartParse <- function(chart.path = NA,
                        chart.lines = NA){
 
   loadInput <- function(){
-    if (and(is.na(chart.path), is.na(chart.lines))) {
+    if (is.na(chart.path) & is.na(chart.lines)) {
       stop("Both Arguments cannot be NA")
     } else if (is.na(chart.path)) {
       chart <- chart.lines
@@ -42,20 +47,33 @@ chartParse <- function(chart.path = NA,
     chart.keys <- extract$keys
 
     chart %<>%
-      dplyr::mutate(is.ln = str_count(string = raw, pattern = ":") == 5) %>%
-      tidyr::separate(col=raw, sep=":", into=c("txt",".0"), extra="drop") %>%
-      tidyr::separate(col=txt, sep=",", into=c("axis",".0","note",".1",".2","lnotel")) %>%
-      dplyr::select(axis, note, lnotel, is.ln) %>%
+      dplyr::mutate(is.ln = stringr::str_count(string = raw, pattern = ":") == 5) %>%
+
+      tidyr::separate(col=.data$raw, sep=":",
+                      into=c("txt",".0"), extra="drop") %>%
+
+      tidyr::separate(col=.data$txt, sep=",",
+                      into=c("axis",".0","note",".1",".2","lnotel")) %>%
+
+      dplyr::select(.data$axis, .data$note, .data$lnotel, .data$is.ln) %>%
+
       dplyr::mutate_if(is.character, as.numeric) %>%
-      dplyr::mutate(len = ifelse(is.ln, lnotel - note, -1),
-             keys = round((axis * chart.keys - 256) / 512) + 1) %>%
+
+      dplyr::mutate(len = ifelse(.data$is.ln, .data$lnotel - .data$note, -1),
+             keys = round((.data$axis * chart.keys - 256) / 512) + 1) %>%
+
       reshape2::melt(id.vars = c('keys', 'len'),
                      measure.vars = c('note', 'lnotel'),
                      na.rm = T, variable.name = 'types',
                      value.name = 'offsets')  %>%
-      dplyr::filter(!(len == -1 & types == 'lnotel')) %>%
-      dplyr::mutate(types = ifelse(len != -1 & types == 'note',
-                                   'lnoteh', as.character(types)))
+
+      dplyr::filter(!(.data$len == -1 & .data$types == 'lnotel')) %>%
+
+      dplyr::mutate(.data$types = ifelse(
+                      .data$len != -1 & .data$types == 'note',
+                      'lnoteh', as.character(.data$types)
+                    )
+                   )
 
 
     return(chart)

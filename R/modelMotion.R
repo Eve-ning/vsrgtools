@@ -27,6 +27,10 @@
 #' @param suppress.scale If suppress is True, this will
 #' expand the x range. In other words, smaller diffs will
 #' have a lower diffs.inv when this increases.
+#'
+#' @importFrom magrittr %<>% %>%
+#' @importFrom dplyr filter mutate
+#' @importFrom rlang .data
 #' @export
 
 model.motion <- function(chart.bcst, move.mapping = NA,
@@ -48,13 +52,13 @@ model.motion <- function(chart.bcst, move.mapping = NA,
                         by = c('keys.froms', 'keys.tos'))
 
   chart.motion %<>%
-    dplyr::filter(keys.froms != keys.tos) %>%
-    dplyr::mutate(diffs.invs =
-                  ifelse(diffs >= suppress.threshold,
+    dplyr::filter(.data$keys.froms != .data$keys.tos) %>%
+    dplyr::mutate(.data$diffs.invs =
+                  ifelse(.data$diffs >= suppress.threshold,
                          # Inverse Function
-                         1/diffs,
+                         1/.data$diffs,
                          # Suppress Function
-                         1/abs(((diffs - suppress.threshold)
+                         1/abs(((.data$diffs - suppress.threshold)
                                * suppress.scale)
                               - suppress.threshold)
                          ))

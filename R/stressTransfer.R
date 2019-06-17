@@ -20,10 +20,12 @@
 #'
 #' The function must return the stress value.
 #'
-#' @export
+# @importFrom reshape2 dcast
+# @importFrom magrittr %>%
+# Not ready for exporting
+
 stressTransfer <- function(chart,
                            transfer.group,
                            func){
-  chart <- chart.sim %>%
-    reshape2::dcast(offsets ~ keys, value.var = 'types')
+
 }
