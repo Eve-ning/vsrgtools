@@ -76,6 +76,3 @@ chartParse <- function(chart.path = NA,
   chart <- suppressWarnings(loadInput())
   return(chartParseOsu(chart))
 }
-
-
-t <- chartParse(chart.path)
