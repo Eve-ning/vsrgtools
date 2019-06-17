@@ -23,7 +23,7 @@ replayParse <- function(chart, replay.path, ignore.threshold = 100){
     pairing"
     chart %<>%
       dplyr::mutate(
-        .data$actions = ifelse
+        actions = ifelse
         (.data$types == 'lnotel', -.data$keys, .data$keys),
         replay.offsets = NA)
 
@@ -55,7 +55,7 @@ replayParse <- function(chart, replay.path, ignore.threshold = 100){
   replay <- read_feather(replay.path)
   chart %<>%
     similarityMatch(replay) %>%
-    dplyr::mutate(.data$devs = abs
+    dplyr::mutate(devs = abs
                   (.data$offsets - .data$replay.offsets)
                   ) %>%
     dplyr::filter(.data$devs < ignore.threshold)

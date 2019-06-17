@@ -137,8 +137,8 @@ createMoveMapping <- function(keyset.select=NA,
     # FROM 1 TO 1 to 2 TO 2
     fngr.s <- fngr
     fngr.s %<>%
-      dplyr::mutate(.data$froms = sub("[[:digit:]]", "2", froms),
-                    .data$tos = sub("[[:digit:]]", "2", tos))
+      dplyr::mutate(froms = sub("[[:digit:]]", "2", .data$froms),
+                    tos = sub("[[:digit:]]", "2", .data$tos))
 
     fngr <- rbind(fngr, fngr.s, fngr.opp, fngr.opp.s)
 

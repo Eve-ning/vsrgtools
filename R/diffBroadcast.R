@@ -25,7 +25,7 @@ diffBroadcast <- function(chart,
     # As per the cpp function's requirements, the types
     # that we would want to participate is TRUE, while
     # the spectators are FALSE
-    dplyr::mutate(.data$types = T) %>%
+    dplyr::mutate(types = T) %>%
 
   # Cast keys to longer table.
     reshape2::dcast(.data$offsets ~ .data$keys,
@@ -53,10 +53,10 @@ diffBroadcast <- function(chart,
                    na.rm = T) %>%
 
     # Rename for clarity
-    dplyr::rename(.data$keys.froms = .data$keys) %>%
+    dplyr::rename(keys.froms = .data$keys) %>%
 
     # Coerce to numeric
-    dplyr::mutate(.data$keys.tos = as.numeric(.data$keys.tos)) %>%
+    dplyr::mutate(keys.tos = as.numeric(.data$keys.tos)) %>%
 
     # Remove invalid diffs
     dplyr::filter(.data$diffs > 0)

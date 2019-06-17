@@ -69,7 +69,7 @@ chartParse <- function(chart.path = NA,
 
       dplyr::filter(!(.data$len == -1 & .data$types == 'lnotel')) %>%
 
-      dplyr::mutate(.data$types = ifelse(
+      dplyr::mutate(types = ifelse(
                       .data$len != -1 & .data$types == 'note',
                       'lnoteh', as.character(.data$types)
                     )
