@@ -12,7 +12,7 @@ RoxygenNote: 6.1.1
 License: file LICENSE
 Imports:
     magrittr,
-    Rcpp (>= 1.0.1),
+    Rcpp,
     Rfast,
     dplyr,
     feather,
