@@ -48,16 +48,16 @@ model.motion <- function(chart.bcst, move.mapping = NA,
                         by = c('keys.froms', 'keys.tos'))
 
   chart.motion %<>%
-    filter(keys.froms != keys.tos) %>%
-    mutate(diffs.invs =
-             ifelse(diffs >= suppress.threshold,
-                    # Inverse Function
-                    1/diffs,
-                    # Suppress Function
-                    1/abs(((diffs - suppress.threshold)
-                          * suppress.scale)
-                         - suppress.threshold)
-                    ))
+    dplyr::filter(keys.froms != keys.tos) %>%
+    dplyr::mutate(diffs.invs =
+                  ifelse(diffs >= suppress.threshold,
+                         # Inverse Function
+                         1/diffs,
+                         # Suppress Function
+                         1/abs(((diffs - suppress.threshold)
+                               * suppress.scale)
+                              - suppress.threshold)
+                         ))
 
   return(chart.motion)
 }

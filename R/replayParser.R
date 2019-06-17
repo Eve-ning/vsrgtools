@@ -18,12 +18,11 @@
 replayParse <- function(chart, replay.path, ignore.threshold = 100){
 
   similarityMatch <- function(chart, replay){
-    #' Does a similarity match between chart and replay
     "chart should only come in keys, we will need to
     transform it into actions, which will help in
     pairing"
     chart %<>%
-      mutate(actions = ifelse(types == 'lnotel', -keys, keys),
+      dplyr::mutate(actions = ifelse(types == 'lnotel', -keys, keys),
              replay.offsets = NA)
     actions.unq <- unique(chart$actions)
 
@@ -47,14 +46,14 @@ replayParse <- function(chart, replay.path, ignore.threshold = 100){
       }
       chart.ac.split[[as.character(i)]] <- chart.ac
     }
-    return(bind_rows(chart.ac.split))
+    return(dplyr::bind_rows(chart.ac.split))
   }
 
   replay <- read_feather(replay.path)
   chart %<>%
     similarityMatch(replay) %>%
-    mutate(devs = abs(offsets - replay.offsets)) %>%
-    filter(devs < ignore.threshold)
+    dplyr::mutate(devs = abs(offsets - replay.offsets)) %>%
+    dplyr::filter(devs < ignore.threshold)
 
   return(chart)
 }

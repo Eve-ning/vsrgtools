@@ -14,7 +14,7 @@ stressSim <- function(chart,
 
   # Allocate columns in advance
   chart %<>%
-    arrange(offsets)
+    dplyr::arrange(offsets)
 
   # Chart frame is required to pad out decay calculations
   # where there aren't spikes.
@@ -27,7 +27,7 @@ stressSim <- function(chart,
     chart.k <- chart.k.split[[key]]
     chart.k %<>%
       merge(chart.frame, by='offsets', all=T) %>%
-      mutate(is.spike = !is.na(types))
+      dplyr::mutate(is.spike = !is.na(types))
 
     chart.k.sim <- .cppSimulateKey(
       chart.k$offsets,
@@ -37,12 +37,12 @@ stressSim <- function(chart,
     )
 
     chart.k.sim %<>%
-      mutate(keys = key)
+      dplyr::mutate(keys = key)
 
     chart.k.split[[key]] <- chart.k.sim
   }
 
   # Join charts of different keys into one
-  chart <- bind_rows(chart.k.split)
+  chart <- dplyr::bind_rows(chart.k.split)
   return(chart)
 }

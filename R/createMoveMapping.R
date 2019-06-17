@@ -73,14 +73,6 @@ createMoveMapping <- function(keyset.select=NA,
 
   # Loads Mapping, if NA, it's defaulted
   loadMapping <- function(mapping){
-    #' Loads the fngr mapping
-    #'
-    #' @description
-    #' If there is no specified mapping, a default
-    #' will be loaded
-    #'
-    #' Details of the format is located in the
-    #' parent help
 
     fngr <- data.frame(P1 = c(rep(0,5)),
                        R1 = c(rep(0,5)),
@@ -125,13 +117,13 @@ createMoveMapping <- function(keyset.select=NA,
     fngr.opp$froms = c('P1','R1','M1','I1','T1')
 
     fngr %<>%
-      melt(id.vars = 'froms',
-           variable.name = 'tos',
-           value.name = 'moves.values')
+      reshape2::melt(id.vars = 'froms',
+                     variable.name = 'tos',
+                     value.name = 'moves.values')
     fngr.opp %<>%
-      melt(id.vars = 'froms',
-           variable.name = 'tos',
-           value.name = 'moves.values')
+      reshape2::melt(id.vars = 'froms',
+                     variable.name = 'tos',
+                     value.name = 'moves.values')
 
     # FROM 1 TO 2 to 2 TO 1
     fngr.opp.s <- fngr.opp
@@ -140,8 +132,8 @@ createMoveMapping <- function(keyset.select=NA,
     # FROM 1 TO 1 to 2 TO 2
     fngr.s <- fngr
     fngr.s %<>%
-      mutate(froms = sub("[[:digit:]]", "2", froms),
-             tos = sub("[[:digit:]]", "2", tos))
+      dplyr::mutate(froms = sub("[[:digit:]]", "2", froms),
+                    tos = sub("[[:digit:]]", "2", tos))
 
     fngr <- rbind(fngr, fngr.s, fngr.opp, fngr.opp.s)
 

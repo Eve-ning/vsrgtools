@@ -27,12 +27,6 @@ chartParse <- function(chart.path = NA,
   }
 
   chartParseOsu <- function(chart) {
-    #' Parses the osu chart into a data.frame
-    #'
-    #' @param chart The chart to be parsed, in a vector of characters.
-    #' This can be provided via readLines function.
-    #'
-
     f.extract <- function(chart) {
       cs.i <- pmatch('CircleSize:', chart)
       keys <- as.integer(substr(chart[cs.i],
@@ -48,26 +42,26 @@ chartParse <- function(chart.path = NA,
     chart.keys <- extract$keys
 
     chart %<>%
-      mutate(is.ln = str_count(string = raw, pattern = ":") == 5) %>%
-      separate(col=raw, sep=":", into=c("txt",".0"), extra="drop") %>%
-      separate(col=txt, sep=",", into=c("axis",".0","note",".1",".2","lnotel")) %>%
-      select(axis, note, lnotel, is.ln) %>%
-      mutate_if(is.character, as.numeric) %>%
-      mutate(len = ifelse(is.ln, lnotel - note, -1),
+      dplyr::mutate(is.ln = str_count(string = raw, pattern = ":") == 5) %>%
+      tidyr::separate(col=raw, sep=":", into=c("txt",".0"), extra="drop") %>%
+      tidyr::separate(col=txt, sep=",", into=c("axis",".0","note",".1",".2","lnotel")) %>%
+      dplyr::select(axis, note, lnotel, is.ln) %>%
+      dplyr::mutate_if(is.character, as.numeric) %>%
+      dplyr::mutate(len = ifelse(is.ln, lnotel - note, -1),
              keys = round((axis * chart.keys - 256) / 512) + 1) %>%
-      melt(id.vars = c('keys', 'len'),
-           measure.vars = c('note', 'lnotel'),
-           na.rm = T, variable.name = 'types',
-           value.name = 'offsets')  %>%
-      filter(!(len == -1 & types == 'lnotel')) %>%
-      mutate(types = ifelse(len != -1 & types == 'note',
-                            'lnoteh', as.character(types)))
+      reshape2::melt(id.vars = c('keys', 'len'),
+                     measure.vars = c('note', 'lnotel'),
+                     na.rm = T, variable.name = 'types',
+                     value.name = 'offsets')  %>%
+      dplyr::filter(!(len == -1 & types == 'lnotel')) %>%
+      dplyr::mutate(types = ifelse(len != -1 & types == 'note',
+                                   'lnoteh', as.character(types)))
 
 
     return(chart)
   }
   # To add a switch/ifelse statement if more formats are done
 
-  chart <- suppressWarnings(loadInput())
+  chart <- loadInput()
   return(chartParseOsu(chart))
 }

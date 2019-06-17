@@ -6,12 +6,12 @@
 #' @export
 
 model.jackInv <- function(chart.bcst){
-  
+
   chart.bcst %<>%
-    filter(keys.froms == keys.tos) %>%
-    rename(keys = keys.froms) %>%
-    mutate(jack.invs = 1/diffs) %>%
-    select(-c(types, diffs))
+    dplyr::filter(keys.froms == keys.tos) %>%
+    dplyr::rename(keys = keys.froms) %>%
+    dplyr::mutate(jack.invs = 1/diffs) %>%
+    dplyr::select(-c(types, diffs))
 
   return(chart.bcst)
 }

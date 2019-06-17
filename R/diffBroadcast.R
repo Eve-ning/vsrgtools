@@ -16,20 +16,20 @@ diffBroadcast <- function(chart,
   chart.bcst <- chart %>%
 
   # Ignores any types that matches the list
-    filter(!(types %in% ignore.types)) %>%
+    dplyr::filter(!(types %in% ignore.types)) %>%
 
     # As per the cpp function's requirements, the types
     # that we would want to participate is TRUE, while
     # the spectators are FALSE
-    mutate(types = T) %>%
+    dplyr::mutate(types = T) %>%
 
   # Cast keys to longer table.
-    dcast(offsets ~ keys, value.var = 'types', fill = F) %>%
+    reshape2::dcast(offsets ~ keys, value.var = 'types', fill = F) %>%
 
   # The plan is to flip the chart up-side down, then
   # we track different columns on the accumulated
   # offsets.
-    arrange(desc(offsets))
+    dplyr::arrange(desc(offsets))
 
   # Broadcast with cpp and assign back to the [2:] columns
   reset.columns <- 2:ncol(chart.bcst)
@@ -42,19 +42,19 @@ diffBroadcast <- function(chart,
     merge(chart, by = 'offsets') %>%
 
     # Melt bcst columns to diffs
-    melt(measure.vars = 2:ncol(chart.bcst),
-         variable.name = 'keys.tos',
-         value.name = 'diffs',
-         na.rm = T) %>%
+    reshape2::melt(measure.vars = 2:ncol(chart.bcst),
+                   variable.name = 'keys.tos',
+                   value.name = 'diffs',
+                   na.rm = T) %>%
 
     # Rename for clarity
-    rename(keys.froms = keys) %>%
+    dplyr::rename(keys.froms = keys) %>%
 
     # Coerce to numeric
-    mutate(keys.tos = as.numeric(keys.tos)) %>%
+    dplyr::mutate(keys.tos = as.numeric(keys.tos)) %>%
 
     # Remove invalid diffs
-    filter(diffs > 0)
+    dplyr::filter(diffs > 0)
 
   return(chart.bcst)
 }

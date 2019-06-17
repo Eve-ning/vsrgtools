@@ -10,7 +10,7 @@
 #' @export
 
 model.density <- function(chart, window = 1000) {
-  
+
   unq_offsets <- unique(chart$offsets)
   chart <- split(chart, chart$types,drop = T)
 
@@ -25,6 +25,6 @@ model.density <- function(chart, window = 1000) {
     )
   }
 
-  chart <- bind_rows(chart)
+  chart <- dplyr::bind_rows(chart)
   return(chart)
 }
