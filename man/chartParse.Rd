@@ -11,9 +11,6 @@ chartParse(chart.path = NA, chart.lines = NA)
 
 \item{chart.lines}{Lines of the chart to be parsed, if the chart
 is not in a file format}
-
-\item{chart}{The chart to be parsed, in a vector of characters.
-This can be provided via readLines function.}
 }
 \value{
 A data.frame consisting of the note's data only.

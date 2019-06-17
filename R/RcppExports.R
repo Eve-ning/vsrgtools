@@ -2,14 +2,14 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 .cppBroadcast <- function(offsets, resets) {
-    .Call(`_osutools_cppBroadcast`, offsets, resets)
+    .Call('_osutools_cppBroadcast', PACKAGE = 'osutools', offsets, resets)
 }
 
 .cppModelDensity <- function(unq_offsets, obj_offsets, window, is_sorted = FALSE) {
-    .Call(`_osutools_cppModelDensity`, unq_offsets, obj_offsets, window, is_sorted)
+    .Call('_osutools_cppModelDensity', PACKAGE = 'osutools', unq_offsets, obj_offsets, window, is_sorted)
 }
 
 .cppSimulateKey <- function(offsets, types, decay_ms = 0.01, stress = 0.0) {
-    .Call(`_osutools_cppSimulateKey`, offsets, types, decay_ms, stress)
+    .Call('_osutools_cppSimulateKey', PACKAGE = 'osutools', offsets, types, decay_ms, stress)
 }
 

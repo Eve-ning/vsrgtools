@@ -71,10 +71,4 @@ the values provided by `mapping`
 
 This can also be skipped if you're doing a custom
 mapping
-
-If there is no specified mapping, a default
-will be loaded
-
-Details of the format is located in the
-parent help
 }
