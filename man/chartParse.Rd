@@ -12,10 +12,6 @@ chartParse(chart.path = NA, chart.lines = NA)
 \item{chart.lines}{Lines of the chart to be parsed, if the chart
 is not in a file format}
 }
-\value{
-A data.frame consisting of the note's data only.
-Columns: keys, len, types, offsets
-}
 \description{
 Only .osu formats are supported for now.
 }

@@ -15,10 +15,6 @@ and keys}
 \item{ignore.threshold}{**Numeric** to indicate what deviations should
 be ignored.}
 }
-\value{
-Returns a joined **data.frame** with replay.offsets
-on the following column.
-}
 \description{
 Using proximity matching, data of the replay is
 joined with the chart, so we can tell what notes are the replay

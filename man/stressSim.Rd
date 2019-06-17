@@ -13,5 +13,5 @@ stressSim(chart, stress.init = 0, decay_ms = 0.01)
 initialize the simulation with}
 }
 \description{
-
+Simulates the Stress through types
 }
