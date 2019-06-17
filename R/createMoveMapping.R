@@ -71,6 +71,10 @@ createMoveMapping <- function(keyset.select=NA,
                               mapping=NA,
                               mapping.opp=NA){
 
+  require(magrittr)
+  require(dplyr)
+  require(reshape2)
+
   # Loads Mapping, if NA, it's defaulted
   loadMapping <- function(mapping){
     #' Loads the fngr mapping
@@ -125,10 +129,12 @@ createMoveMapping <- function(keyset.select=NA,
     fngr.opp$froms = c('P1','R1','M1','I1','T1')
 
     fngr %<>%
-      melt(variable.name = 'tos',
+      melt(id.vars = 'froms',
+           variable.name = 'tos',
            value.name = 'moves.values')
     fngr.opp %<>%
-      melt(variable.name = 'tos',
+      melt(id.vars = 'froms',
+           variable.name = 'tos',
            value.name = 'moves.values')
 
     # FROM 1 TO 2 to 2 TO 1
@@ -137,8 +143,9 @@ createMoveMapping <- function(keyset.select=NA,
 
     # FROM 1 TO 1 to 2 TO 2
     fngr.s <- fngr
-    fngr.s$froms <- sub("[[:digit:]]", "2", fngr.s$froms)
-    fngr.s$tos <- sub("[[:digit:]]", "2", fngr.s$tos)
+    fngr.s %<>%
+      mutate(froms = sub("[[:digit:]]", "2", froms),
+             tos = sub("[[:digit:]]", "2", tos))
 
     fngr <- rbind(fngr, fngr.s, fngr.opp, fngr.opp.s)
 
