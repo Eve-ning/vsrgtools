@@ -28,7 +28,7 @@ diffBroadcast <- function(chart,
     dplyr::mutate(types = T) %>%
 
   # Cast keys to longer table.
-    reshape2::dcast(.data$offsets ~ .data$keys,
+    reshape2::dcast(offsets ~ keys,
                     value.var = 'types', fill = F) %>%
 
   # The plan is to flip the chart up-side down, then

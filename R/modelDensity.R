@@ -16,7 +16,6 @@ model.density <- function(chart, window = 1000) {
 
   unq_offsets <- unique(chart$offsets)
   chart <- split(chart, chart$types,drop = T)
-
   # We will use the .cpp function by types
   for (x in 1:length(chart)){
     counts <- .cppModelDensity(unq_offsets, chart[[x]]$offsets, window)
