@@ -5,20 +5,17 @@ Version: 0.1.0
 Author: Evening
 Maintainer: The package maintainer <26498608+Eve-ning@users.noreply.github.com>
 Description: All functions here are to be used with osu files only.
-License: MIT License
 Encoding: UTF-8
 LazyData: true
-Imports: Rcpp (>= 1.0.1)
 LinkingTo: Rcpp
 RoxygenNote: 6.1.1
 License: file LICENSE
 Imports:
     magrittr,
-    Rcpp,
+    Rcpp (>= 1.0.1),
     Rfast,
     dplyr,
     feather,
-    magrittr,
     reshape2,
     stringr,
     tidyr
