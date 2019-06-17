@@ -44,9 +44,6 @@ model.motion <- function(chart.bcst, move.mapping = NA,
       createMoveMapping(keyset.select = keyset.select)
   }
 
-  require(magrittr)
-  require(dplyr)
-
   chart.motion <- merge(chart.bcst, move.mapping,
                         by = c('keys.froms', 'keys.tos'))
 

@@ -13,7 +13,6 @@
 chartParse <- function(chart.path = NA,
                        chart.lines = NA){
 
-  require(magrittr)
   loadInput <- function(){
     if (and(is.na(chart.path), is.na(chart.lines))) {
       stop("Both Arguments cannot be NA")
@@ -33,10 +32,6 @@ chartParse <- function(chart.path = NA,
     #' @param chart The chart to be parsed, in a vector of characters.
     #' This can be provided via readLines function.
     #'
-    require(dplyr)
-    require(tidyr)
-    require(stringr)
-    require(reshape2)
 
     f.extract <- function(chart) {
       cs.i <- pmatch('CircleSize:', chart)

@@ -17,9 +17,6 @@
 
 replayParse <- function(chart, replay.path, ignore.threshold = 100){
 
-  require(dplyr)
-  require(feather)
-
   similarityMatch <- function(chart, replay){
     #' Does a similarity match between chart and replay
     "chart should only come in keys, we will need to

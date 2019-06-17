@@ -12,9 +12,6 @@
 diffBroadcast <- function(chart,
                           ignore.types = c('lnotel')){
 
-  require(magrittr)
-  require(reshape2)
-  require(dplyr)
   # Drop NA rows
   chart.bcst <- chart %>%
 

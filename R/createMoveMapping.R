@@ -71,10 +71,6 @@ createMoveMapping <- function(keyset.select=NA,
                               mapping=NA,
                               mapping.opp=NA){
 
-  require(magrittr)
-  require(dplyr)
-  require(reshape2)
-
   # Loads Mapping, if NA, it's defaulted
   loadMapping <- function(mapping){
     #' Loads the fngr mapping

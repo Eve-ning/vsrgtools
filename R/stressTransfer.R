@@ -22,17 +22,9 @@
 #' The function must return the stress value.
 #'
 #' @export
-
 stressTransfer <- function(chart,
                            transfer.group,
                            func){
-
-  require(magrittr)
-  require(reshape2)
-  require(Rfast)
-
   chart <- chart.sim %>%
     dcast(offsets ~ keys, value.var = 'types')
-
-
 }

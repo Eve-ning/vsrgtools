@@ -14,10 +14,7 @@ diffCalc <- function(osu.stress,
                      f.merge.key,
                      f.merge.bin,
                      bin.size = 5000) {
-  require(dplyr)
-  require(magrittr)
-  require(reshape2)
-
+  
   osu.stress %<>%
     group_by(keys, offsets) %>%
     summarise(stress = f.merge.key(stress)) %>%

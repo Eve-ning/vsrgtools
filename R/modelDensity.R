@@ -10,8 +10,7 @@
 #' @export
 
 model.density <- function(chart, window = 1000) {
-  require(dplyr)
-
+  
   unq_offsets <- unique(chart$offsets)
   chart <- split(chart, chart$types,drop = T)
 

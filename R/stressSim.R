@@ -12,10 +12,6 @@ stressSim <- function(chart,
                       stress.init = 0.0,
                       decay_ms = 0.01){
 
-  require(magrittr)
-  require(dplyr)
-  require(Rcpp)
-
   # Allocate columns in advance
   chart %<>%
     arrange(offsets)
@@ -44,7 +40,6 @@ stressSim <- function(chart,
       mutate(keys = key)
 
     chart.k.split[[key]] <- chart.k.sim
-
   }
 
   # Join charts of different keys into one

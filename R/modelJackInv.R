@@ -6,9 +6,7 @@
 #' @export
 
 model.jackInv <- function(chart.bcst){
-  require(magrittr)
-  require(dplyr)
-
+  
   chart.bcst %<>%
     filter(keys.froms == keys.tos) %>%
     rename(keys = keys.froms) %>%
