@@ -17,7 +17,7 @@ This can be provided via readLines function.}
 }
 \value{
 A data.frame consisting of the note's data only.
-Columns: keys, types, offsets
+Columns: keys, len, types, offsets
 }
 \description{
 Only .osu formats are supported for now.

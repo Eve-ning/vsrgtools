@@ -4,26 +4,12 @@
 \alias{model.density}
 \title{Static Model generator for Density}
 \usage{
-model.density(chart, window = 1000, is.summarised = T,
-  summarised.fun = NA)
+model.density(chart, window = 1000)
 }
 \arguments{
 \item{chart}{The chart generated from chartParse}
 
 \item{window}{The window to check for objects}
-
-\item{is.summarised}{A Logical to indicate if the chart
-produced should be summarized by types.}
-
-\item{summarised.fun}{The function to use to group
-different types of objects together. This function must
-contain (counts, types) as function arguments and output
-a numeric for counts.
-
-Note that types are character types, please use the
-names given through chartParse for conditionals
-
-If it's NA, it'll default to a normal sum of all objects}
 }
 \description{
 Density is not meant to be a representation
