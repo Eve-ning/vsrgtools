@@ -12,6 +12,7 @@
 #'
 #' @importFrom magrittr %<>% %>%
 #' @importFrom dplyr mutate filter bind_rows
+#' @importFrom feather read_feather
 #' @importFrom rlang .data
 #' @export
 
@@ -52,7 +53,7 @@ replayParse <- function(chart, replay.path, ignore.threshold = 100){
     return(dplyr::bind_rows(chart.ac.split))
   }
 
-  replay <- read_feather(replay.path)
+  replay <- feather::read_feather(replay.path)
   chart %<>%
     similarityMatch(replay) %>%
     dplyr::mutate(devs = abs
