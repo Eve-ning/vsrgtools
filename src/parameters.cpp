@@ -29,5 +29,3 @@ double Params::spike_func(double stress,
   // Template
   // <type> <name> = as<<vectorClass>>(df_mapping["<name>"])[type];
 }
-
-
