@@ -7,6 +7,7 @@ using namespace Rcpp;
 // to how it improves performance by multiple folds.
 
 // Required: double stress, double duration only
+// [[Rcpp::plugins(cpp11)]]
 double Params::decay_func(double stress,
                           double duration,
                           double decay_ms) {

@@ -3,9 +3,8 @@
 using namespace Rcpp;
 
 // This is where CPP specific parameters are specified
-// The reason for this being implemented in CPP is due
-// to how it improves performance by multiple folds.
 
+// [[Rcpp::plugins(cpp11)]]
 class Params {
 
 private:
