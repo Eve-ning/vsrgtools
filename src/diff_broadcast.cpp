@@ -9,6 +9,7 @@ using namespace Rcpp;
   //  Positive numbers indicate a reset, 0 or lower
   //  otherwise
 //' @export
+// [[Rcpp::plugins("cpp11")]]
 // [[Rcpp::export(name=".cppBroadcast")]]
 NumericMatrix cppBroadcast(NumericVector offsets,
                            LogicalMatrix resets){
