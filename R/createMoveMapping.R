@@ -157,7 +157,7 @@ createMoveMapping <- function(keyset.select=NA,
     return(mapping)
   }
 
-  move.mapping <- fngr
+  move.mapping <- loadMapping()
   move.keyset <- loadKeyset(keyset, as.character(keyset.select))
 
   move.mapping %<>%
@@ -169,4 +169,3 @@ createMoveMapping <- function(keyset.select=NA,
 
   return(move.mapping)
 }
-
