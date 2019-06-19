@@ -4,12 +4,19 @@
 \alias{model.density}
 \title{Static Model generator for Density}
 \usage{
-model.density(chart, window = 1000)
+model.density(chart, window = 1000, mini.ln.parse = T,
+  mini.ln.threshold = 150)
 }
 \arguments{
 \item{chart}{The chart generated from chartParse}
 
 \item{window}{The window to check for objects}
+
+\item{mini.ln.parse}{A logical indicating if miniLNs
+should be parsed separately}
+
+\item{mini.ln.threshold}{A numeric indicating the
+threshold of LNs to be considered mini}
 }
 \description{
 Density is not meant to be a representation

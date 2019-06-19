@@ -5,14 +5,19 @@
 \title{Creates the mapping to be used alongside with
 the broadcasted chart.}
 \usage{
-createMoveMapping(keyset.select = NA, keyset = NA, mapping = NA,
-  mapping.opp = NA)
+createMoveMapping(keyset.select = NA, keyset = NA,
+  include.details = T)
 }
 \arguments{
-\item{keyset.select}{A **character vector** based on
+\item{keyset.select}{A character vector based on
 type of keyset.
 
-Valid Keyset.select values are '4','5', ..., '8SP','8SY','9'
+Either keyset or keyset.select must be defined
+
+Valid Keyset.select values are
+
+'4', '5L', '5R', '6', '7L', '7R',
+'8SPR', '8SPL','8SYM', '9L', '9R'
 
 Only 8K has special keysets
 
@@ -22,7 +27,9 @@ Only 8K has special keysets
 
 8SPR: 8 Key Special (Right)}
 
-\item{keyset}{A **data.frame** based on type of keyset.
+\item{keyset}{A data.frame based on type of keyset.
+
+Either keyset or keyset.select must be defined
 
 Fingers are denoted as
 P|inky
@@ -35,35 +42,25 @@ Column keys and fingers is required.
 
 An example of keyset would be
 
-'7' = data.frame(keys = 1:7,
-                 fingers = c('R','M','I','T','I','M','R'))}
+7R = data.frame(keys = 1:7,
+                fingers = c(2,3,4,6,7,8,9))}
 
-\item{mapping}{A custom **5 by 5 matrix** to be used
-to map onto the finger. If NA, a default would be used
+\item{include.details}{A Logical to indicate if
+details should be calculated
 
-An example of a mapping. Values can change, but not
-the format.
+Direction
 
-pr means pinky to ring, rm means ring to middle, ...
+Direction is a character vector indicating what
+type of motion it is.
 
-# [P] [R] [M] [I] [T]
+"across" means moves from hand to hand
 
-c(7.0,5.0,3.0,2.7,2.7), # [P] pp,pr,pm,pi,pt
+"jack" is self-explanatory
 
-c(6.0,6.0,2.5,2.0,2.0), # [R] rp,rr,rm,ri,rt
+"in" is where the motion is leading towards the
+thumb
 
-c(3.5,3.0,5.0,1.0,1.3), # [M] mp,mr,mm,mi,mt
-
-c(2.7,1.2,1.2,5.0,2.4), # [I] ip,ir,im,ii,it
-
-c(2.7,1.7,1.5,1.9,5.0)  # [T] tp,tr,tm,ti,tt}
-
-\item{mapping.opp}{A custom **5 by 5 matrix** to be used
-to map onto actions that involve alternating hands.
-If NA, a default would be used
-
-Same format as `mapping`. However, pr would mean
-FROM Hand 1 Pinky to Hand 2 Ring. Rest is the same idea.}
+"out" is where the motion is leading to the pinkies}
 }
 \description{
 Using the broadcasted format, this function maps

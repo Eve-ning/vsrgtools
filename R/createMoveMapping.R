@@ -8,10 +8,15 @@
 #' This can also be skipped if you're doing a custom
 #' mapping
 #'
-#' @param keyset.select A **character vector** based on
+#' @param keyset.select A character vector based on
 #' type of keyset.
 #'
-#' Valid Keyset.select values are '4','5', ..., '8SP','8SY','9'
+#' Either keyset or keyset.select must be defined
+#'
+#' Valid Keyset.select values are
+#'
+#' '4', '5L', '5R', '6', '7L', '7R',
+#' '8SPR', '8SPL','8SYM', '9L', '9R'
 #'
 #' Only 8K has special keysets
 #'
@@ -21,7 +26,9 @@
 #'
 #' 8SPR: 8 Key Special (Right)
 #'
-#' @param keyset A **data.frame** based on type of keyset.
+#' @param keyset A data.frame based on type of keyset.
+#'
+#' Either keyset or keyset.select must be defined
 #'
 #' Fingers are denoted as
 #' P|inky
@@ -34,38 +41,29 @@
 #'
 #' An example of keyset would be
 #'
-#' '7' = data.frame(keys = 1:7,
-#'                  fingers = c('R','M','I','T','I','M','R'))
+#' 7R = data.frame(keys = 1:7,
+#'                 fingers = c(2,3,4,6,7,8,9))
 #'
-#' @param mapping A custom **5 by 5 matrix** to be used
-#' to map onto the finger. If NA, a default would be used
+#' @param include.details A Logical to indicate if
+#' details should be calculated
 #'
-#' An example of a mapping. Values can change, but not
-#' the format.
+#' Direction
 #'
-#' pr means pinky to ring, rm means ring to middle, ...
+#' Direction is a character vector indicating what
+#' type of motion it is.
 #'
-#' # [P] [R] [M] [I] [T]
+#' "across" means moves from hand to hand
 #'
-#' c(7.0,5.0,3.0,2.7,2.7), # [P] pp,pr,pm,pi,pt
+#' "jack" is self-explanatory
 #'
-#' c(6.0,6.0,2.5,2.0,2.0), # [R] rp,rr,rm,ri,rt
+#' "in" is where the motion is leading towards the
+#' thumb
 #'
-#' c(3.5,3.0,5.0,1.0,1.3), # [M] mp,mr,mm,mi,mt
-#'
-#' c(2.7,1.2,1.2,5.0,2.4), # [I] ip,ir,im,ii,it
-#'
-#' c(2.7,1.7,1.5,1.9,5.0)  # [T] tp,tr,tm,ti,tt
-#'
-#' @param mapping.opp A custom **5 by 5 matrix** to be used
-#' to map onto actions that involve alternating hands.
-#' If NA, a default would be used
-#'
-#' Same format as `mapping`. However, pr would mean
-#' FROM Hand 1 Pinky to Hand 2 Ring. Rest is the same idea.
+#' "out" is where the motion is leading to the pinkies
 #'
 #' @importFrom magrittr %<>%
-#' @importFrom dplyr mutate
+#' @importFrom dplyr mutate select
+#' @importFrom stringr str_replace
 #' @importFrom reshape2 melt
 #' @importFrom rlang .data
 #'
@@ -73,75 +71,11 @@
 
 createMoveMapping <- function(keyset.select=NA,
                               keyset=NA,
-                              mapping=NA,
-                              mapping.opp=NA){
+                              include.details=T){
 
-  # Loads Mapping, if NA, it's defaulted
   loadMapping <- function(mapping){
-
-    fngr <- data.frame(P1 = c(rep(0,5)),
-                       R1 = c(rep(0,5)),
-                       M1 = c(rep(0,5)),
-                       I1 = c(rep(0,5)),
-                       T1 = c(rep(0,5)))
-
-    fngr.opp <- data.frame(P2 = c(rep(0,5)),
-                           R2 = c(rep(0,5)),
-                           M2 = c(rep(0,5)),
-                           I2 = c(rep(0,5)),
-                           T2 = c(rep(0,5)))
-
-    # If not defined, we will load default
-    if (is.na(mapping)){
-      fngr[] = c(
-        # [P] [R] [M] [I] [T]
-        c(7.0,5.0,3.0,2.7,2.7), # [P] pp,pr,pm,pi,pt
-        c(6.0,6.0,2.5,2.0,2.0), # [R] rp,rr,rm,ri,rt
-        c(3.5,3.0,5.0,1.0,1.3), # [M] mp,mr,mm,mi,mt
-        c(2.7,1.2,1.2,5.0,2.4), # [I] ip,ir,im,ii,it
-        c(2.7,1.7,1.5,1.9,5.0)  # [T] tp,tr,tm,ti,tt
-      )
-    } else {
-      fngr[] <- mapping
-    }
-
-    if (is.na(mapping.opp)){
-      fngr.opp[] <- c(
-        # [P] [R] [M] [I] [T]
-        c(1.9,1.8,1.7,1.6,1.5), # [P] pp,pr,pm,pi,pt
-        c(1.8,1.7,1.6,1.5,1.4), # [R] rp,rr,rm,ri,rt
-        c(1.7,1.6,1.5,1.4,1.3), # [M] mp,mr,mm,mi,mt
-        c(1.6,1.5,1.4,1.3,1.2), # [I] ip,ir,im,ii,it
-        c(1.5,1.4,1.3,1.2,1.1)  # [T] tp,tr,tm,ti,tt
-      )
-    } else {
-      fngr.opp[] = mapping.opp
-    }
-
-    fngr$froms = c('P1','R1','M1','I1','T1')
-    fngr.opp$froms = c('P1','R1','M1','I1','T1')
-
-    fngr %<>%
-      reshape2::melt(id.vars = 'froms',
-                     variable.name = 'tos',
-                     value.name = 'moves.values')
-    fngr.opp %<>%
-      reshape2::melt(id.vars = 'froms',
-                     variable.name = 'tos',
-                     value.name = 'moves.values')
-
-    # FROM 1 TO 2 to 2 TO 1
-    fngr.opp.s <- fngr.opp
-    colnames(fngr.opp.s) <- c('tos', 'froms', 'moves.values')
-
-    # FROM 1 TO 1 to 2 TO 2
-    fngr.s <- fngr
-    fngr.s %<>%
-      dplyr::mutate(froms = sub("[[:digit:]]", "2", .data$froms),
-                    tos = sub("[[:digit:]]", "2", .data$tos))
-
-    fngr <- rbind(fngr, fngr.s, fngr.opp, fngr.opp.s)
-
+    fngr <- merge(1:10, 1:10)
+    colnames(fngr) <- c("fngs.tos", "fngs.froms")
     return(fngr)
   }
 
@@ -152,27 +86,27 @@ createMoveMapping <- function(keyset.select=NA,
     } else if (!is.na(keyset.select)){
     move.keysets = list(
       '4' = data.frame(keys = 1:4,
-                       fingers = c('M1','I1','I2','M2')),
+                       fingers = c(3,4,7,8)),
       '5R' = data.frame(keys = 1:5,
-                        fingers = c('M1','I1','T2','I2','M2')),
+                        fingers = c(3,4,6,7,8)),
       '5L' = data.frame(keys = 1:5,
-                        fingers = c('M1','I1','T1','I2','M2')),
+                        fingers = c(3,4,5,7,8)),
       '6' = data.frame(keys = 1:6,
-                       fingers = c('R1','M1','I1','I2','M2','R2')),
+                       fingers = c(2,3,4,7,8,9)),
       '7R' = data.frame(keys = 1:7,
-                        fingers = c('R1','M1','I1','T2','I2','M2','R2')),
+                        fingers = c(2,3,4,6,7,8,9)),
       '7L' = data.frame(keys = 1:7,
-                        fingers = c('R1','M1','I1','T1','I2','M2','R2')),
+                        fingers = c(2,3,4,5,7,8,9)),
       '8SPL' = data.frame(keys = 1:8,
-                          fingers = c('P1','R1','M1','I1','T2','I2','M2','R2')),
+                          fingers = c(1,2,3,4,6,7,8,9)),
       '8SPR' = data.frame(keys = 1:8,
-                          fingers = c('R1','M1','I1','T1','I2','M2','R2','P2')),
+                          fingers = c(2,3,4,5,7,8,9,10)),
       '8SYM' = data.frame(keys = 1:8,
-                          fingers = c('R1','M1','I1','T1','T2','I2','M2','R2')),
+                          fingers = c(2,3,4,5,6,7,8,9)),
       '9R' = data.frame(keys = 1:9,
-                        fingers = c('P1','R1','M1','I1','T2','I2','M2','R2','P2')),
+                        fingers = c(1,2,3,4,6,7,8,9,10)),
       '9L' = data.frame(keys = 1:9,
-                        fingers = c('P1','R1','M1','I1','T1','I2','M2','R2','P2'))
+                        fingers = c(1,2,3,4,5,7,8,9,10))
     )
     return(move.keysets[[keyset.select]])
     } else {
@@ -180,19 +114,16 @@ createMoveMapping <- function(keyset.select=NA,
     }
   }
 
-  move.mapping <- loadMapping(mapping)
-  move.keyset <- loadKeyset(keyset, as.character(keyset.select))
-
   # Merges both data.frames together
   mergeMapping <- function(mapping, keyset) {
     mapping %<>%
       merge(keyset,
-            by.x = 'froms',
+            by.x = 'fngs.froms',
             by.y = 'fingers')
     colnames(mapping)[ncol(mapping)] <- "keys.froms"
     mapping %<>%
       merge(keyset,
-            by.x = 'tos',
+            by.x = 'fngs.tos',
             by.y = 'fingers')
     colnames(mapping)[ncol(mapping)] <- "keys.tos"
 
@@ -202,8 +133,39 @@ createMoveMapping <- function(keyset.select=NA,
     return(mapping)
   }
 
+  getDetails <- function(mapping) {
+    mapping %<>%
+      dplyr::mutate(
+        direction = 'in',
+        disparity = abs(keys.tos - keys.froms),
+
+        fngs.tos.rfl = abs(.data$fngs.tos - 5.5),
+        fngs.froms.rfl = abs(.data$fngs.froms - 5.5),
+        direction = ifelse(.data$fngs.tos.rfl > .data$fngs.froms.rfl,
+                           'out', .data$direction),
+
+        direction = ifelse(.data$fngs.tos == .data$fngs.froms,
+                           'jack', .data$direction),
+
+        fngs.tos.left = .data$fngs.tos < 5.5,
+        fngs.froms.left = .data$fngs.froms < 5.5,
+        direction = ifelse(xor(.data$fngs.tos.left, .data$fngs.froms.left),
+                           'across', .data$direction)
+      )  %>%
+      dplyr::select(1:6)
+
+    return(mapping)
+  }
+
+  move.mapping <- loadMapping()
+  move.keyset <- loadKeyset(keyset, as.character(keyset.select))
+
   move.mapping %<>%
     mergeMapping(move.keyset)
+
+  if (include.details) {
+      move.mapping %<>% getDetails()
+  }
 
   return(move.mapping)
 }

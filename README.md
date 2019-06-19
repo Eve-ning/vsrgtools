@@ -89,6 +89,9 @@ In other words, we'd have a weighting system that supresses `diffs` that are too
 # Parse
 chart <- chart.parse("path/to/osu")
 
+# Detailed Parse
+chart <- chart.motion.parse(chart)
+
 # Static Models
 sm.1 <- chart %>% staticModel.1() 
 sm.2 <- chart %>% staticModel.2() 
