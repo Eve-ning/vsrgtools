@@ -19,14 +19,14 @@ chartParse <- function(chart.path = NA,
                        chart.lines = NA){
 
   loadInput <- function(){
-    if (is.na(chart.path) & is.na(chart.lines)) {
-      stop("Both Arguments cannot be NA")
-    } else if (is.na(chart.path)) {
+    if (!is.na(chart.lines)) {
       chart <- chart.lines
-    } else {
+    } else if (!is.na(chart.path)) {
       chart.f <- file(chart.path, open='r')
       chart <- readLines(chart.f)
       close(chart.f)
+    } else {
+      stop("Both Arguments cannot be NA")
     }
     return(chart)
   }
