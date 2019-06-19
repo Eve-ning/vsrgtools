@@ -26,7 +26,7 @@ chartParse <- function(chart.path = NA,
       chart <- readLines(chart.f)
       close(chart.f)
     } else {
-      stop("Both Arguments cannot be NA")
+      stop("Both Arguments cannot be empty")
     }
     return(chart)
   }
@@ -80,6 +80,6 @@ chartParse <- function(chart.path = NA,
   }
   # To add a switch/ifelse statement if more formats are done
 
-  chart <- loadInput()
+  chart <- suppressWarnings(loadInput())
   return(chartParseOsu(chart))
 }
