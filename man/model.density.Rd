@@ -4,7 +4,8 @@
 \alias{model.density}
 \title{Static Model generator for Density}
 \usage{
-model.density(chart, window = 1000)
+model.density(chart, window = 1000, mini.longnote.parse = T,
+  mini.longnote.threshold = 150)
 }
 \arguments{
 \item{chart}{The chart generated from chartParse}
