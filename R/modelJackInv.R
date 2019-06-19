@@ -9,13 +9,13 @@
 #' @importFrom rlang .data
 #' @export
 
-model.jackInv <- function(chart.bcst){
+model.jackInv <- function(chart.ext){
 
-  chart.bcst %<>%
-    dplyr::filter(.data$keys.froms == .data$keys.tos) %>%
+  chart.ext %<>%
+    dplyr::filter(.data$directions == 'jack') %>%
     dplyr::rename(keys = .data$keys.froms) %>%
     dplyr::mutate(jack.invs = 1/.data$diffs) %>%
-    dplyr::select(-c(.data$types, .data$diffs))
+    dplyr::select(c(.data$keys, .data$offsets, .data$jack.invs))
 
-  return(chart.bcst)
+  return(chart.ext)
 }

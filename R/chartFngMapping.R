@@ -47,9 +47,9 @@
 #' @param include.details A Logical to indicate if
 #' details should be calculated
 #'
-#' Direction
+#' Directions
 #'
-#' Direction is a character vector indicating what
+#' Directions is a character vector indicating what
 #' type of motion it is.
 #'
 #' "across" means moves from hand to hand
@@ -61,6 +61,9 @@
 #'
 #' "out" is where the motion is leading to the pinkies
 #'
+#' Disparity is the number of columns between the pair of
+#' notes
+#'
 #' @importFrom magrittr %<>%
 #' @importFrom dplyr mutate select
 #' @importFrom stringr str_replace
@@ -69,9 +72,9 @@
 #'
 #' @export
 
-createMoveMapping <- function(keyset.select=NA,
-                              keyset=NA,
-                              include.details=T){
+chartFngMapping <- function(keyset.select=NA,
+                            keyset=NA,
+                            include.details=T){
 
   loadMapping <- function(mapping){
     fngr <- merge(1:10, 1:10)
@@ -136,21 +139,21 @@ createMoveMapping <- function(keyset.select=NA,
   getDetails <- function(mapping) {
     mapping %<>%
       dplyr::mutate(
-        direction = 'in',
-        disparity = abs(keys.tos - keys.froms),
+        directions = 'in',
+        disparities = abs(keys.tos - keys.froms),
 
         fngs.tos.rfl = abs(.data$fngs.tos - 5.5),
         fngs.froms.rfl = abs(.data$fngs.froms - 5.5),
-        direction = ifelse(.data$fngs.tos.rfl > .data$fngs.froms.rfl,
-                           'out', .data$direction),
+        directions = ifelse(.data$fngs.tos.rfl > .data$fngs.froms.rfl,
+                           'out', .data$directions),
 
-        direction = ifelse(.data$fngs.tos == .data$fngs.froms,
-                           'jack', .data$direction),
+        directions = ifelse(.data$fngs.tos == .data$fngs.froms,
+                           'jack', .data$directions),
 
         fngs.tos.left = .data$fngs.tos < 5.5,
         fngs.froms.left = .data$fngs.froms < 5.5,
-        direction = ifelse(xor(.data$fngs.tos.left, .data$fngs.froms.left),
-                           'across', .data$direction)
+        directions = ifelse(xor(.data$fngs.tos.left, .data$fngs.froms.left),
+                           'across', .data$directions)
       )  %>%
       dplyr::select(1:6)
 
