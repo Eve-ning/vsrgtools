@@ -7,22 +7,31 @@
 #' time frame to be processed.
 #' @param chart The chart generated from chartParse
 #' @param window The window to check for objects
+#' @param mini.ln.parse A logical indicating if miniLNs
+#' should be parsed separately
+#' @param mini.ln.threshold A numeric indicating the
+#' threshold of LNs to be considered mini
 #'
 #' @importFrom dplyr bind_rows mutate
 #' @importFrom magrittr %<>%
+#' @importFrom rlang .data
 #'
 #' @export
 
 model.density <- function(chart, window = 1000,
-                          mini.longnote.parse = T,
-                          mini.longnote.threshold = 150) {
+                          mini.ln.parse = T,
+                          mini.ln.threshold = 150) {
 
+  if (mini.ln.parse){
+    chart %<>%
+      dplyr::mutate(
+        types = ifelse((.data$types == 'lnoteh') & (.data$len <= mini.ln.threshold),
+                       'm.lnoteh', .data$types),
+        types = ifelse((.data$types == 'lnotel') & (.data$len <= mini.ln.threshold),
+                       'm.lnotel', .data$types))
+  }
   unq_offsets <- unique(chart$offsets)
   chart <- split(chart, chart$types,drop = T)
-
-  chart %<>%
-    mutate(types = ifelse(types == 'lnoteh' & len <= mini.longnote.threshold, 'm.lnoteh', types),
-           types = ifelse(types == 'lnotel' & len <= mini.longnote.threshold, 'm.lnotel', types))
 
   # We will use the .cpp function by types
   for (x in 1:length(chart)){
