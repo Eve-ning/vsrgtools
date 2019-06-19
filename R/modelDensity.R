@@ -8,14 +8,22 @@
 #' @param chart The chart generated from chartParse
 #' @param window The window to check for objects
 #'
-#' @importFrom dplyr bind_rows
+#' @importFrom dplyr bind_rows mutate
+#' @importFrom magrittr %<>%
 #'
 #' @export
 
-model.density <- function(chart, window = 1000) {
+model.density <- function(chart, window = 1000,
+                          mini.longnote.parse = T,
+                          mini.longnote.threshold = 150) {
 
   unq_offsets <- unique(chart$offsets)
   chart <- split(chart, chart$types,drop = T)
+
+  chart %<>%
+    mutate(types = ifelse(types == 'lnoteh' & len <= mini.longnote.threshold, 'm.lnoteh', types),
+           types = ifelse(types == 'lnotel' & len <= mini.longnote.threshold, 'm.lnotel', types))
+
   # We will use the .cpp function by types
   for (x in 1:length(chart)){
     counts <- .cppModelDensity(unq_offsets, chart[[x]]$offsets, window)
