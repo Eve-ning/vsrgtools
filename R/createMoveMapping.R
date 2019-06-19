@@ -44,35 +44,22 @@
 #' 7R = data.frame(keys = 1:7,
 #'                 fingers = c(2,3,4,6,7,8,9))
 #'
-#' @param mapping A custom 5 by 5 matrix to be used
-#' to map onto the finger. If NA, a default would be used
+#' @param include.details A Logical to indicate if
+#' details should be calculated
 #'
-#' An example of a mapping. Values can change, but not
-#' the format.
+#' Direction
 #'
-#' pr means pinky to ring, rm means ring to middle, ...
+#' Direction is a character vector indicating what
+#' type of motion it is.
 #'
-#' # [P] [R] [M] [I] [T]
+#' "across" means moves from hand to hand
 #'
-#' c(7.0,5.0,3.0,2.7,2.7), # [P] pp,pr,pm,pi,pt
+#' "jack" is self-explanatory
 #'
-#' c(6.0,6.0,2.5,2.0,2.0), # [R] rp,rr,rm,ri,rt
+#' "in" is where the motion is leading towards the
+#' thumb
 #'
-#' c(3.5,3.0,5.0,1.0,1.3), # [M] mp,mr,mm,mi,mt
-#'
-#' c(2.7,1.2,1.2,5.0,2.4), # [I] ip,ir,im,ii,it
-#'
-#' c(2.7,1.7,1.5,1.9,5.0)  # [T] tp,tr,tm,ti,tt
-#'
-#' @param mapping.opp A custom 5 by 5 matrix to be used
-#' to map onto actions that involve alternating hands.
-#' If NA, a default would be used
-#'
-#' Same format as `mapping`. However, pr would mean
-#' FROM Hand 1 Pinky to Hand 2 Ring. Rest is the same idea.
-#'
-#' @param include.direction A Logical to indicate if
-#' direction should be calculated
+#' "out" is where the motion is leading to the pinkies
 #'
 #' @importFrom magrittr %<>%
 #' @importFrom dplyr mutate select
@@ -84,78 +71,11 @@
 
 createMoveMapping <- function(keyset.select=NA,
                               keyset=NA,
-                              mapping=NA,
-                              mapping.opp=NA,
-                              include.direction=T){
+                              include.details=T){
 
-  # Loads Mapping, if NA, it's defaulted
   loadMapping <- function(mapping){
-
-    fngr <- data.frame('1' = c(rep(0,5)),
-                       '2' = c(rep(0,5)),
-                       '3' = c(rep(0,5)),
-                       '4' = c(rep(0,5)),
-                       '5' = c(rep(0,5)))
-
-    fngr.opp <- data.frame('10' = c(rep(0,5)),
-                           '9' = c(rep(0,5)),
-                           '8' = c(rep(0,5)),
-                           '7' = c(rep(0,5)),
-                           '6' = c(rep(0,5)))
-
-    # If not defined, we will load default
-    if (is.na(mapping)){
-      fngr[] = c(
-        # [P] [R] [M] [I] [T]
-        c(7.0,5.0,3.0,2.7,2.7), # [P] pp,pr,pm,pi,pt
-        c(6.0,6.0,2.5,2.0,2.0), # [R] rp,rr,rm,ri,rt
-        c(3.5,3.0,5.0,1.0,1.3), # [M] mp,mr,mm,mi,mt
-        c(2.7,1.2,1.2,5.0,2.4), # [I] ip,ir,im,ii,it
-        c(2.7,1.7,1.5,1.9,5.0)  # [T] tp,tr,tm,ti,tt
-      )
-    } else {
-      fngr[] <- mapping
-    }
-
-    if (is.na(mapping.opp)){
-      fngr.opp[] <- c(
-        # [P] [R] [M] [I] [T]
-        c(1.9,1.8,1.7,1.6,1.5), # [P] pp,pr,pm,pi,pt
-        c(1.8,1.7,1.6,1.5,1.4), # [R] rp,rr,rm,ri,rt
-        c(1.7,1.6,1.5,1.4,1.3), # [M] mp,mr,mm,mi,mt
-        c(1.6,1.5,1.4,1.3,1.2), # [I] ip,ir,im,ii,it
-        c(1.5,1.4,1.3,1.2,1.1)  # [T] tp,tr,tm,ti,tt
-      )
-    } else {
-      fngr.opp[] = mapping.opp
-    }
-
-    fngr$froms = 1:5
-    fngr.opp$froms = 1:5
-
-    fngr %<>%
-      reshape2::melt(id.vars = 'froms',
-                     variable.name = 'tos',
-                     value.name = 'moves.values') %>%
-      dplyr::mutate(tos = as.numeric(stringr::str_replace(tos, "X", "")))
-    fngr.opp %<>%
-      reshape2::melt(id.vars = 'froms',
-                     variable.name = 'tos',
-                     value.name = 'moves.values')%>%
-      dplyr::mutate(tos = as.numeric(stringr::str_replace(tos, "X", "")))
-
-    # FROM 1 TO 2 to 2 TO 1
-    fngr.opp.s <- fngr.opp
-    colnames(fngr.opp.s) <- c('tos', 'froms', 'moves.values')
-
-    # FROM 1 TO 1 to 2 TO 2
-    fngr.s <- fngr
-    fngr.s %<>%
-      dplyr::mutate(froms = abs(froms - 5.5) + 5.5,
-                    tos = abs(tos - 5.5) + 5.5)
-
-    fngr <- rbind(fngr, fngr.s, fngr.opp, fngr.opp.s)
-
+    fngr <- merge(1:10, 1:10)
+    colnames(fngr) <- c("fngs.tos", "fngs.froms")
     return(fngr)
   }
 
@@ -198,12 +118,12 @@ createMoveMapping <- function(keyset.select=NA,
   mergeMapping <- function(mapping, keyset) {
     mapping %<>%
       merge(keyset,
-            by.x = 'froms',
+            by.x = 'fngs.froms',
             by.y = 'fingers')
     colnames(mapping)[ncol(mapping)] <- "keys.froms"
     mapping %<>%
       merge(keyset,
-            by.x = 'tos',
+            by.x = 'fngs.tos',
             by.y = 'fingers')
     colnames(mapping)[ncol(mapping)] <- "keys.tos"
 
@@ -213,36 +133,38 @@ createMoveMapping <- function(keyset.select=NA,
     return(mapping)
   }
 
-  getDirection <- function(mapping) {
+  getDetails <- function(mapping) {
     mapping %<>%
-      dplyr::mutate(direction = 'in',
+      dplyr::mutate(
+        direction = 'in',
+        disparity = abs(keys.tos - keys.froms),
 
-                    tos.rfl = abs(.data$tos - 5.5),
-                    froms.rfl = abs(.data$froms - 5.5),
-                    direction = ifelse(.data$tos.rfl > .data$froms.rfl,
-                                       'out', .data$direction),
+        fngs.tos.rfl = abs(.data$fngs.tos - 5.5),
+        fngs.froms.rfl = abs(.data$fngs.froms - 5.5),
+        direction = ifelse(.data$fngs.tos.rfl > .data$fngs.froms.rfl,
+                           'out', .data$direction),
 
-                    direction = ifelse(.data$tos == .data$froms,
-                                       'jack', .data$direction),
+        direction = ifelse(.data$fngs.tos == .data$fngs.froms,
+                           'jack', .data$direction),
 
-                    tos.left = .data$tos < 5.5,
-                    froms.left = .data$froms < 5.5,
-                    direction = ifelse(xor(.data$tos.left, .data$froms.left),
-                                       'across', .data$direction)
+        fngs.tos.left = .data$fngs.tos < 5.5,
+        fngs.froms.left = .data$fngs.froms < 5.5,
+        direction = ifelse(xor(.data$fngs.tos.left, .data$fngs.froms.left),
+                           'across', .data$direction)
       )  %>%
       dplyr::select(1:6)
 
     return(mapping)
   }
 
-  move.mapping <- loadMapping(mapping)
+  move.mapping <- fngr
   move.keyset <- loadKeyset(keyset, as.character(keyset.select))
 
   move.mapping %<>%
     mergeMapping(move.keyset)
 
-  if (include.direction) {
-    move.mapping %<>% getDirection()
+  if (include.details) {
+      move.mapping %<>% getDetails()
   }
 
   return(move.mapping)
