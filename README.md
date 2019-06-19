@@ -86,17 +86,16 @@ In other words, we'd have a weighting system that supresses `diffs` that are too
 # Expected Code Workflow
 
 ```{r}
-# Parse
-chart <- chart.parse("path/to/osu")
+# Parse the chart normally
+chart <- chartParse("path/to/osu")
 
-# Detailed Parse
-chart <- chart.motion.parse(chart)
+# Extended Parse of the chart for models
+chart.ext <- chartExtract(chart, ...)
 
 # Static Models
-sm.1 <- chart %>% staticModel.1() 
-sm.2 <- chart %>% staticModel.2() 
-...
-sm.n <- chart %>% staticModel.n() 
+jck <- model.jackInv(chart.ext) 
+mtn <- model.mtn(chart.ext)
+dns <- model.density(chart.ext)
 
 # Dynamic Model (stressSim)
 ss <- chart %>% stressSim(sm.1, sm.2, ..., sm.n)
