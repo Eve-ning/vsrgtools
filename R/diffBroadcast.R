@@ -16,7 +16,6 @@
 diffBroadcast <- function(chart,
                           ignore.types = c('lnotel')){
 
-  # Drop NA rows
   chart.bcst <- chart %>%
 
   # Ignores any types that matches the list

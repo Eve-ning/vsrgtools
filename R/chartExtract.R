@@ -23,8 +23,5 @@ chartExtract <- function(chart,
   return(chart.ext)
 }
 
-# d <- chartExtract(
-#   chartParse("../osutools_ui/local_tests/osu/4/Betwixt & Between - out of Blue (Shoegazer) [Abyss].osu"),
-#   keyset.select = '4', keyset = NA)
-#
-# model.jackInv(d)
+
+

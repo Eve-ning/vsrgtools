@@ -4,7 +4,7 @@
 \alias{model.jackInv}
 \title{Static Model generator for Jack Inverse}
 \usage{
-model.jackInv(chart.bcst)
+model.jackInv(chart.ext)
 }
 \arguments{
 \item{chart.bcst}{The chart generated from diffBroadcast}

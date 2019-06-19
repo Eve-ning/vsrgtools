@@ -4,19 +4,11 @@
 \alias{model.motion}
 \title{Static Model generator for Motion}
 \usage{
-model.motion(chart.bcst, move.mapping = NA, keyset.select = NA,
-  suppress = T, suppress.threshold = 50, suppress.scale = 2)
+model.motion(chart.ext, suppress = T, suppress.threshold = 50,
+  suppress.scale = 2)
 }
 \arguments{
-\item{chart.bcst}{The chart generated from diffBroadcast}
-
-\item{move.mapping}{The data.frame generated from
-createMoveMapping, if NA, keyset.select must be defined
-to generate a default move.mapping}
-
-\item{keyset.select}{If move.mapping is NA, this must be
-specified to generate a default move.mapping. For valid
-values refer to ?createMoveMapping}
+\item{chart.ext}{The chart generated from chartExtract}
 
 \item{suppress}{A Logical determining if suppresion should
 occur}
