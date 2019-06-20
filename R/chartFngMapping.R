@@ -61,8 +61,12 @@
 #'
 #' "out" is where the motion is leading to the pinkies
 #'
-#' Disparity is the number of columns between the pair of
+#' Distance is the number of columns between the pair of
 #' notes
+#'
+#' rfl is the distance from the center, the center (5.5).
+#' rfl stands for reflection, as it's the method used to
+#' calculate.
 #'
 #' @importFrom magrittr %<>%
 #' @importFrom dplyr mutate select
@@ -117,7 +121,7 @@ chartFngMapping <- function(keyset.select=NA,
     mapping %<>%
       dplyr::mutate(
         directions = 'in',
-        disparities = abs(keys.tos - keys.froms),
+        distances = abs(keys.tos - keys.froms),
 
         fngs.tos.rfl = abs(.data$fngs.tos - 5.5),
         fngs.froms.rfl = abs(.data$fngs.froms - 5.5),
@@ -132,7 +136,7 @@ chartFngMapping <- function(keyset.select=NA,
         directions = ifelse(xor(.data$fngs.tos.left, .data$fngs.froms.left),
                            'across', .data$directions)
       )  %>%
-      dplyr::select(1:6)
+      dplyr::select(1:8)
 
     return(mapping)
   }
@@ -149,3 +153,6 @@ chartFngMapping <- function(keyset.select=NA,
 
   return(move.mapping)
 }
+
+require(magrittr)
+d <- chartFngMapping('7R')
