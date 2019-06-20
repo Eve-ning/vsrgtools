@@ -22,7 +22,7 @@ miniLN Tail should be dropped.}
 \item{types.mapping}{A data.frame to be merged with the
 output types to generate weights.
 
-It might hold the columns types and weights
+It must only hold the columns types and weights
 
 If NA, .dflt.model.density.mapping will be used}
 
