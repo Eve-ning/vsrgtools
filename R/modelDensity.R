@@ -16,11 +16,11 @@
 #' @param types.mapping A data.frame to be merged with the
 #' output types to generate weights.
 #'
-#' It might hold the columns types and weights
+#' It must only hold the columns types and weights
 #'
 #' If NA, .dflt.model.density.mapping will be used
 #'
-#' @importFrom dplyr bind_rows mutate distinct filter if_else
+#' @importFrom dplyr bind_rows mutate distinct filter
 #' @importFrom magrittr %<>%
 #' @importFrom rlang .data
 #'
@@ -64,15 +64,18 @@ model.density <- function(chart.ext, window = 1000,
 
   chart.ext <- dplyr::bind_rows(chart.ext)
 
+  # Summarize here
+
+  if (is.na(types.mapping)){
+    types.mapping <- .dflt.dns.mapping()
+  }
+
   chart.ext %<>%
-    merge(
-      dplyr::if_else(is.na(types.mapping),
-                     .dflt.model.density.mapping(), types.mapping),
-      by = 'types'
-    ) %>%
+    merge(types.mapping, by = 'types') %>%
     dplyr::mutate(values = .data$counts * .data$weights) %>%
     dplyr::group_by(.data$offsets) %>%
     dplyr::summarise(values = sum(.data$values))
 
   return(chart.ext)
 }
+
