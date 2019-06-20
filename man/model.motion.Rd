@@ -5,7 +5,8 @@
 \title{Static Model generator for Motion}
 \usage{
 model.motion(chart.ext, suppress = T, suppress.threshold = 50,
-  suppress.scale = 2)
+  suppress.scale = 2, weight.in = 1, weight.out = 1.5,
+  weight.across = 1.1)
 }
 \arguments{
 \item{chart.ext}{The chart generated from chartExtract}

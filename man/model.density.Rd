@@ -5,7 +5,7 @@
 \title{Static Model generator for Density}
 \usage{
 model.density(chart.ext, window = 1000, mini.ln.parse = T,
-  mini.ln.threshold = 150)
+  mini.ln.threshold = 150, mini.ln.tail.drop = T, types.mapping = NA)
 }
 \arguments{
 \item{window}{The window to check for objects}
@@ -15,6 +15,16 @@ should be parsed separately}
 
 \item{mini.ln.threshold}{A numeric indicating the
 threshold of LNs to be considered mini}
+
+\item{mini.ln.tail.drop}{Logical indicating if the
+miniLN Tail should be dropped.}
+
+\item{types.mapping}{A data.frame to be merged with the
+output types to generate weights.
+
+It might hold the columns types and weights
+
+If NA, .dflt.model.density.mapping will be used}
 
 \item{chart}{The chart generated from chartParse}
 }
