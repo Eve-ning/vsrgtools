@@ -64,8 +64,8 @@ thumb
 Distance is the number of columns between the pair of
 notes
 
-rfl is the distance from the center, the center (5.5).
-rfl stands for reflection, as it's the method used to
+rfls is the ave distance from the center, (5.5).
+rfls stands for reflections, as it's the method used to
 calculate.}
 }
 \description{

@@ -69,7 +69,7 @@ model.motion <- function(chart.ext,
       # reflections and distances
       rfls.dist = .data$rfls * 8 + .data$distances,
       values = .data$rfls.dist * .data$weights * .data$diffs.invs
-    )
+    ) %>%
     dplyr::group_by(.data$offsets) %>%
     dplyr::summarise(
       values = sum(.data$values)
