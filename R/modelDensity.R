@@ -13,8 +13,8 @@
 #' threshold of LNs to be considered mini
 #' @param mini.ln.tail.drop Logical indicating if the
 #' miniLN Tail should be dropped.
-#' @param mapping A data.frame to be merged with the output
-#' to generate weights.
+#' @param types.mapping A data.frame to be merged with the
+#' output types to generate weights.
 #'
 #' It might hold the columns types and weights
 #'
@@ -30,7 +30,7 @@ model.density <- function(chart.ext, window = 1000,
                           mini.ln.parse = T,
                           mini.ln.threshold = 150,
                           mini.ln.tail.drop = T,
-                          mapping = NA) {
+                          types.mapping = NA) {
 
   if (mini.ln.parse){
     chart.ext %<>%
@@ -66,7 +66,8 @@ model.density <- function(chart.ext, window = 1000,
 
   chart.ext %<>%
     merge(
-      dplyr::if_else(is.na(mapping), .dflt.model.density.mapping(), mapping),
+      dplyr::if_else(is.na(types.mapping),
+                     .dflt.model.density.mapping(), types.mapping),
       by = 'types'
     ) %>%
     dplyr::mutate(values = .data$counts * .data$weights) %>%
