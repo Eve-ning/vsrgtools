@@ -1,5 +1,6 @@
-# This file specifies all default values used by all functions
-
+#' Default Move Keyset for chartFngMapping
+#' @name .dflt.move.keysets
+#' @export
 .dflt.move.keysets <- function() {
   return(list(
     '4' = data.frame(keys = 1:4,
@@ -25,13 +26,4 @@
     '9L' = data.frame(keys = 1:9,
                       fingers = c(1,2,3,4,5,7,8,9,10))
   ))
-}
-
-.dflt.model.density.mapping <- function() {
-  return(
-    data.frame(
-      types = c('lnoteh', 'lnotel', 'm.lnoteh', 'm.lnotel', 'note'),
-      weights = rep(1,5)
-    )
-  )
 }
