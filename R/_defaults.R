@@ -1,6 +1,6 @@
 # This file specifies all default values used by all functions
 
-.default.move.keysets <- function() {
+.dflt.move.keysets <- function() {
   return(list(
     '4' = data.frame(keys = 1:4,
                      fingers = c(3,4,7,8)),
@@ -27,4 +27,11 @@
   ))
 }
 
-.default
+.dflt.model.density.mapping <- function() {
+  return(
+    data.frame(
+      types = c('lnoteh', 'lnotel', 'm.lnoteh', 'm.lnotel', 'note'),
+      weights = rep(1,5)
+    )
+  )
+}

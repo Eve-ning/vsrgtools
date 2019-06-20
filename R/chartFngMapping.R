@@ -87,7 +87,7 @@ chartFngMapping <- function(keyset.select=NA,
     if (!is.na(keyset)){
       return(keyset)
     } else if (!is.na(keyset.select)){
-      move.keysets = .default.move.keysets()
+      move.keysets = .dflt.move.keysets()
       return(move.keysets[[keyset.select]])
     } else {
       stop("Either keyset or keyset.select must be defined.")
