@@ -87,33 +87,10 @@ chartFngMapping <- function(keyset.select=NA,
     if (!is.na(keyset)){
       return(keyset)
     } else if (!is.na(keyset.select)){
-    move.keysets = list(
-      '4' = data.frame(keys = 1:4,
-                       fingers = c(3,4,7,8)),
-      '5R' = data.frame(keys = 1:5,
-                        fingers = c(3,4,6,7,8)),
-      '5L' = data.frame(keys = 1:5,
-                        fingers = c(3,4,5,7,8)),
-      '6' = data.frame(keys = 1:6,
-                       fingers = c(2,3,4,7,8,9)),
-      '7R' = data.frame(keys = 1:7,
-                        fingers = c(2,3,4,6,7,8,9)),
-      '7L' = data.frame(keys = 1:7,
-                        fingers = c(2,3,4,5,7,8,9)),
-      '8SPL' = data.frame(keys = 1:8,
-                          fingers = c(1,2,3,4,6,7,8,9)),
-      '8SPR' = data.frame(keys = 1:8,
-                          fingers = c(2,3,4,5,7,8,9,10)),
-      '8SYM' = data.frame(keys = 1:8,
-                          fingers = c(2,3,4,5,6,7,8,9)),
-      '9R' = data.frame(keys = 1:9,
-                        fingers = c(1,2,3,4,6,7,8,9,10)),
-      '9L' = data.frame(keys = 1:9,
-                        fingers = c(1,2,3,4,5,7,8,9,10))
-    )
-    return(move.keysets[[keyset.select]])
+      move.keysets = .default.move.keysets()
+      return(move.keysets[[keyset.select]])
     } else {
-    stop("Either keyset or keyset.select must be defined.")
+      stop("Either keyset or keyset.select must be defined.")
     }
   }
 
