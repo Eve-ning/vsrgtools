@@ -21,6 +21,12 @@
 #' @param suppress.scale If suppress is True, this will
 #' expand the x range. In other words, smaller diffs will
 #' have a lower diffs.inv when this increases.
+#' @param directions.mapping A data.frame to be merged with
+#' the output directions to generate weights.
+#'
+#' It must hold the columns directions and weights
+#'
+#' If NA, .dflt.model.motion.mapping will be used
 #'
 #' @importFrom magrittr %<>% %>%
 #' @importFrom dplyr filter mutate
@@ -30,19 +36,44 @@
 model.motion <- function(chart.ext,
                          suppress = T,
                          suppress.threshold = 50,
-                         suppress.scale = 2.0){
+                         suppress.scale = 2.0,
+                         directions.mapping = NA){
 
   chart.ext %<>%
-    dplyr::filter(.data$directions != 'jack') %>%
+    # # Jacks will be handled separately
+    # dplyr::filter(.data$directions != 'jack') %>%
+
+    # Suppress graces
     dplyr::mutate(diffs.invs =
-                  ifelse(.data$diffs >= suppress.threshold,
-                         # Inverse Function
-                         1/.data$diffs,
-                         # Suppress Function
-                         1/abs(((.data$diffs - suppress.threshold)
-                               * suppress.scale)
-                              - suppress.threshold)
+                  dplyr::if_else(
+                    # Condition
+                    .data$diffs >= suppress.threshold,
+                    # Inverse Function
+                    1/.data$diffs,
+                    # Suppress Function
+                    1/abs(((.data$diffs - suppress.threshold)
+                           * suppress.scale)
+                          - suppress.threshold)
                          ))
+
+  # Summarize here
+
+  if (is.na(directions.mapping)){
+    directions.mapping <- .dflt.mtn.mapping()
+  }
+
+  chart.ext %<>%
+    merge(directions.mapping, by = 'directions') %>%
+    dplyr::mutate(
+      # This is a custom made variable, a combo of
+      # reflections and distances
+      rfls.dist = .data$rfls * 8 + .data$distances,
+      values = .data$rfls.dist * .data$weights * .data$diffs.invs
+    ) %>%
+    dplyr::group_by(.data$offsets) %>%
+    dplyr::summarise(
+      values = sum(.data$values)
+    )
 
   return(chart.ext)
 }

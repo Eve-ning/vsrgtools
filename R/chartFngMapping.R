@@ -61,8 +61,12 @@
 #'
 #' "out" is where the motion is leading to the pinkies
 #'
-#' Disparity is the number of columns between the pair of
+#' Distance is the number of columns between the pair of
 #' notes
+#'
+#' rfls is the ave distance from the center, (5.5).
+#' rfls stands for reflections, as it's the method used to
+#' calculate.
 #'
 #' @importFrom magrittr %<>%
 #' @importFrom dplyr mutate select
@@ -87,33 +91,10 @@ chartFngMapping <- function(keyset.select=NA,
     if (!is.na(keyset)){
       return(keyset)
     } else if (!is.na(keyset.select)){
-    move.keysets = list(
-      '4' = data.frame(keys = 1:4,
-                       fingers = c(3,4,7,8)),
-      '5R' = data.frame(keys = 1:5,
-                        fingers = c(3,4,6,7,8)),
-      '5L' = data.frame(keys = 1:5,
-                        fingers = c(3,4,5,7,8)),
-      '6' = data.frame(keys = 1:6,
-                       fingers = c(2,3,4,7,8,9)),
-      '7R' = data.frame(keys = 1:7,
-                        fingers = c(2,3,4,6,7,8,9)),
-      '7L' = data.frame(keys = 1:7,
-                        fingers = c(2,3,4,5,7,8,9)),
-      '8SPL' = data.frame(keys = 1:8,
-                          fingers = c(1,2,3,4,6,7,8,9)),
-      '8SPR' = data.frame(keys = 1:8,
-                          fingers = c(2,3,4,5,7,8,9,10)),
-      '8SYM' = data.frame(keys = 1:8,
-                          fingers = c(2,3,4,5,6,7,8,9)),
-      '9R' = data.frame(keys = 1:9,
-                        fingers = c(1,2,3,4,6,7,8,9,10)),
-      '9L' = data.frame(keys = 1:9,
-                        fingers = c(1,2,3,4,5,7,8,9,10))
-    )
-    return(move.keysets[[keyset.select]])
+      move.keysets <- .dflt.move.keysets()
+      return(move.keysets[[keyset.select]])
     } else {
-    stop("Either keyset or keyset.select must be defined.")
+      stop("Either keyset or keyset.select must be defined.")
     }
   }
 
@@ -140,11 +121,12 @@ chartFngMapping <- function(keyset.select=NA,
     mapping %<>%
       dplyr::mutate(
         directions = 'in',
-        disparities = abs(keys.tos - keys.froms),
+        distances = abs(keys.tos - keys.froms),
 
-        fngs.tos.rfl = abs(.data$fngs.tos - 5.5),
-        fngs.froms.rfl = abs(.data$fngs.froms - 5.5),
-        directions = ifelse(.data$fngs.tos.rfl > .data$fngs.froms.rfl,
+        fngs.tos.rfls = abs(.data$fngs.tos - 5.5),
+        fngs.froms.rfls = abs(.data$fngs.froms - 5.5),
+        rfls = (.data$fngs.tos.rfls + .data$fngs.froms.rfls) / 2,
+        directions = ifelse(.data$fngs.tos.rfls > .data$fngs.froms.rfls,
                            'out', .data$directions),
 
         directions = ifelse(.data$fngs.tos == .data$fngs.froms,
@@ -155,7 +137,7 @@ chartFngMapping <- function(keyset.select=NA,
         directions = ifelse(xor(.data$fngs.tos.left, .data$fngs.froms.left),
                            'across', .data$directions)
       )  %>%
-      dplyr::select(1:6)
+      dplyr::select(1:6, .data$rfls)
 
     return(mapping)
   }
@@ -172,3 +154,4 @@ chartFngMapping <- function(keyset.select=NA,
 
   return(move.mapping)
 }
+

@@ -61,8 +61,12 @@ thumb
 
 "out" is where the motion is leading to the pinkies
 
-Disparity is the number of columns between the pair of
-notes}
+Distance is the number of columns between the pair of
+notes
+
+rfls is the ave distance from the center, (5.5).
+rfls stands for reflections, as it's the method used to
+calculate.}
 }
 \description{
 Using the broadcasted format, this function maps

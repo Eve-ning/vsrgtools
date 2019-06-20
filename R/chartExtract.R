@@ -22,6 +22,3 @@ chartExtract <- function(chart,
                      by = c('keys.froms', 'keys.tos'))
   return(chart.ext)
 }
-
-
-

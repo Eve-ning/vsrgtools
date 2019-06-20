@@ -5,7 +5,7 @@
 \title{Static Model generator for Motion}
 \usage{
 model.motion(chart.ext, suppress = T, suppress.threshold = 50,
-  suppress.scale = 2)
+  suppress.scale = 2, directions.mapping = NA)
 }
 \arguments{
 \item{chart.ext}{The chart generated from chartExtract}
@@ -20,6 +20,13 @@ piecewise function where the suppress function is}
 \item{suppress.scale}{If suppress is True, this will
 expand the x range. In other words, smaller diffs will
 have a lower diffs.inv when this increases.}
+
+\item{directions.mapping}{A data.frame to be merged with
+the output directions to generate weights.
+
+It must hold the columns directions and weights
+
+If NA, .dflt.model.motion.mapping will be used}
 }
 \description{
 This uses diffBroadcast and createMoveMapping
