@@ -14,8 +14,9 @@ model.jackInv <- function(chart.ext){
   chart.ext %<>%
     dplyr::filter(.data$directions == 'jack') %>%
     dplyr::rename(keys = .data$keys.froms) %>%
-    dplyr::mutate(jack.invs = 1/.data$diffs) %>%
-    dplyr::select(c(.data$keys, .data$offsets, .data$jack.invs))
+    dplyr::mutate(values = 1/.data$diffs) %>%
+    dplyr::group_by(.data$offsets) %>%
+    dplyr::summarise(values = max(.data$values))
 
   return(chart.ext)
 }
