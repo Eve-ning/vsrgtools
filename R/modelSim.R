@@ -10,7 +10,7 @@
 #' @importFrom rlang .data
 #' @export
 
-modelSim <- function(m.jck, m.mtn, m.dns){
+model.sim <- function(m.jck, m.mtn, m.dns){
 
   model <- merge(m.jck, m.mtn, by='offsets')
   model %<>% merge(m.dns, by='offsets')
