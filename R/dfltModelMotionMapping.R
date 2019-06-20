@@ -1,7 +1,6 @@
-#' Default Motion Mapping for model.motion
-#' @name .dflt.model.motion.mapping
+#' Default Model Mapping for model.motion
 #' @export
-.dflt.model.motion.mapping <- function() {
+.dflt.mtn.mapping <- function() {
   return(
     data.frame(
       directions = c('across', 'in', 'out'),

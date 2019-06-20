@@ -1,5 +1,4 @@
 #' Default Move Keyset for chartFngMapping
-#' @name .dflt.move.keysets
 #' @export
 .dflt.move.keysets <- function() {
   return(list(
