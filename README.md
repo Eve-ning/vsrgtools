@@ -10,6 +10,8 @@ A **Static Model** is where there's minimal consideration on the direction of th
 
 Essentially you can calculate the **moving average nps** of the chart from left to right, it'll be the same if you did it from right to left.
 
+As a rule of thumb, all static models must output only the following 2 columns `offsets` and `value`
+
 ## Dynamic Model
 
 Dynamic Model makes use of **Static Models** as its base to power **trackers**. You'd get much more realistic results as you're mimicking the player.
