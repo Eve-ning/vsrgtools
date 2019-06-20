@@ -40,8 +40,8 @@ model.motion <- function(chart.ext,
                          directions.mapping = NA){
 
   chart.ext %<>%
-    # Jacks will be handled separately
-    dplyr::filter(.data$directions != 'jack') %>%
+    # # Jacks will be handled separately
+    # dplyr::filter(.data$directions != 'jack') %>%
 
     # Suppress graces
     dplyr::mutate(diffs.invs =
@@ -65,12 +65,14 @@ model.motion <- function(chart.ext,
   chart.ext %<>%
     merge(directions.mapping, by = 'directions') %>%
     dplyr::mutate(
-      mean.rfl = (.data$fngr.to.rfl + .data$fngr.from.rfl) / 2
+      # This is a custom made variable, a combo of
+      # reflections and distances
+      rfls.dist = .data$rfls * 8 + .data$distances,
+      values = .data$rfls.dist * .data$weights * .data$diffs.invs
     )
-
-    dplyr::group_by(offsets) %>%
+    dplyr::group_by(.data$offsets) %>%
     dplyr::summarise(
-      mean.rfl = mean(fngr.to.rfl),
+      values = sum(.data$values)
     )
 
   return(chart.ext)
