@@ -28,5 +28,5 @@ model.sim <- function(m.jck, m.mtn, m.dns,
                          model$values,
                          decay_ms = decay.ms,
                          stress_init = stress.init)
-  return(sim)
+  return(list("sim" = sim, "model" = model))
 }

@@ -132,6 +132,6 @@ calculateDifficulty <- function(chart.path = NA,
                    decay.ms = decay.ms,
                    stress.init = stress.init)
 
-  return(sim)
+  return(list("sim" = sim$sim, "model" = sim$model))
 }
 
