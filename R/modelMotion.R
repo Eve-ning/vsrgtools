@@ -15,6 +15,8 @@
 #' @param chart.ext The chart generated from chartExtract
 #' @param suppress A Logical determining if suppresion should
 #' occur
+#'
+#' Suppression does not happen to direction 'jack'
 #' @param suppress.threshold If suppress is True, this will
 #' reflect the inverse function at this point. Creating a
 #' piecewise function where the suppress function is
@@ -29,7 +31,7 @@
 #' If NA, .dflt.model.motion.mapping will be used
 #'
 #' @importFrom magrittr %<>% %>%
-#' @importFrom dplyr filter mutate
+#' @importFrom dplyr filter mutate if_else
 #' @importFrom rlang .data
 #' @export
 
@@ -47,7 +49,8 @@ model.motion <- function(chart.ext,
     dplyr::mutate(diffs.invs =
                   dplyr::if_else(
                     # Condition
-                    .data$diffs >= suppress.threshold,
+                    (.data$diffs >= suppress.threshold) &
+                      (directions != 'jack'),
                     # Inverse Function
                     1/.data$diffs,
                     # Suppress Function
