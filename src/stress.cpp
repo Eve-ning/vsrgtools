@@ -3,19 +3,27 @@
 using namespace Rcpp;
 
 // Constructor
-Stress::Stress(double decay_ms) {
+Stress::Stress(double value,
+               double decay_ms) {
+  m_value = value;
   m_decay_ms = decay_ms;
 }
 
+double Stress::value() const {
+  return m_value;
+}
+
+void Stress::setValue(double value) {
+  m_value = value;
+}
+
 // Trigger Decay
-double Stress::decay(double stress,
-                     double duration) {
-  double out = stress - (m_decay_ms * duration);
-  return out < 0 ? 0 : out; // ensure stress doesn't go below 0
+void Stress::decay(double duration) {
+  double new_value = m_value - (m_decay_ms * duration);
+  m_value = new_value < 0 ? 0 : new_value; // ensure stress doesn't go below 0
 }
 
 // Trigger Spike
-double Stress::spike(double stress,
-                     double value) {
-  return stress + value;
+void Stress::spike(double value) {
+  m_value += value;
 }

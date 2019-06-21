@@ -5,15 +5,18 @@ using namespace Rcpp;
 class Stress {
 public:
 
-  Stress(double decay_ms);
+  Stress(double value,
+         double decay_ms);
 
-  double decay(double stress,
-               double duration);
+  void decay(double duration);
 
-  double spike(double stress,
-               double value);
+  void spike(double value);
+
+  double value() const;
+  void setValue(double value);
 
 private:
 
+  double m_value;
   double m_decay_ms;
 };
