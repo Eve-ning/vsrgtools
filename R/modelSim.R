@@ -18,7 +18,8 @@
 model.sim <- function(m.jck, m.mtn, m.dns,
                       jck.pow, mtn.pow, dns.pow,
                       decay.ms = 0.5,
-                      stress.init = 0){
+                      stress.init = 0,
+                      bin_size = 5000){
 
   # This joins all models
   model <- list(m.jck, m.mtn, m.dns) %>%
@@ -26,13 +27,15 @@ model.sim <- function(m.jck, m.mtn, m.dns,
     dplyr::rename(jck.vals = 2,
                   mtn.vals = 3,
                   dns.vals = 4) %>%
-    dplyr::mutate(
-      values =
-        ((.data$mtn.vals * 10) + 1) ** mtn.pow +
-        (.data$dns.vals + 1) ** dns.pow +
-        ((.data$jck.vals * 1000) + 1) ** jck.pow)
+    dplyr::mutate(bins = (offsets %/% bin_size) * bin_size,
+                  values =
+                    ((.data$mtn.vals * 10) + 1) ** mtn.pow +
+                    (.data$dns.vals + 1) ** dns.pow +
+                    ((.data$jck.vals * 1000) + 1) ** jck.pow) %>%
+    dplyr::group_by(bins) %>%
+    dplyr::summarise(values = mean(values))
 
-  sim <- .cppSimulateKey(model$offsets,
+  sim <- .cppSimulateKey(model$bins,
                          model$values,
                          decay_ms = decay.ms,
                          stress_init = stress.init)
