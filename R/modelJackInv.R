@@ -2,7 +2,7 @@
 #'
 #' @description This uses diffBroadcast and just inverses
 #' the difference between equal keys.froms and keys.tos
-#' @param chart.bcst The chart generated from diffBroadcast
+#' @param chart.ext The chart generated from diffBroadcast
 #'
 #' @importFrom magrittr %<>% %>%
 #' @importFrom dplyr mutate filter select rename
