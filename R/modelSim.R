@@ -16,9 +16,6 @@ model.sim <- function(m.jck, m.mtn, m.dns,
                       decay.ms = 0.5,
                       stress.init = 0){
 
-  m.jck <- model.jackInv(chart.ext)
-  m.mtn <- model.motion(chart.ext)
-  m.dns <- model.density(chart.ext)
   # This joins all models
   model <- list(m.jck, m.mtn, m.dns) %>%
     purrr::reduce(dplyr::left_join, by = 'offsets') %>%
