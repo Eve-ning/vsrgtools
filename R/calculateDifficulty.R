@@ -17,6 +17,10 @@
 #' @param mtn.suppress.scale A numeric indicating the
 #' power of suppression on small motions
 #' Refer to ?model.motion
+#' @param mtn.ignore.jacks A logical indicating if jacks
+#' should be ignored by mtn and handled separately by
+#' JackInv
+#' Refer to ?model.motion
 #' @param mtn.across.weight A numeric indicating the
 #' weight of the 'across' motion weight
 #' Refer to ?model.motion
@@ -66,6 +70,15 @@
 #' @param stress.init A numeric indicating the starting
 #' stress
 #' Refer to ?model.sim
+#' @param jck.pow A numeric indicating the power weight of the
+#' Jack model
+#' Refer to ?model.sim
+#' @param mtn.pow A numeric indicating the power weight of the
+#' Motion model
+#' Refer to ?model.sim
+#' @param dns.pow A numeric indicating the power weight of the
+#' Density model
+#' Refer to ?model.sim
 #' @export
 calculateDifficulty <- function(chart.path = NA,
                                 chart.lines = NA,
@@ -74,6 +87,7 @@ calculateDifficulty <- function(chart.path = NA,
                                 mtn.suppress = T,
                                 mtn.suppress.threshold = 50,
                                 mtn.suppress.scale = 2.0,
+                                mtn.ignore.jacks = T,
                                 mtn.across.weight = 0.7,
                                 mtn.in.weight = 1.0,
                                 mtn.out.weight = 1.3,
@@ -88,7 +102,10 @@ calculateDifficulty <- function(chart.path = NA,
                                 dns.m.lnoteh.weight = 1,
                                 dns.m.lnotel.weight = 1,
                                 decay.ms = 0.5,
-                                stress.init = 0) {
+                                stress.init = 0,
+                                jck.pow = 1.0,
+                                mtn.pow = 1.0,
+                                dns.pow = 1.0) {
   chart <- chartParse(chart.path = chart.path,
                       chart.lines = chart.lines)
 
@@ -102,6 +119,7 @@ calculateDifficulty <- function(chart.path = NA,
                         suppress = mtn.suppress,
                         suppress.threshold = mtn.suppress.threshold,
                         suppress.scale = mtn.suppress.scale,
+                        ignore.jacks = mtn.ignore.jacks,
                         directions.mapping =
                           data.frame(
                             directions = c('across', 'in', 'out', 'jack'),
@@ -130,7 +148,10 @@ calculateDifficulty <- function(chart.path = NA,
                    m.mtn,
                    m.dns,
                    decay.ms = decay.ms,
-                   stress.init = stress.init)
+                   stress.init = stress.init,
+                   jck.pow = jck.pow,
+                   mtn.pow = mtn.pow,
+                   dns.pow = dns.pow)
 
   return(list("sim" = sim$sim, "model" = sim$model))
 }

@@ -39,12 +39,14 @@ model.motion <- function(chart.ext,
                          suppress = T,
                          suppress.threshold = 50,
                          suppress.scale = 2.0,
-                         directions.mapping = NA){
+                         directions.mapping = NA,
+                         ignore.jacks = T){
 
+  if(ignore.jacks){
+    chart.ext %<>%
+      dplyr::filter(.data$directions != 'jack')
+  }
   chart.ext %<>%
-    # # Jacks will be handled separately
-    # dplyr::filter(.data$directions != 'jack') %>%
-
     # Suppress graces
     dplyr::mutate(diffs.invs =
                   dplyr::if_else(
