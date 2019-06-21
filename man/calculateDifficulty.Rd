@@ -7,12 +7,13 @@
 calculateDifficulty(chart.path = NA, chart.lines = NA,
   keyset.select = "4", keyset = NA, mtn.suppress = T,
   mtn.suppress.threshold = 50, mtn.suppress.scale = 2,
-  mtn.across.weight = 0.7, mtn.in.weight = 1, mtn.out.weight = 1.3,
-  mtn.jack.weight = 3, dns.window = 1000, dns.mini.ln.parse = T,
-  dns.mini.ln.threshold = 150, dns.mini.ln.tail.drop = T,
-  dns.note.weight = 1, dns.lnoteh.weight = 1, dns.lnotel.weight = 1,
+  mtn.ignore.jacks = T, mtn.across.weight = 0.7, mtn.in.weight = 1,
+  mtn.out.weight = 1.3, mtn.jack.weight = 3, dns.window = 1000,
+  dns.mini.ln.parse = T, dns.mini.ln.threshold = 150,
+  dns.mini.ln.tail.drop = T, dns.note.weight = 1,
+  dns.lnoteh.weight = 1, dns.lnotel.weight = 1,
   dns.m.lnoteh.weight = 1, dns.m.lnotel.weight = 1, decay.ms = 0.5,
-  stress.init = 0)
+  stress.init = 0, jck.pow = 1, mtn.pow = 1, dns.pow = 1)
 }
 \arguments{
 \item{chart.path}{Path to chart}
@@ -37,6 +38,11 @@ Refer to ?model.motion}
 
 \item{mtn.suppress.scale}{A numeric indicating the
 power of suppression on small motions
+Refer to ?model.motion}
+
+\item{mtn.ignore.jacks}{A logical indicating if jacks
+should be ignored by mtn and handled separately by
+JackInv
 Refer to ?model.motion}
 
 \item{mtn.across.weight}{A numeric indicating the
@@ -101,6 +107,18 @@ Refer to ?model.sim}
 
 \item{stress.init}{A numeric indicating the starting
 stress
+Refer to ?model.sim}
+
+\item{jck.pow}{A numeric indicating the power weight of the
+Jack model
+Refer to ?model.sim}
+
+\item{mtn.pow}{A numeric indicating the power weight of the
+Motion model
+Refer to ?model.sim}
+
+\item{dns.pow}{A numeric indicating the power weight of the
+Density model
 Refer to ?model.sim}
 }
 \description{

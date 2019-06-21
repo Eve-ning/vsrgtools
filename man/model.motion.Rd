@@ -5,7 +5,7 @@
 \title{Static Model generator for Motion}
 \usage{
 model.motion(chart.ext, suppress = T, suppress.threshold = 50,
-  suppress.scale = 2, directions.mapping = NA)
+  suppress.scale = 2, directions.mapping = NA, ignore.jacks = T)
 }
 \arguments{
 \item{chart.ext}{The chart generated from chartExtract}
