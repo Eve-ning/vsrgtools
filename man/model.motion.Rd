@@ -11,7 +11,9 @@ model.motion(chart.ext, suppress = T, suppress.threshold = 50,
 \item{chart.ext}{The chart generated from chartExtract}
 
 \item{suppress}{A Logical determining if suppresion should
-occur}
+occur
+
+Suppression does not happen to direction 'jack'}
 
 \item{suppress.threshold}{If suppress is True, this will
 reflect the inverse function at this point. Creating a
