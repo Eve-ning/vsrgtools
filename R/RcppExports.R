@@ -5,11 +5,34 @@
     .Call(`_osutools_cppBroadcast`, offsets, resets)
 }
 
+#' Counts the Density at each point of unq_offsets wrt obj_offsets
+#'
+#' @description The difference between unq and obj offsets is that
+#' unq offsets is the offsets that would be checked on, that is
+#' the ones that will show in the output.
+#'
+#' obj offsets is merely a vector indicating where the objects are
+#'
+#' @param unq_offsets a Numeric Vector of the offsets to check on
+#' @param obj_offsets a Numeric Vector of t he objects offsets
+#' @param window a double indicating the window of the check
+#' @param is_sorted a boolean indicating if the vectors are sorted
+#' , if they aren't, they will be sorted.
+NULL
+
 .cppModelDensity <- function(unq_offsets, obj_offsets, window, is_sorted = FALSE) {
     .Call(`_osutools_cppModelDensity`, unq_offsets, obj_offsets, window, is_sorted)
 }
 
-.cppSimulateKey <- function(offsets, types, decay_ms = 0.01, stress = 0.0) {
-    .Call(`_osutools_cppSimulateKey`, offsets, types, decay_ms, stress)
+#' Simulates stress using a offset and value vector
+#'
+#' @param offsets Offsets of the values used to indicate spikes
+#' @param values Spike values used to increase stress
+#' @param decay_ms Stress decay per ms
+#' @param stress_init Initial Stress
+#'
+#' @export
+.cppSimulateKey <- function(offsets, values, decay_ms = 0.01, stress_init = 0.0) {
+    .Call(`_osutools_cppSimulateKey`, offsets, values, decay_ms, stress_init)
 }
 

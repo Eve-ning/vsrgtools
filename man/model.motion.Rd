@@ -5,13 +5,15 @@
 \title{Static Model generator for Motion}
 \usage{
 model.motion(chart.ext, suppress = T, suppress.threshold = 50,
-  suppress.scale = 2, directions.mapping = NA)
+  suppress.scale = 2, directions.mapping = NA, ignore.jacks = T)
 }
 \arguments{
 \item{chart.ext}{The chart generated from chartExtract}
 
 \item{suppress}{A Logical determining if suppresion should
-occur}
+occur
+
+Suppression does not happen to direction 'jack'}
 
 \item{suppress.threshold}{If suppress is True, this will
 reflect the inverse function at this point. Creating a
@@ -27,6 +29,9 @@ the output directions to generate weights.
 It must hold the columns directions and weights
 
 If NA, .dflt.model.motion.mapping will be used}
+
+\item{ignore.jacks}{A logical indicating if jacks should
+be ignored}
 }
 \description{
 This uses diffBroadcast and createMoveMapping

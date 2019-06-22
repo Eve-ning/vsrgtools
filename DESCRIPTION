@@ -19,4 +19,5 @@ Imports:
     reshape2,
     stringr,
     tidyr,
-    rlang
+    rlang,
+    purrr

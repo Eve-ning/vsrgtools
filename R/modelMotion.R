@@ -15,6 +15,8 @@
 #' @param chart.ext The chart generated from chartExtract
 #' @param suppress A Logical determining if suppresion should
 #' occur
+#'
+#' Suppression does not happen to direction 'jack'
 #' @param suppress.threshold If suppress is True, this will
 #' reflect the inverse function at this point. Creating a
 #' piecewise function where the suppress function is
@@ -27,9 +29,10 @@
 #' It must hold the columns directions and weights
 #'
 #' If NA, .dflt.model.motion.mapping will be used
-#'
+#' @param ignore.jacks A logical indicating if jacks should
+#' be ignored
 #' @importFrom magrittr %<>% %>%
-#' @importFrom dplyr filter mutate
+#' @importFrom dplyr filter mutate if_else
 #' @importFrom rlang .data
 #' @export
 
@@ -37,17 +40,20 @@ model.motion <- function(chart.ext,
                          suppress = T,
                          suppress.threshold = 50,
                          suppress.scale = 2.0,
-                         directions.mapping = NA){
+                         directions.mapping = NA,
+                         ignore.jacks = T){
 
+  if(ignore.jacks){
+    chart.ext %<>%
+      dplyr::filter(.data$directions != 'jack')
+  }
   chart.ext %<>%
-    # # Jacks will be handled separately
-    # dplyr::filter(.data$directions != 'jack') %>%
-
     # Suppress graces
     dplyr::mutate(diffs.invs =
                   dplyr::if_else(
                     # Condition
-                    .data$diffs >= suppress.threshold,
+                    (.data$diffs >= suppress.threshold) &
+                      (.data$directions != 'jack'),
                     # Inverse Function
                     1/.data$diffs,
                     # Suppress Function
@@ -57,11 +63,11 @@ model.motion <- function(chart.ext,
                          ))
 
   # Summarize here
-
-  if (is.na(directions.mapping)){
-    directions.mapping <- .dflt.mtn.mapping()
-  }
-
+  suppressWarnings({
+    if (is.na(directions.mapping)){
+      directions.mapping <- .dflt.mtn.mapping()
+    }
+  })
   chart.ext %<>%
     merge(directions.mapping, by = 'directions') %>%
     dplyr::mutate(

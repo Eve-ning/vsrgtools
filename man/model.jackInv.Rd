@@ -7,7 +7,7 @@
 model.jackInv(chart.ext)
 }
 \arguments{
-\item{chart.bcst}{The chart generated from diffBroadcast}
+\item{chart.ext}{The chart generated from diffBroadcast}
 }
 \description{
 This uses diffBroadcast and just inverses
