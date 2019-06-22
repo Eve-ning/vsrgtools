@@ -7,7 +7,7 @@ using namespace Rcpp;
 //' @param offsets Offsets of the values used to indicate spikes
 //' @param values Spike values used to increase stress
 //' @param decay_ms Stress decay per ms
-//' @param stress Initial Stress
+//' @param stress_init Initial Stress
 //'
 //' @export
 // [[Rcpp::export(name=".cppSimulateKey")]]

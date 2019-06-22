@@ -5,7 +5,7 @@
 #'
 #' In other words, the density of objects within a certain
 #' time frame to be processed.
-#' @param chart The chart generated from chartParse
+#' @param chart.ext The chart generated from chartExtract
 #' @param window The window to check for objects
 #' @param mini.ln.parse A logical indicating if miniLNs
 #' should be parsed separately

@@ -29,7 +29,8 @@
 #' It must hold the columns directions and weights
 #'
 #' If NA, .dflt.model.motion.mapping will be used
-#'
+#' @param ignore.jacks A logical indicating if jacks should
+#' be ignored
 #' @importFrom magrittr %<>% %>%
 #' @importFrom dplyr filter mutate if_else
 #' @importFrom rlang .data

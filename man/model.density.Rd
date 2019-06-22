@@ -8,6 +8,8 @@ model.density(chart.ext, window = 1000, mini.ln.parse = T,
   mini.ln.threshold = 150, mini.ln.tail.drop = T, types.mapping = NA)
 }
 \arguments{
+\item{chart.ext}{The chart generated from chartExtract}
+
 \item{window}{The window to check for objects}
 
 \item{mini.ln.parse}{A logical indicating if miniLNs
@@ -25,8 +27,6 @@ output types to generate weights.
 It must only hold the columns types and weights
 
 If NA, .dflt.model.density.mapping will be used}
-
-\item{chart}{The chart generated from chartParse}
 }
 \description{
 Density is not meant to be a representation

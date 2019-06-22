@@ -29,6 +29,9 @@ the output directions to generate weights.
 It must hold the columns directions and weights
 
 If NA, .dflt.model.motion.mapping will be used}
+
+\item{ignore.jacks}{A logical indicating if jacks should
+be ignored}
 }
 \description{
 This uses diffBroadcast and createMoveMapping
