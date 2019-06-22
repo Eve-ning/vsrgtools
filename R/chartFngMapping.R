@@ -121,7 +121,7 @@ chartFngMapping <- function(keyset.select=NA,
     mapping %<>%
       dplyr::mutate(
         directions = 'in',
-        distances = abs(keys.tos - keys.froms),
+        distances = abs(.data$keys.tos - .data$keys.froms),
 
         fngs.tos.rfls = abs(.data$fngs.tos - 5.5),
         fngs.froms.rfls = abs(.data$fngs.froms - 5.5),

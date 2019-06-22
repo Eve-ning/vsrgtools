@@ -44,7 +44,7 @@ model.sim <- function(m.jck, m.mtn, m.dns,
 
   # Binning
   model %<>%
-    dplyr::group_by(bins) %>%
+    dplyr::group_by(.data$bins) %>%
     dplyr::summarise(values = mean(.data$values))
 
 

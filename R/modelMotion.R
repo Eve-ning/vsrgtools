@@ -52,7 +52,7 @@ model.motion <- function(chart.ext,
                   dplyr::if_else(
                     # Condition
                     (.data$diffs >= suppress.threshold) &
-                      (directions != 'jack'),
+                      (.data$directions != 'jack'),
                     # Inverse Function
                     1/.data$diffs,
                     # Suppress Function
