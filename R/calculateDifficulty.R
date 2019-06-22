@@ -2,6 +2,7 @@
 #'
 #' @param chart.path Path to chart
 #' @param chart.lines ReadLines on the path
+#' @param chart.rate The rate to judge the chart on
 #' @param keyset.select A character vector indicating
 #' the default keyset to map to the keys
 #' Refer to ?chartFngMapping for more details
@@ -79,9 +80,18 @@
 #' @param dns.pow A numeric indicating the power weight of the
 #' Density model
 #' Refer to ?model.sim
+#'
+#' @param sim.bin.size A numeric indicating the size of
+#' model.sim bin.size
+#' Refer to ?model.sim
+#'
+#' @importFrom magrittr %<>%
+#' @importFrom dplyr mutate
+#' @importFrom rlang .data
 #' @export
 calculateDifficulty <- function(chart.path = NA,
                                 chart.lines = NA,
+                                chart.rate = 1.0,
                                 keyset.select = '4',
                                 keyset = NA,
                                 mtn.suppress = T,
@@ -105,9 +115,13 @@ calculateDifficulty <- function(chart.path = NA,
                                 stress.init = 0,
                                 jck.pow = 1.0,
                                 mtn.pow = 1.0,
-                                dns.pow = 1.0) {
+                                dns.pow = 1.0,
+                                sim.bin.size = 5000) {
   chart <- chartParse(chart.path = chart.path,
                       chart.lines = chart.lines)
+
+  chart %<>%
+    dplyr::mutate(offsets = .data$offsets / chart.rate)
 
   chart.ext <- chartExtract(chart,
                             keyset.select = keyset.select,
@@ -151,7 +165,8 @@ calculateDifficulty <- function(chart.path = NA,
                    stress.init = stress.init,
                    jck.pow = jck.pow,
                    mtn.pow = mtn.pow,
-                   dns.pow = dns.pow)
+                   dns.pow = dns.pow,
+                   bin.size = sim.bin.size)
 
   return(list("sim" = sim$sim, "model" = sim$model))
 }

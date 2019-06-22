@@ -5,20 +5,23 @@
 \title{Calculates difficulty using stressSim}
 \usage{
 calculateDifficulty(chart.path = NA, chart.lines = NA,
-  keyset.select = "4", keyset = NA, mtn.suppress = T,
-  mtn.suppress.threshold = 50, mtn.suppress.scale = 2,
-  mtn.ignore.jacks = T, mtn.across.weight = 0.7, mtn.in.weight = 1,
-  mtn.out.weight = 1.3, mtn.jack.weight = 3, dns.window = 1000,
-  dns.mini.ln.parse = T, dns.mini.ln.threshold = 150,
-  dns.mini.ln.tail.drop = T, dns.note.weight = 1,
-  dns.lnoteh.weight = 1, dns.lnotel.weight = 1,
+  chart.rate = 1, keyset.select = "4", keyset = NA,
+  mtn.suppress = T, mtn.suppress.threshold = 50,
+  mtn.suppress.scale = 2, mtn.ignore.jacks = T,
+  mtn.across.weight = 0.7, mtn.in.weight = 1, mtn.out.weight = 1.3,
+  mtn.jack.weight = 3, dns.window = 1000, dns.mini.ln.parse = T,
+  dns.mini.ln.threshold = 150, dns.mini.ln.tail.drop = T,
+  dns.note.weight = 1, dns.lnoteh.weight = 1, dns.lnotel.weight = 1,
   dns.m.lnoteh.weight = 1, dns.m.lnotel.weight = 1, decay.ms = 0.5,
-  stress.init = 0, jck.pow = 1, mtn.pow = 1, dns.pow = 1)
+  stress.init = 0, jck.pow = 1, mtn.pow = 1, dns.pow = 1,
+  sim.bin.size = 5000)
 }
 \arguments{
 \item{chart.path}{Path to chart}
 
 \item{chart.lines}{ReadLines on the path}
+
+\item{chart.rate}{The rate to judge the chart on}
 
 \item{keyset.select}{A character vector indicating
 the default keyset to map to the keys
@@ -119,6 +122,10 @@ Refer to ?model.sim}
 
 \item{dns.pow}{A numeric indicating the power weight of the
 Density model
+Refer to ?model.sim}
+
+\item{sim.bin.size}{A numeric indicating the size of
+model.sim bin.size
 Refer to ?model.sim}
 }
 \description{
