@@ -121,7 +121,9 @@ calculateDifficulty <- function(chart.path = NA,
                       chart.lines = chart.lines)
 
   chart %<>%
-    dplyr::mutate(offsets = .data$offsets / chart.rate)
+    dplyr::mutate(offsets = ifelse(chart.rate > 0,
+                                   .data$offsets / chart.rate,
+                                   .data$offsets))
 
   chart.ext <- chartExtract(chart,
                             keyset.select = keyset.select,
@@ -170,4 +172,3 @@ calculateDifficulty <- function(chart.path = NA,
 
   return(list("sim" = sim$sim, "model" = sim$model))
 }
-
