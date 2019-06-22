@@ -34,13 +34,19 @@ model.sim <- function(m.jck, m.mtn, m.dns,
                   values =
                     ((.data$mtn.vals * 10) + 1) ** mtn.pow +
                     (.data$dns.vals + 1) ** dns.pow +
-                    ((.data$jck.vals * 1000) + 1) ** jck.pow) %>%
-    dplyr::group_by(bins) %>%
-    dplyr::summarise(values = mean(.data$values))
+                    ((.data$jck.vals * 1000) + 1) ** jck.pow)
 
-  sim <- .cppSimulateKey(model$bins,
+  # Simulation is done before binning
+  sim <- .cppSimulateKey(model$offsets,
                          model$values,
                          decay_ms = decay.ms,
                          stress_init = stress.init)
+
+  # Binning
+  model %<>%
+    dplyr::group_by(bins) %>%
+    dplyr::summarise(values = mean(.data$values))
+
+
   return(list("sim" = sim, "model" = model))
 }
