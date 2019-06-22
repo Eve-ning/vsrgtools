@@ -13,7 +13,7 @@
 
 \item{decay_ms}{Stress decay per ms}
 
-\item{stress}{Initial Stress}
+\item{stress_init}{Initial Stress}
 }
 \description{
 Simulates stress using a offset and value vector

@@ -1,13 +1,40 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-// This will be accepting a resetsFrame of
-// Input
-  // offsets must just be a NumericVector of the offsets
-  // resets must a NumericMatrix of the presence of the
-  //  broadcasted notes, where broadcasting must reset.
-  //  Positive numbers indicate a reset, 0 or lower
-  //  otherwise
+//' Broadcasts the difference between resets provided
+//'
+//' @description Offsets helps indicate the distances
+//' between the resets.
+//'
+//' For Example, R: Reset, -: Nothing
+//'
+//' [1][2][3][4]
+//'  R  -  -  - [9]
+//'  -  R  -  - [7]
+//'  R  -  R  R [3]
+//'  -  R  R  R [1]
+//'
+//' This will give
+//'
+//' [1][2][3][4]
+//'  0  0  0  0 [9]
+//'  2  2  2  2 [7]
+//'  6  4  6  6 [3]
+//'  2  6  2  2 [1]
+//'
+//' Notice how in output, it is able to show the difference
+//' between each successive pair of resets.
+//'
+//' @param offsets a NumericVector indicating the offsets
+//' of all of the resets.
+//'
+//' This must be provided in a descending order, also
+//' with respect to resets
+//' @param resets a LogicalMatrix indicating the resets
+//'
+//' This must be provided in a descending order with respect
+//' to offsets
+//'
 //' @export
 // [[Rcpp::plugins("cpp11")]]
 // [[Rcpp::export(name=".cppBroadcast")]]
