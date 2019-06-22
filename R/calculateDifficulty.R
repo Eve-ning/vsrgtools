@@ -120,11 +120,12 @@ calculateDifficulty <- function(chart.path = NA,
   chart <- chartParse(chart.path = chart.path,
                       chart.lines = chart.lines)
 
-  chart %<>%
-    dplyr::mutate(offsets = ifelse(chart.rate > 0,
-                                   .data$offsets / chart.rate,
-                                   .data$offsets))
-
+  if (chart.rate > 0){
+    chart %<>%
+      dplyr::mutate(offsets = .data$offsets / chart.rate)
+  } else {
+    stop("chart.rate must be positive")
+  }
   chart.ext <- chartExtract(chart,
                             keyset.select = keyset.select,
                             keyset = keyset)
