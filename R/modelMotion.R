@@ -62,12 +62,10 @@ model.motion <- function(chart.ext,
                          ))
 
   # Summarize here
-  directions.mapping <-
-    dplyr::if_else(
-      is.na(directions.mapping),
-      .dflt.mtn.mapping(),
-      directions.mapping
-    )
+
+  if (is.na(directions.mapping)){
+    directions.mapping <- .dflt.mtn.mapping()
+  }
 
   chart.ext %<>%
     merge(directions.mapping, by = 'directions') %>%

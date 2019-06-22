@@ -65,10 +65,10 @@ model.density <- function(chart.ext, window = 1000,
   chart.ext <- dplyr::bind_rows(chart.ext)
 
   # Summarize here
-  types.mapping <- dplyr::if_else(
-    is.na(types.mapping), # Condition
-    .dflt.dns.mapping(), # Default
-    types.mapping) # If defined already
+
+  if (is.na(types.mapping)){
+    types.mapping <- .dflt.dns.mapping()
+  }
 
   chart.ext %<>%
     merge(types.mapping, by = 'types') %>%
