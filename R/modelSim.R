@@ -8,6 +8,9 @@
 #' @param dns.pow power factor for dns
 #' @param decay.ms stress decay per ms
 #' @param stress.init stress to start off with
+#' @param bin.size the bins size for model smoothing
+#' The smaller the bin size the more suspectible the
+#' model will be to sudden spikes.
 #'
 #' @importFrom magrittr %<>% %>%
 #' @importFrom dplyr mutate
@@ -19,7 +22,7 @@ model.sim <- function(m.jck, m.mtn, m.dns,
                       jck.pow, mtn.pow, dns.pow,
                       decay.ms = 0.5,
                       stress.init = 0,
-                      bin_size = 5000){
+                      bin.size = 5000){
 
   # This joins all models
   model <- list(m.jck, m.mtn, m.dns) %>%
@@ -27,13 +30,13 @@ model.sim <- function(m.jck, m.mtn, m.dns,
     dplyr::rename(jck.vals = 2,
                   mtn.vals = 3,
                   dns.vals = 4) %>%
-    dplyr::mutate(bins = (offsets %/% bin_size) * bin_size,
+    dplyr::mutate(bins = (.data$offsets %/% bin.size) * bin.size,
                   values =
                     ((.data$mtn.vals * 10) + 1) ** mtn.pow +
                     (.data$dns.vals + 1) ** dns.pow +
                     ((.data$jck.vals * 1000) + 1) ** jck.pow) %>%
     dplyr::group_by(bins) %>%
-    dplyr::summarise(values = mean(values))
+    dplyr::summarise(values = mean(.data$values))
 
   sim <- .cppSimulateKey(model$bins,
                          model$values,
