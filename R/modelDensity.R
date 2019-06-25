@@ -5,7 +5,7 @@
 #'
 #' In other words, the density of objects within a certain
 #' time frame to be processed.
-#' @param chart.ext The chart generated from chartExtract
+#' @param chart The chart generated from chartParse
 #' @param window The window to check for objects
 #' @param mini.ln.parse A logical indicating if miniLNs
 #' should be parsed separately
@@ -26,43 +26,43 @@
 #'
 #' @export
 
-model.density <- function(chart.ext, window = 1000,
+model.density <- function(chart, window = 1000,
                           mini.ln.parse = T,
                           mini.ln.threshold = 150,
                           mini.ln.tail.drop = T,
                           types.mapping = NA) {
 
   if (mini.ln.parse){
-    chart.ext %<>%
+    chart %<>%
       dplyr::mutate(
         types = ifelse((.data$types == 'lnoteh') & (.data$len <= mini.ln.threshold),
                        'm.lnote', .data$types),
         types = ifelse((.data$types == 'lnotel') & (.data$len <= mini.ln.threshold),
                        'm.lnotel', .data$types))
     if (mini.ln.tail.drop){
-      chart.ext %<>% dplyr::filter(.data$types != 'm.lnotel')
+      chart %<>% dplyr::filter(.data$types != 'm.lnotel')
     }
   }
 
-  chart.ext %<>%
-    dplyr::select(.data$keys.froms, .data$offsets, .data$types, .data$len) %>%
+  chart %<>%
+    dplyr::select(.data$keys, .data$offsets, .data$types, .data$len) %>%
     dplyr::distinct()
 
-  unq.offsets <- unique(chart.ext$offsets)
-  chart.ext <- split(chart.ext, chart.ext$types, drop = T)
+  unq.offsets <- unique(chart$offsets)
+  chart <- split(chart, chart$types, drop = T)
 
   # We will use the .cpp function by types
-  for (x in 1:length(chart.ext)){
-    counts <- .cppModelDensity(unq.offsets, chart.ext[[x]]$offsets, window)
-    chart.ext[[x]] <- data.frame(
+  for (x in 1:length(chart)){
+    counts <- .cppModelDensity(unq.offsets, chart[[x]]$offsets, window)
+    chart[[x]] <- data.frame(
       counts = counts,
       offsets = unq.offsets,
-      types = names(chart.ext[x]),
+      types = names(chart[x]),
       stringsAsFactors = F
     )
   }
 
-  chart.ext <- dplyr::bind_rows(chart.ext)
+  chart <- dplyr::bind_rows(chart)
 
   # Summarize here
   suppressWarnings({
@@ -71,12 +71,12 @@ model.density <- function(chart.ext, window = 1000,
     }
   })
 
-  chart.ext %<>%
+  chart %<>%
     merge(types.mapping, by = 'types') %>%
     dplyr::mutate(values = .data$counts * .data$weights) %>%
     dplyr::group_by(.data$offsets) %>%
     dplyr::summarise(values = sum(.data$values))
 
-  return(chart.ext)
+  return(chart)
 }
 

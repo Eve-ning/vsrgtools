@@ -145,7 +145,7 @@ calculateDifficulty <- function(chart.path = NA,
                                         mtn.out.weight,
                                         mtn.jack.weight))
                         )
-  m.dns <- model.density(chart.ext,
+  m.dns <- model.density(chart,
                          window = dns.window,
                          mini.ln.parse = dns.mini.ln.parse,
                          mini.ln.threshold = dns.mini.ln.threshold,

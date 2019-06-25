@@ -8,11 +8,15 @@
 #' for more details
 #' @param keyset Read ?createMoveMapping
 #' for more details
+#' @param ignore.types Types of notes to ignore
+#'
+#' ?diffBroadcast for more details
 #' @export
 chartExtract <- function(chart,
                          keyset.select = NA,
-                         keyset = NA) {
-  chart.bcst <- diffBroadcast(chart)
+                         keyset = NA,
+                         ignore.types = c('lnotel')) {
+  chart.bcst <- diffBroadcast(chart, ignore.types = ignore.types)
   chart.ext <- merge(chart.bcst,
                      chartFngMapping(
                        keyset.select = keyset.select,

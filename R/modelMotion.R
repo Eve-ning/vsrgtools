@@ -49,18 +49,15 @@ model.motion <- function(chart.ext,
   }
   chart.ext %<>%
     # Suppress graces
-    dplyr::mutate(diffs.invs =
-                  dplyr::if_else(
-                    # Condition
-                    (.data$diffs >= suppress.threshold) &
-                      (.data$directions != 'jack'),
-                    # Inverse Function
-                    1/.data$diffs,
-                    # Suppress Function
-                    1/abs(((.data$diffs - suppress.threshold)
-                           * suppress.scale)
-                          - suppress.threshold)
-                         ))
+    dplyr::mutate(
+      diffs.invs =
+        dplyr::if_else(
+          # Condition
+          (.data$diffs >= suppress.threshold) & (.data$directions != 'jack'),
+          # Inverse Function
+          1/.data$diffs,
+          # Suppress Function
+          1/abs(((.data$diffs - suppress.threshold) * suppress.scale) - suppress.threshold)))
 
   # Summarize here
   suppressWarnings({
@@ -73,6 +70,7 @@ model.motion <- function(chart.ext,
     dplyr::mutate(
       # This is a custom made variable, a combo of
       # reflections and distances
+      # rfls.dist roughly represent how hard is a pair to execute
       rfls.dist = .data$rfls * 8 + .data$distances,
       values = .data$rfls.dist * .data$weights * .data$diffs.invs
     ) %>%
