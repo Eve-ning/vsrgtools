@@ -15,7 +15,6 @@ using namespace Rcpp;
 //' @param window a double indicating the window of the check
 //' @param is_sorted a boolean indicating if the vectors are sorted
 //' , if they aren't, they will be sorted.
-
 //' @export
 // [[Rcpp::plugins("cpp11")]]
 // [[Rcpp::export(name=".cppModelDensity")]]
