@@ -1,4 +1,5 @@
 #include <Rcpp.h>
+#include "modelDensity.h"
 #include <algorithm>
 using namespace Rcpp;
 
@@ -21,7 +22,7 @@ using namespace Rcpp;
 NumericVector cppModelDensity(NumericVector unq_offsets,
                               NumericVector obj_offsets,
                               double window,
-                              bool is_sorted = false) {
+                              bool is_sorted) {
 
   // Sort them if they are not sorted
   if (!is_sorted){
