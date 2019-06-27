@@ -3,7 +3,7 @@
 .dflt.dns.mapping <- function() {
   return(
     data.frame(
-      types = c('lnoteh', 'lnotel', 'm.lnoteh', 'm.lnotel', 'note'),
+      types = c('lnoteh', 'lnotel', 'm.lnote', 'm.lnotel', 'note'),
       weights = rep(1,5)
     )
   )

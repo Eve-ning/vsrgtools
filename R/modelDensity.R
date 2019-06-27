@@ -46,10 +46,6 @@ model.density <- function(chart, window = 1000,
     }
   }
 
-  chart %<>%
-    dplyr::select(.data$keys, .data$offsets, .data$types, .data$len) %>%
-    dplyr::distinct()
-
   unq.offsets <- unique(chart$offsets)
   chart <- split(chart, chart$types, drop = T)
 
@@ -82,3 +78,9 @@ model.density <- function(chart, window = 1000,
   return(chart)
 }
 
+# d <- osutools::calculateDifficulty(chart.path = '../osutools_test/src/r/osu/7/Koxx - A Fool Moon Night (X_Deviluke_X) [Hard Lv.150].osu',
+#                               keyset.select = '7R')
+
+# require(osutools)
+# d <- chartParse("../osutools_test/src/r/osu/7/Koxx - A Fool Moon Night (X_Deviluke_X) [Hard Lv.150].osu")
+# d.dns <- model.density(d)
