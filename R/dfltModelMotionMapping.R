@@ -4,7 +4,8 @@
   return(
     data.frame(
       directions = c('across', 'in', 'out', 'jack'),
-      weights = c(0.7, 1, 1.3, 3.0)
+      weights = c(0.7, 1, 1.3, 3.0),
+      stringsAsFactors = F
     )
   )
 }

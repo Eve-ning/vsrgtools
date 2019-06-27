@@ -118,7 +118,7 @@ calculateDifficulty <- function(chart.path = NA,
                                 dns.note.weight = 1,
                                 dns.lnoteh.weight = 1,
                                 dns.lnotel.weight = 1,
-                                dns.m.lnoteh.weight = 1,
+                                dns.m.lnote.weight = 1,
                                 dns.m.lnotel.weight = 1,
                                 decay.ms = 0.5,
                                 stress.init = 0,
@@ -161,11 +161,11 @@ calculateDifficulty <- function(chart.path = NA,
                          mini.ln.tail.drop = dns.mini.ln.tail.drop,
                          types.mapping =
                            data.frame(
-                             types = c('note', 'lnoteh', 'lnotel', 'm.lnoteh', 'm.lnotel'),
+                             types = c('note', 'lnoteh', 'lnotel', 'm.lnote', 'm.lnotel'),
                              weights = c(dns.note.weight,
                                          dns.lnoteh.weight,
                                          dns.lnotel.weight,
-                                         dns.m.lnoteh.weight,
+                                         dns.m.lnote.weight,
                                          dns.m.lnotel.weight)
                            )
                          )

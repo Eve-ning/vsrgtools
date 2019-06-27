@@ -80,7 +80,7 @@ model.density <- function(chart, window = 1000,
 
 # d <- osutools::calculateDifficulty(chart.path = '../osutools_test/src/r/osu/7/Koxx - A Fool Moon Night (X_Deviluke_X) [Hard Lv.150].osu',
 #                               keyset.select = '7R')
-
+#
 # require(osutools)
 # d <- chartParse("../osutools_test/src/r/osu/7/Koxx - A Fool Moon Night (X_Deviluke_X) [Hard Lv.150].osu")
 # d.dns <- model.density(d)
