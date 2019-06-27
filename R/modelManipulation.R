@@ -1,38 +1,50 @@
+#' A model that detects manipulatability in charts
+#'
+#' @description Manipulation is where certain notes
+#' can be played in an incorrect order while still
+#' maintaining a good accuracy and judgement.
+#'
+#' This model aims to look at surrounding notes, if
+#' their placement don't vary much, this will give
+#' it a higher rating.
+#'
+# <export here>
+
 library(osutools)
 library(ggplot2)
-
-
-j <- calculateDifficulty(
-  "../osutools_test/src/r/osu/4/DJ Myosuke & Noizenecio - Architecture (Mat) [Mat's 4k DEATH].osu",
-  keyset.select = '4',
-  sim.bin.size = 100)
-
-ggplot(d$model) +
-  aes(bins, values) +
-  geom_line()
-
-
-chart <- chartParse("../osutools_test/src/r/osu/4/DJ Myosuke & Noizenecio - Architecture (Mat) [Mat's 4k DEATH].osu")
-
-
 require(dplyr)
 require(magrittr)
 require(reshape2)
-d <- chart %>%
-  filter(!types %in% c("lnotel")) %>%
-  mutate(types = 1) %>%
-  dcast(offsets ~ keys,value.var = "types",fill = 0) %>%
-  mutate(bins = (offsets %/% 500) * 500) %>%
-  select(-offsets) %>%
-  group_by(bins) %>%
-  summarize_all(sum) %>%
-  melt(id.vars = 1, variable.name = "keys") %>%
-  group_by(bins) %>%
-  summarize(manips = var(value))
+require(Rcpp)
 
-ggplot(d) +
-  aes(bins, manips) +
-  geom_smooth(span = 0.15, se = F) +
-  geom_smooth(span = 0.15, method = 'loess', data = j$model, aes(bins, values/50), se=F,
-              color = 'red')
+model.manip <- function(){
+  chart <- chartParse("../osutools_test/src/r/osu/4/Camellia - Bassline Yatteru w (Lude) [w].osu")
+
+  Rcpp::sourceCpp("src/modelManipulation.cpp")
+  unq.offsets <- unique(chart$offsets)
+  d <- chart %>%
+    filter(!types %in% c("lnotel")) %>%
+    mutate(types = 1) %>%
+    split(x = .,f = .$keys)
+
+
+  e <- cppModelManipulation(unq.offsets, d)
+  colnames(e) <- 's'
+    # mutate(bins = (offsets %/% 250) * 250) %>%
+    # select(-offsets) %>%
+    # group_by(bins) %>%
+    # summarize_all(sum) %>%
+    # melt(id.vars = 1, variable.name = "keys") %>%
+    # group_by(bins) %>%
+    # summarize(manips = var(value))
+
+  osutools::.cppModelDensity
+  ggplot(d) +
+    aes(bins, manips) +
+    geom_smooth(span = 0.15, se = F) +
+    geom_smooth(span = 0.15, method = 'loess', data = j$model, aes(bins, values/50), se=F,
+                color = 'red')
+
+}
+
 
