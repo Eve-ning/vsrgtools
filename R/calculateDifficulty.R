@@ -85,6 +85,15 @@
 #' model.sim bin.size
 #' Refer to ?model.sim
 #'
+#' @return Returns a list of calculated models
+#'
+#' sim: Simulated, model: merged model, ...
+#' @examples
+#' calculateDifficulty(chart.path = "../7Kdifficulty.osu",
+#' keyset.select = '7R')
+#'
+#' calculateDifficulty(chart.path = "../4Kdifficulty.osu",
+#' keyset.select = '4')
 #' @importFrom magrittr %<>%
 #' @importFrom dplyr mutate
 #' @importFrom rlang .data

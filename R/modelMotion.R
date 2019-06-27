@@ -31,6 +31,9 @@
 #' If NA, .dflt.model.motion.mapping will be used
 #' @param ignore.jacks A logical indicating if jacks should
 #' be ignored
+#'
+#' @return Returns a data.frame compatible with model.sim
+#'
 #' @importFrom magrittr %<>% %>%
 #' @importFrom dplyr filter mutate if_else
 #' @importFrom rlang .data

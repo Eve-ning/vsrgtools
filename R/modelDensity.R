@@ -20,6 +20,8 @@
 #'
 #' If NA, .dflt.model.density.mapping will be used
 #'
+#' @return Returns a data.frame compatible with model.sim
+#'
 #' @importFrom dplyr bind_rows mutate distinct filter
 #' @importFrom magrittr %<>%
 #' @importFrom rlang .data

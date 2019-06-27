@@ -128,6 +128,18 @@ Refer to ?model.sim}
 model.sim bin.size
 Refer to ?model.sim}
 }
+\value{
+Returns a list of calculated models
+
+sim: Simulated, model: merged model, ...
+}
 \description{
 Calculates difficulty using stressSim
+}
+\examples{
+calculateDifficulty(chart.path = "../7Kdifficulty.osu",
+keyset.select = '7R')
+
+calculateDifficulty(chart.path = "../4Kdifficulty.osu",
+keyset.select = '4')
 }

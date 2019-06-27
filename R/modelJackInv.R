@@ -4,6 +4,8 @@
 #' the difference between equal keys.froms and keys.tos
 #' @param chart.ext The chart generated from diffBroadcast
 #'
+#' @return Returns a data.frame compatible with model.sim
+#'
 #' @importFrom magrittr %<>% %>%
 #' @importFrom dplyr mutate filter select rename
 #' @importFrom rlang .data

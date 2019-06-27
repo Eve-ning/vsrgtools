@@ -33,6 +33,9 @@ If NA, .dflt.model.motion.mapping will be used}
 \item{ignore.jacks}{A logical indicating if jacks should
 be ignored}
 }
+\value{
+Returns a data.frame compatible with model.sim
+}
 \description{
 This uses diffBroadcast and createMoveMapping
 to summarize the occurences of different patterns.

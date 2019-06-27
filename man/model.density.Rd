@@ -4,11 +4,11 @@
 \alias{model.density}
 \title{Static Model generator for Density}
 \usage{
-model.density(chart.ext, window = 1000, mini.ln.parse = T,
+model.density(chart, window = 1000, mini.ln.parse = T,
   mini.ln.threshold = 150, mini.ln.tail.drop = T, types.mapping = NA)
 }
 \arguments{
-\item{chart.ext}{The chart generated from chartExtract}
+\item{chart}{The chart generated from chartParse}
 
 \item{window}{The window to check for objects}
 
@@ -27,6 +27,9 @@ output types to generate weights.
 It must only hold the columns types and weights
 
 If NA, .dflt.model.density.mapping will be used}
+}
+\value{
+Returns a data.frame compatible with model.sim
 }
 \description{
 Density is not meant to be a representation

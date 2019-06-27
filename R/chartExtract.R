@@ -11,6 +11,8 @@
 #' @param ignore.types Types of notes to ignore
 #'
 #' ?diffBroadcast for more details
+#' @return Returns a data.frame compatible with
+#' models
 #' @export
 chartExtract <- function(chart,
                          keyset.select = NA,
