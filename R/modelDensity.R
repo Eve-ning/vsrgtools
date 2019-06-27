@@ -23,7 +23,7 @@
 #' @return Returns a data.frame compatible with model.sim
 #'
 #' @importFrom dplyr bind_rows mutate distinct filter
-#' @importFrom magrittr %<>%
+#' @importFrom magrittr %<>% %>%
 #' @importFrom rlang .data
 #'
 #' @export
@@ -47,20 +47,10 @@ model.density <- function(chart, window = 1000,
   }
 
   unq.offsets <- unique(chart$offsets)
-  chart <- split(chart, chart$types, drop = T)
-
-  # We will use the .cpp function by types
-  for (x in 1:length(chart)){
-    counts <- .cppModelDensity(unq.offsets, chart[[x]]$offsets, window)
-    chart[[x]] <- data.frame(
-      counts = counts,
-      offsets = unq.offsets,
-      types = names(chart[x]),
-      stringsAsFactors = F
-    )
-  }
-
-  chart <- dplyr::bind_rows(chart)
+  chart %<>%
+    split(chart$types, drop = T) %>%
+    .cppModelDensity(unq.offsets, .data$., window, F) %>%
+    dplyr::bind_rows(.id = "types")
 
   # Summarize here
   suppressWarnings({
