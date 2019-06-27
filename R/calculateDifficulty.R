@@ -171,5 +171,9 @@ calculateDifficulty <- function(chart.path = NA,
                    dns.pow = dns.pow,
                    bin.size = sim.bin.size)
 
-  return(list("sim" = sim$sim, "model" = sim$model))
+  return(list("sim" = sim$sim,
+              "model" = sim$model,
+              "jck" = m.jck,
+              "mtn" = m.mtn,
+              "dns" = m.dns))
 }
