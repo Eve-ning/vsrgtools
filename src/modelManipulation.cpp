@@ -1,34 +1,25 @@
 #include <Rcpp.h>
-#include "modelDensity.h"
+#include "countForward.h"
 using namespace Rcpp;
-
 
 //' Helps model.manipulation in speeding up operations
 //'
-// [[Rcpp::export(name="cppModelManipulation")]]
-List cppModelManipulation(NumericVector offsets,
-                          List obj_offsets){
+//' @description Calculates how many notes in front of
+//' window
+//'
+//'
+// [[Rcpp::export(name=".cppModelManipulation")]]
+List cppModelManipulation(NumericVector unq_offsets,
+                          List obj_offsets,
+                          double window = 200,
+                          bool is_sorted = false){
 
-  List out = List::create(_["offsets"] = offsets);
+  List out = List::create(_["offsets"] = unq_offsets);
 
   for(int i=0; i<obj_offsets.length(); i++) {
     DataFrame index = as<DataFrame>(obj_offsets[i]);
-    out.push_back(cppModelDensity(offsets, index["offsets"], 1000, false));
+    out.push_back(cppCountForward(unq_offsets, index["offsets"], window, is_sorted));
   }
 
   return out;
-  //
-  // DataFrame groups(df.attr("groups"));
-  // List rows = groups[groups.size()-1];
-  // std::cout << groups.size()-1;
-  // int n = groups.nrow();
-  // List out;
-  //
-  //
-  //
-  // for(int i=0; i<n; i++) {
-  //   NumericVector index = rows[i];
-  //   out.push_back(cppModelDensity(offsets, index, 1000, false));
-  // }
-  // return out;
 }
