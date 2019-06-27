@@ -101,19 +101,13 @@ chartFngMapping <- function(keyset.select=NA,
   # Merges both data.frames together
   mergeMapping <- function(mapping, keyset) {
     mapping %<>%
-      merge(keyset,
-            by.x = 'fngs.froms',
-            by.y = 'fingers')
+      merge(keyset, by.x = 'fngs.froms', by.y = 'fingers')
     colnames(mapping)[ncol(mapping)] <- "keys.froms"
+
     mapping %<>%
-      merge(keyset,
-            by.x = 'fngs.tos',
-            by.y = 'fingers')
+      merge(keyset, by.x = 'fngs.tos', by.y = 'fingers')
     colnames(mapping)[ncol(mapping)] <- "keys.tos"
 
-    # We will return all due to move naming, which is easier
-    # to work with with finger chars
-    # mapping <- mapping[3:5] # Return only the required columns.
     return(mapping)
   }
 
