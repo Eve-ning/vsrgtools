@@ -65,6 +65,11 @@
 #' @param dns.m.lnotel.weight A numeric indicating the
 #' weight of the 'm.lnotel' density weight
 #' Refer to ?model.density
+#' @param mnp.window A numeric indicating the window to check for bias
+#' Refer to ?model.manipulation
+#' @param mnp.bias.power A numeric indicating the intensity to suppress lower
+#' biases
+#' Refer to ?model.manipulation
 #' @param decay.ms A numeric indicating the decay of
 #' stress per ms
 #' Refer to ?model.sim
@@ -98,34 +103,36 @@
 #' @importFrom dplyr mutate
 #' @importFrom rlang .data
 #' @export
-calculateDifficulty <- function(chart.path = NA,
-                                chart.lines = NA,
-                                chart.rate = 1.0,
-                                keyset.select = '4',
-                                keyset = NA,
-                                mtn.suppress = T,
+calculateDifficulty <- function(chart.path             = NA,
+                                chart.lines            = NA,
+                                chart.rate             = 1.0,
+                                keyset.select          = '4',
+                                keyset                 = NA,
+                                mtn.suppress           = T,
                                 mtn.suppress.threshold = 50,
-                                mtn.suppress.scale = 2.0,
-                                mtn.ignore.jacks = T,
-                                mtn.across.weight = 0.7,
-                                mtn.in.weight = 1.0,
-                                mtn.out.weight = 1.3,
-                                mtn.jack.weight = 3.0,
-                                dns.window = 1000,
-                                dns.mini.ln.parse = T,
-                                dns.mini.ln.threshold = 150,
-                                dns.mini.ln.tail.drop = T,
-                                dns.note.weight = 1,
-                                dns.lnoteh.weight = 1,
-                                dns.lnotel.weight = 1,
-                                dns.m.lnote.weight = 1,
-                                dns.m.lnotel.weight = 1,
-                                decay.ms = 0.5,
-                                stress.init = 0,
-                                jck.pow = 1.0,
-                                mtn.pow = 1.0,
-                                dns.pow = 1.0,
-                                sim.bin.size = 5000) {
+                                mtn.suppress.scale     = 2.0,
+                                mtn.ignore.jacks       = T,
+                                mtn.across.weight      = 0.7,
+                                mtn.in.weight          = 1.0,
+                                mtn.out.weight         = 1.3,
+                                mtn.jack.weight        = 3.0,
+                                dns.window             = 1000,
+                                dns.mini.ln.parse      = T,
+                                dns.mini.ln.threshold  = 150,
+                                dns.mini.ln.tail.drop  = T,
+                                dns.note.weight        = 1,
+                                dns.lnoteh.weight      = 1,
+                                dns.lnotel.weight      = 1,
+                                dns.m.lnote.weight     = 1,
+                                dns.m.lnotel.weight    = 1,
+                                mnp.window             = 1000,
+                                mnp.bias.power         = 2,
+                                decay.ms               = 0.5,
+                                stress.init            = 0,
+                                jck.pow                = 1.0,
+                                mtn.pow                = 1.0,
+                                dns.pow                = 1.0,
+                                sim.bin.size           = 5000) {
   chart <- chartParse(chart.path = chart.path,
                       chart.lines = chart.lines)
 
@@ -170,9 +177,14 @@ calculateDifficulty <- function(chart.path = NA,
                            )
                          )
 
+  m.mnp <- model.manipulation(chart,
+                              window = mnp.window,
+                              bias.power = mnp.bias.power)
+
   sim <- model.sim(m.jck,
                    m.mtn,
                    m.dns,
+                   m.mnp,
                    decay.ms = decay.ms,
                    stress.init = stress.init,
                    jck.pow = jck.pow,
@@ -184,5 +196,6 @@ calculateDifficulty <- function(chart.path = NA,
               "model" = sim$model,
               "jck" = m.jck,
               "mtn" = m.mtn,
-              "dns" = m.dns))
+              "dns" = m.dns,
+              "mnp" = m.mnp))
 }
