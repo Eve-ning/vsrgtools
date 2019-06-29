@@ -49,7 +49,7 @@ model.density <- function(chart, window = 1000,
   unq.offsets <- unique(chart$offsets)
   chart %<>%
     split(chart$types, drop = T) %>%
-    .cppModelDensity(unq.offsets, .data$., window, F) %>%
+    .cppModelDensity(unq.offsets, ., window, F) %>%
     dplyr::bind_rows(.id = "types")
 
   # Summarize here
