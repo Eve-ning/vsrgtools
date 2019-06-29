@@ -17,33 +17,34 @@ require(magrittr)
 require(reshape2)
 require(Rcpp)
 
-model.manip <- function(){
-  chart <- chartParse("../osutools_test/src/r/osu/4/Camellia - Bassline Yatteru w (Lude) [w].osu")
-
+model.manip <- function(chart,
+                        window = 1000){
   Rcpp::sourceCpp("src/modelManipulation.cpp")
+  chart <- chartParse("../osutools_test/src/r/osu/4/DJ Myosuke & Noizenecio - Architecture (Mat) [Mat's 4k DEATH].osu")
+
   unq.offsets <- unique(chart$offsets)
-  d <- chart %>%
-    filter(!types %in% c("lnotel")) %>%
-    mutate(types = 1) %>%
+  chart %<>%
+    dplyr::filter(!.data$types %in% c("lnotel")) %>%
+    dplyr::mutate(types = 1) %>%
     split(x = .,f = .$keys)
 
+  # The idea of a window is so that manipulatible notes are grouped together
+  # This is also the reason why we cap the counts at 1
+  chart.count <- as.data.frame(.cppModelManipulation(unq.offsets,
+                                                     chart,
+                                                     window = window,
+                                                     is_sorted = F))
+  chart.count %<>%
+    magrittr::set_colnames(c("offsets", 1:(ncol(.) - 1))) %>%
+    reshape2::melt(id.vars = 1, variable.name = "keys", value.name = "counts") %>%
+    dplyr::group_by(.data$offsets) %>%
+    dplyr::summarise(variance =  1 / (var(.data$counts) ** 2 + 1))
 
-  e <- cppModelManipulation(unq.offsets, d)
-  colnames(e) <- 's'
-    # mutate(bins = (offsets %/% 250) * 250) %>%
-    # select(-offsets) %>%
-    # group_by(bins) %>%
-    # summarize_all(sum) %>%
-    # melt(id.vars = 1, variable.name = "keys") %>%
-    # group_by(bins) %>%
-    # summarize(manips = var(value))
-
-  osutools::.cppModelDensity
-  ggplot(d) +
-    aes(bins, manips) +
-    geom_smooth(span = 0.15, se = F) +
-    geom_smooth(span = 0.15, method = 'loess', data = j$model, aes(bins, values/50), se=F,
-                color = 'red')
+  require(ggplot2)
+  ggplot(f) +
+    aes(offsets, variance) +
+    geom_smooth(span = 0.1, method = 'loess') +
+    geom_line(alpha = 0.3)
 
 }
 
