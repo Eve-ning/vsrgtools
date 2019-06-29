@@ -47,10 +47,17 @@ model.density <- function(chart, window = 1000,
   }
 
   unq.offsets <- unique(chart$offsets)
+  # Lists are sorted alphabetically, this is required for colnames
+  types.names <- sort(unique(chart$types))
+
   chart %<>%
     split(chart$types, drop = T) %>%
     .cppModelDensity(unq.offsets, ., window, F) %>%
-    dplyr::bind_rows(.id = "types")
+    dplyr::bind_rows() %>%
+    # Need to do a roundabout way to name the columns
+    magrittr::set_colnames(c("offsets", types.names)) %>%
+    reshape2::melt(id.vars = 1, variable.name = 'types', value.name = 'counts')
+
 
   # Summarize here
   suppressWarnings({
