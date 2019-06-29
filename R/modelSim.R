@@ -18,23 +18,24 @@
 #' @importFrom purrr reduce
 #' @export
 
-model.sim <- function(m.jck, m.mtn, m.dns,
+model.sim <- function(m.jck, m.mtn, m.dns, m.mnp,
                       jck.pow, mtn.pow, dns.pow,
                       decay.ms = 0.5,
                       stress.init = 0,
                       bin.size = 5000){
 
   # This joins all models
-  model <- list(m.jck, m.mtn, m.dns) %>%
+  model <- list(m.jck, m.mtn, m.dns, m.mnp) %>%
     purrr::reduce(dplyr::left_join, by = 'offsets') %>%
     dplyr::rename(jck.vals = 2,
                   mtn.vals = 3,
-                  dns.vals = 4) %>%
+                  dns.vals = 4,
+                  mnp.vals = 5) %>%
     dplyr::mutate(bins = (.data$offsets %/% bin.size) * bin.size,
                   values =
-                    ((.data$mtn.vals * 10) + 1) ** mtn.pow +
+                    (((.data$mtn.vals * 10) + 1) ** mtn.pow +
                     (.data$dns.vals + 1) ** dns.pow +
-                    ((.data$jck.vals * 1000) + 1) ** jck.pow)
+                    ((.data$jck.vals * 1000) + 1) ** jck.pow) * .data$mnp.vals)
 
   # Simulation is done before binning
   sim <- .cppSimulateKey(model$offsets,
