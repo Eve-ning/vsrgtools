@@ -12,9 +12,9 @@ calculateDifficulty(chart.path = NA, chart.lines = NA,
   mtn.jack.weight = 3, dns.window = 1000, dns.mini.ln.parse = T,
   dns.mini.ln.threshold = 150, dns.mini.ln.tail.drop = T,
   dns.note.weight = 1, dns.lnoteh.weight = 1, dns.lnotel.weight = 1,
-  dns.m.lnote.weight = 1, dns.m.lnotel.weight = 1, decay.ms = 0.5,
-  stress.init = 0, jck.pow = 1, mtn.pow = 1, dns.pow = 1,
-  sim.bin.size = 5000)
+  dns.m.lnote.weight = 1, dns.m.lnotel.weight = 1, mnp.window = 1000,
+  mnp.bias.power = 2, decay.ms = 0.5, stress.init = 0, jck.pow = 1,
+  mtn.pow = 1, dns.pow = 1, sim.bin.size = 5000)
 }
 \arguments{
 \item{chart.path}{Path to chart}
@@ -99,6 +99,13 @@ Refer to ?model.density}
 \item{dns.m.lnotel.weight}{A numeric indicating the
 weight of the 'm.lnotel' density weight
 Refer to ?model.density}
+
+\item{mnp.window}{A numeric indicating the window to check for bias
+Refer to ?model.manipulation}
+
+\item{mnp.bias.power}{A numeric indicating the intensity to suppress lower
+biases
+Refer to ?model.manipulation}
 
 \item{decay.ms}{A numeric indicating the decay of
 stress per ms
