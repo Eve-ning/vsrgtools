@@ -23,8 +23,9 @@
 #' @return Returns a data.frame compatible with model.sim
 #'
 #' @importFrom dplyr bind_rows mutate distinct filter
-#' @importFrom magrittr %<>% %>%
+#' @importFrom magrittr %<>% %>% set_colnames
 #' @importFrom rlang .data
+#' @importFrom reshape2 melt
 #'
 #' @export
 
@@ -57,7 +58,6 @@ model.density <- function(chart, window = 1000,
     # Need to do a roundabout way to name the columns
     magrittr::set_colnames(c("offsets", types.names)) %>%
     reshape2::melt(id.vars = 1, variable.name = 'types', value.name = 'counts')
-
 
   # Summarize here
   suppressWarnings({
