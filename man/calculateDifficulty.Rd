@@ -2,7 +2,7 @@
 % Please edit documentation in R/calculateDifficulty.R
 \name{calculateDifficulty}
 \alias{calculateDifficulty}
-\title{Calculates difficulty using stressSim}
+\title{Processes the file into difficulty models.}
 \usage{
 calculateDifficulty(chart.path = NA, chart.lines = NA,
   chart.rate = 1, chart.keyset.select = "4", chart.keyset = NA,
@@ -110,6 +110,11 @@ density weight.
 
 Refer to ?model.density}
 
+\item{dns.m.lnote.weight}{A numeric indicating the weight of the 'm.lnote'
+density weight.
+
+Refer to ?model.density}
+
 \item{dns.m.lnotel.weight}{A numeric indicating the weight of the 'm.lnotel'
 density weight.
 
@@ -148,11 +153,6 @@ Refer to ?model.sim}
 \item{sim.bin.size}{A numeric indicating the size of model.sim bin size.
 
 Refer to ?model.sim}
-
-\item{dns.m.lnoteh.weight}{A numeric indicating the weight of the 'm.lnoteh'
-density weight.
-
-Refer to ?model.density}
 }
 \value{
 Returns a list of calculated models
@@ -160,13 +160,9 @@ Returns a list of calculated models
 sim: Simulated, model: merged model, ...
 }
 \description{
-Calculates difficulty using stressSim
-}
-\examples{
 calculateDifficulty(chart.path = "../7Kdifficulty.osu",
 chart.keyset.select = '7R')
 
 calculateDifficulty(chart.path = "../4Kdifficulty.osu",
 chart.keyset.select = '4')
-
 }

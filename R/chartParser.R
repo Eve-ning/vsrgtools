@@ -26,7 +26,7 @@ chartParse <- function(chart.path = NA,
       chart <- readLines(chart.f)
       close(chart.f)
     }
-    else { top("Both Arguments cannot be empty") }
+    else { stop("Both Arguments cannot be empty") }
     return(chart)
   }
 

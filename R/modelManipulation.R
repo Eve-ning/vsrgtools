@@ -21,6 +21,7 @@
 #' @importFrom dplyr filter mutate group_by summarise
 #' @importFrom rlang .data
 #' @importFrom reshape2 melt
+#' @importFrom stats var
 #'
 #' @export
 
@@ -36,7 +37,7 @@ model.manipulation <- function(chart,
   chart %<>%
     dplyr::filter(!.data$types %in% ignore.types) %>%
     dplyr::mutate(types = 1) %>%
-    split(x = .,f = .$keys)
+    split(x = .data$.,f = .$keys)
 
   # The idea of a window is so that we can find biases on columns
   # If the bias is high, the variance will be high, so it's less
@@ -52,7 +53,8 @@ model.manipulation <- function(chart,
     # Essentially 1 / (Variance ** Power + 1)
     # + 1 is so that the value doesn't jump above 1.0 this helps it go in line
     # with other keys
-    dplyr::summarise(values = 1 - (1 / (var(.data$counts) ** bias.power + 1)))
+    dplyr::summarise(values =
+                       1 - (1 / (stats::var(.data$counts) ** bias.power + 1)))
 
   return(chart.count)
 }

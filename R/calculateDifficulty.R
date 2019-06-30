@@ -1,4 +1,12 @@
-#' Calculates difficulty using stressSim
+#' Processes the file into difficulty models.
+#'
+#' @description
+#'
+#' calculateDifficulty(chart.path = "../7Kdifficulty.osu",
+#' chart.keyset.select = '7R')
+#'
+#' calculateDifficulty(chart.path = "../4Kdifficulty.osu",
+#' chart.keyset.select = '4')
 #'
 #' @param chart.path Path to chart
 #' @param chart.lines ReadLines on the path
@@ -72,7 +80,7 @@
 #' density weight.
 #'
 #' Refer to ?model.density
-#' @param dns.m.lnoteh.weight A numeric indicating the weight of the 'm.lnoteh'
+#' @param dns.m.lnote.weight A numeric indicating the weight of the 'm.lnote'
 #' density weight.
 #'
 #' Refer to ?model.density
@@ -109,13 +117,6 @@
 #' @return Returns a list of calculated models
 #'
 #' sim: Simulated, model: merged model, ...
-#' @examples
-#' calculateDifficulty(chart.path = "../7Kdifficulty.osu",
-#' chart.keyset.select = '7R')
-#'
-#' calculateDifficulty(chart.path = "../4Kdifficulty.osu",
-#' chart.keyset.select = '4')
-#'
 #' @importFrom magrittr %<>%
 #' @importFrom dplyr mutate
 #' @importFrom rlang .data

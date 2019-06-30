@@ -56,7 +56,7 @@ model.density <- function(chart, window = 1000,
 
   chart %<>%
     split(chart$types, drop = T) %>%
-    .cppModelDensity(unq.offsets, ., window, F) %>%
+    .cppModelDensity(unq.offsets, .data$., window, F) %>%
     dplyr::bind_rows() %>%
     # Need to do a roundabout way to name the columns
     magrittr::set_colnames(c("offsets", types.names)) %>%
