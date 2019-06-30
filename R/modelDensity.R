@@ -23,8 +23,9 @@
 #' @return Returns a data.frame compatible with model.sim
 #'
 #' @importFrom dplyr bind_rows mutate distinct filter
-#' @importFrom magrittr %<>%
+#' @importFrom magrittr %<>% %>% set_colnames
 #' @importFrom rlang .data
+#' @importFrom reshape2 melt
 #'
 #' @export
 
@@ -47,20 +48,16 @@ model.density <- function(chart, window = 1000,
   }
 
   unq.offsets <- unique(chart$offsets)
-  chart <- split(chart, chart$types, drop = T)
+  # Lists are sorted alphabetically, this is required for colnames
+  types.names <- sort(unique(chart$types))
 
-  # We will use the .cpp function by types
-  for (x in 1:length(chart)){
-    counts <- .cppModelDensity(unq.offsets, chart[[x]]$offsets, window)
-    chart[[x]] <- data.frame(
-      counts = counts,
-      offsets = unq.offsets,
-      types = names(chart[x]),
-      stringsAsFactors = F
-    )
-  }
-
-  chart <- dplyr::bind_rows(chart)
+  chart %<>%
+    split(chart$types, drop = T) %>%
+    .cppModelDensity(unq.offsets, ., window, F) %>%
+    dplyr::bind_rows() %>%
+    # Need to do a roundabout way to name the columns
+    magrittr::set_colnames(c("offsets", types.names)) %>%
+    reshape2::melt(id.vars = 1, variable.name = 'types', value.name = 'counts')
 
   # Summarize here
   suppressWarnings({

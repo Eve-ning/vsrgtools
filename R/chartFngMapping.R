@@ -8,17 +8,17 @@
 #' This can also be skipped if you're doing a custom
 #' mapping
 #'
-#' @param keyset.select A character vector based on
-#' type of keyset.
+#' @param chart.keyset.select A character vector based on
+#' type of chart.keyset.
 #'
-#' Either keyset or keyset.select must be defined
+#' Either chart.keyset or chart.keyset.select must be defined
 #'
-#' Valid Keyset.select values are
+#' Valid chart.keyset.select values are
 #'
 #' '4', '5L', '5R', '6', '7L', '7R',
 #' '8SPR', '8SPL','8SYM', '9L', '9R'
 #'
-#' Only 8K has special keysets
+#' Only 8K has special chart.keysets
 #'
 #' 8SYM: 8 Key Symmetry
 #'
@@ -26,9 +26,9 @@
 #'
 #' 8SPR: 8 Key Special (Right)
 #'
-#' @param keyset A data.frame based on type of keyset.
+#' @param chart.keyset A data.frame based on type of chart.keyset.
 #'
-#' Either keyset or keyset.select must be defined
+#' Either chart.keyset or chart.keyset.select must be defined
 #'
 #' Fingers are denoted as
 #' P|inky
@@ -39,7 +39,7 @@
 #'
 #' Column keys and fingers is required.
 #'
-#' An example of keyset would be
+#' An example of chart.keyset would be
 #'
 #' 7R = data.frame(keys = 1:7,
 #'                 fingers = c(2,3,4,6,7,8,9))
@@ -76,8 +76,8 @@
 #'
 #' @export
 
-chartFngMapping <- function(keyset.select=NA,
-                            keyset=NA,
+chartFngMapping <- function(chart.keyset.select=NA,
+                            chart.keyset=NA,
                             include.details=T){
 
   loadMapping <- function(mapping){
@@ -86,26 +86,26 @@ chartFngMapping <- function(keyset.select=NA,
     return(fngr)
   }
 
-  # Chooses between keyset or keyset.select, if both NA, stop()
-  loadKeyset <- function(keyset, keyset.select){
-    if (!is.na(keyset)){
-      return(keyset)
-    } else if (!is.na(keyset.select)){
-      move.keysets <- .dflt.move.keysets()
-      return(move.keysets[[keyset.select]])
+  # Chooses between chart.keyset or chart.keyset.select, if both NA, stop()
+  loadchart.keyset <- function(chart.keyset, chart.keyset.select){
+    if (!is.na(chart.keyset)){
+      return(chart.keyset)
+    } else if (!is.na(chart.keyset.select)){
+      move.chart.keysets <- .dflt.move.keysets()
+      return(move.chart.keysets[[chart.keyset.select]])
     } else {
-      stop("Either keyset or keyset.select must be defined.")
+      stop("Either chart.keyset or chart.keyset.select must be defined.")
     }
   }
 
   # Merges both data.frames together
-  mergeMapping <- function(mapping, keyset) {
+  mergeMapping <- function(mapping, chart.keyset) {
     mapping %<>%
-      merge(keyset, by.x = 'fngs.froms', by.y = 'fingers')
+      merge(chart.keyset, by.x = 'fngs.froms', by.y = 'fingers')
     colnames(mapping)[ncol(mapping)] <- "keys.froms"
 
     mapping %<>%
-      merge(keyset, by.x = 'fngs.tos', by.y = 'fingers')
+      merge(chart.keyset, by.x = 'fngs.tos', by.y = 'fingers')
     colnames(mapping)[ncol(mapping)] <- "keys.tos"
 
     return(mapping)
@@ -137,10 +137,10 @@ chartFngMapping <- function(keyset.select=NA,
   }
 
   move.mapping <- loadMapping()
-  move.keyset <- loadKeyset(keyset, as.character(keyset.select))
+  move.chart.keyset <- loadchart.keyset(chart.keyset, as.character(chart.keyset.select))
 
   move.mapping %<>%
-    mergeMapping(move.keyset)
+    mergeMapping(move.chart.keyset)
 
   if (include.details) {
       move.mapping %<>% getDetails()

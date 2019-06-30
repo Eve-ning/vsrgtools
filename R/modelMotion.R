@@ -23,14 +23,14 @@
 #' @param suppress.scale If suppress is True, this will
 #' expand the x range. In other words, smaller diffs will
 #' have a lower diffs.inv when this increases.
+#' @param ignore.jacks A logical indicating if jacks should
+#' be ignored
 #' @param directions.mapping A data.frame to be merged with
 #' the output directions to generate weights.
 #'
 #' It must hold the columns directions and weights
 #'
 #' If NA, .dflt.model.motion.mapping will be used
-#' @param ignore.jacks A logical indicating if jacks should
-#' be ignored
 #'
 #' @return Returns a data.frame compatible with model.sim
 #'
@@ -43,10 +43,10 @@ model.motion <- function(chart.ext,
                          suppress = T,
                          suppress.threshold = 50,
                          suppress.scale = 2.0,
-                         directions.mapping = NA,
-                         ignore.jacks = T){
+                         ignore.jacks = T,
+                         directions.mapping = NA){
 
-  if(ignore.jacks){
+  if (ignore.jacks){
     chart.ext %<>%
       dplyr::filter(.data$directions != 'jack')
   }
@@ -68,6 +68,7 @@ model.motion <- function(chart.ext,
       directions.mapping <- .dflt.mtn.mapping()
     }
   })
+
   chart.ext %<>%
     merge(directions.mapping, by = 'directions') %>%
     dplyr::mutate(
