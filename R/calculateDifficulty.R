@@ -3,11 +3,11 @@
 #' @param chart.path Path to chart
 #' @param chart.lines ReadLines on the path
 #' @param chart.rate The rate to judge the chart on
-#' @param keyset.select A character vector indicating
-#' the default keyset to map to the keys
+#' @param chart.keyset.select A character vector indicating
+#' the default chart.keyset to map to the keys
 #' Refer to ?chartFngMapping for more details
-#' @param keyset A custom data.frame indicating the
-#' default keyset to map to the keys
+#' @param chart.keyset A custom data.frame indicating the
+#' default chart.keyset to map to the keys
 #' Refer to ?chartFngMapping for more details
 #' @param mtn.suppress A logical indicating if small
 #' motions should be suppressed
@@ -70,19 +70,19 @@
 #' @param mnp.bias.power A numeric indicating the intensity to suppress lower
 #' biases
 #' Refer to ?model.manipulation
-#' @param decay.ms A numeric indicating the decay of
+#' @param sim.decay.ms A numeric indicating the decay of
 #' stress per ms
 #' Refer to ?model.sim
-#' @param stress.init A numeric indicating the starting
+#' @param sim.stress.init A numeric indicating the starting
 #' stress
 #' Refer to ?model.sim
-#' @param jck.pow A numeric indicating the power weight of the
+#' @param sim.jck.pow A numeric indicating the power weight of the
 #' Jack model
 #' Refer to ?model.sim
-#' @param mtn.pow A numeric indicating the power weight of the
+#' @param sim.mtn.pow A numeric indicating the power weight of the
 #' Motion model
 #' Refer to ?model.sim
-#' @param dns.pow A numeric indicating the power weight of the
+#' @param sim.dns.pow A numeric indicating the power weight of the
 #' Density model
 #' Refer to ?model.sim
 #'
@@ -95,10 +95,10 @@
 #' sim: Simulated, model: merged model, ...
 #' @examples
 #' calculateDifficulty(chart.path = "../7Kdifficulty.osu",
-#' keyset.select = '7R')
+#' chart.keyset.select = '7R')
 #'
 #' calculateDifficulty(chart.path = "../4Kdifficulty.osu",
-#' keyset.select = '4')
+#' chart.keyset.select = '4')
 #' @importFrom magrittr %<>%
 #' @importFrom dplyr mutate
 #' @importFrom rlang .data
@@ -106,8 +106,8 @@
 calculateDifficulty <- function(chart.path             = NA,
                                 chart.lines            = NA,
                                 chart.rate             = 1.0,
-                                keyset.select          = '4',
-                                keyset                 = NA,
+                                chart.keyset.select    = '4',
+                                chart.keyset           = NA,
                                 mtn.suppress           = T,
                                 mtn.suppress.threshold = 50,
                                 mtn.suppress.scale     = 2.0,
@@ -127,14 +127,14 @@ calculateDifficulty <- function(chart.path             = NA,
                                 dns.m.lnotel.weight    = 1,
                                 mnp.window             = 1000,
                                 mnp.bias.power         = 2,
-                                decay.ms               = 0.5,
-                                stress.init            = 0,
-                                jck.pow                = 1.0,
-                                mtn.pow                = 1.0,
-                                dns.pow                = 1.0,
+                                sim.decay.ms           = 0.5,
+                                sim.stress.init        = 0,
+                                sim.jck.pow            = 1.0,
+                                sim.mtn.pow            = 1.0,
+                                sim.dns.pow            = 1.0,
                                 sim.bin.size           = 5000) {
-  chart <- chartParse(chart.path = chart.path,
-                      chart.lines = chart.lines)
+
+  chart <- chartParse(chart.path, chart.lines)
 
   if (chart.rate > 0){
     chart %<>%
@@ -143,16 +143,16 @@ calculateDifficulty <- function(chart.path             = NA,
     stop("chart.rate must be positive")
   }
   chart.ext <- chartExtract(chart,
-                            keyset.select = keyset.select,
-                            keyset = keyset)
+                            chart.keyset.select,
+                            chart.keyset)
 
   m.jck <- model.jackInv(chart.ext)
 
   m.mtn <- model.motion(chart.ext,
-                        suppress = mtn.suppress,
-                        suppress.threshold = mtn.suppress.threshold,
-                        suppress.scale = mtn.suppress.scale,
-                        ignore.jacks = mtn.ignore.jacks,
+                        mtn.suppress,
+                        mtn.suppress.threshold,
+                        mtn.suppress.scale,
+                        mtn.ignore.jacks,
                         directions.mapping =
                           data.frame(
                             directions = c('across', 'in', 'out', 'jack'),
@@ -162,35 +162,34 @@ calculateDifficulty <- function(chart.path             = NA,
                                         mtn.jack.weight))
                         )
   m.dns <- model.density(chart,
-                         window = dns.window,
-                         mini.ln.parse = dns.mini.ln.parse,
-                         mini.ln.threshold = dns.mini.ln.threshold,
-                         mini.ln.tail.drop = dns.mini.ln.tail.drop,
+                         dns.window,
+                         dns.mini.ln.parse,
+                         dns.mini.ln.threshold,
+                         dns.mini.ln.tail.drop,
                          types.mapping =
                            data.frame(
-                             types = c('note', 'lnoteh', 'lnotel', 'm.lnote', 'm.lnotel'),
+                             types = c('note', 'lnoteh', 'lnotel',
+                                       'm.lnote', 'm.lnotel'),
                              weights = c(dns.note.weight,
                                          dns.lnoteh.weight,
                                          dns.lnotel.weight,
                                          dns.m.lnote.weight,
-                                         dns.m.lnotel.weight)
-                           )
-                         )
+                                         dns.m.lnotel.weight)))
 
   m.mnp <- model.manipulation(chart,
-                              window = mnp.window,
-                              bias.power = mnp.bias.power)
+                              mnp.window,
+                              mnp.bias.power)
 
   sim <- model.sim(m.jck,
                    m.mtn,
                    m.dns,
                    m.mnp,
-                   decay.ms = decay.ms,
-                   stress.init = stress.init,
-                   jck.pow = jck.pow,
-                   mtn.pow = mtn.pow,
-                   dns.pow = dns.pow,
-                   bin.size = sim.bin.size)
+                   sim.jck.pow,
+                   sim.mtn.pow,
+                   sim.dns.pow,
+                   sim.decay.ms,
+                   sim.stress.init,
+                   sim.bin.size)
 
   return(list("sim" = sim$sim,
               "model" = sim$model,
