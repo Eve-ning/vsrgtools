@@ -1,10 +1,11 @@
 #' Parses the chart into a data.frame
 #'
+#' @description
 #' Only .osu formats are supported for now.
 #'
 #' @param chart.path Path of the chart to be parsed
-#' @param chart.lines Lines of the chart to be parsed, if the chart
-#' is not in a file format
+#' @param chart.lines Lines of the chart to be parsed, if the chart is not in a
+#' file format
 #'
 #' @importFrom magrittr %<>% %>%
 #' @importFrom dplyr mutate filter mutate_if select
@@ -19,15 +20,13 @@ chartParse <- function(chart.path = NA,
                        chart.lines = NA){
 
   loadInput <- function(){
-    if (!is.na(chart.lines)) {
-      chart <- chart.lines
-    } else if (!is.na(chart.path)) {
+    if (!is.na(chart.lines)) { chart <- chart.lines }
+    else if (!is.na(chart.path)) {
       chart.f <- file(chart.path, open='r')
       chart <- readLines(chart.f)
       close(chart.f)
-    } else {
-      stop("Both Arguments cannot be empty")
     }
+    else { top("Both Arguments cannot be empty") }
     return(chart)
   }
 
@@ -35,8 +34,7 @@ chartParse <- function(chart.path = NA,
     f.extract <- function(chart) {
       cs.i <- pmatch('CircleSize:', chart)
       keys <- as.integer(substr(chart[cs.i],
-                                start = 12,
-                                stop = nchar(chart[cs.i])))
+                                start = 12, stop = nchar(chart[cs.i])))
       ho.i <- pmatch('[HitObjects]', chart)
       chart <- chart[ho.i+1:length(chart)]
       return(list("chart" = chart, "keys" = keys))
@@ -71,9 +69,7 @@ chartParse <- function(chart.path = NA,
 
       dplyr::mutate(types = ifelse(
                       .data$len != -1 & .data$types == 'note',
-                      'lnoteh', as.character(.data$types)
-                    )
-                   )
+                      'lnoteh', as.character(.data$types)))
 
 
     return(chart)

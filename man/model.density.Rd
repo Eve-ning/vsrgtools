@@ -12,17 +12,17 @@ model.density(chart, window = 1000, mini.ln.parse = T,
 
 \item{window}{The window to check for objects}
 
-\item{mini.ln.parse}{A logical indicating if miniLNs
-should be parsed separately}
+\item{mini.ln.parse}{A logical indicating if miniLNs should be parsed
+separately}
 
-\item{mini.ln.threshold}{A numeric indicating the
-threshold of LNs to be considered mini}
+\item{mini.ln.threshold}{A numeric indicating the threshold of LNs to be
+considered mini}
 
-\item{mini.ln.tail.drop}{Logical indicating if the
-miniLN Tail should be dropped.}
+\item{mini.ln.tail.drop}{Logical indicating if the miniLN Tail should be
+dropped.}
 
-\item{types.mapping}{A data.frame to be merged with the
-output types to generate weights.
+\item{types.mapping}{A data.frame to be merged with the output types to
+generate weights.
 
 It must only hold the columns types and weights
 
@@ -32,9 +32,9 @@ If NA, .dflt.model.density.mapping will be used}
 Returns a data.frame compatible with model.sim
 }
 \description{
-Density is not meant to be a representation
-of physical stress, instead it is for mental stress.
+Density is not meant to be a representation of physical stress,
+instead it is for mental stress.
 
-In other words, the density of objects within a certain
-time frame to be processed.
+In other words, the density of objects within a certain time frame to be
+processed.
 }

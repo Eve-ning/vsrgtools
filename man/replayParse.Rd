@@ -7,8 +7,7 @@
 replayParse(chart, replay.path, ignore.threshold = 100)
 }
 \arguments{
-\item{chart}{A **data.frame** that needs to have types, offsets,
-and keys}
+\item{chart}{A **data.frame** that needs to have types, offsets, and keys}
 
 \item{replay.path}{**Path** of the replay generated.}
 
@@ -16,7 +15,6 @@ and keys}
 be ignored.}
 }
 \description{
-Using proximity matching, data of the replay is
-joined with the chart, so we can tell what notes are the replay
-related to.
+Using proximity matching, data of the replay is joined with the
+chart, so we can tell what notes are the replay related to.
 }

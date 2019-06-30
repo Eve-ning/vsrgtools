@@ -5,7 +5,7 @@
 \title{Calculates difficulty using stressSim}
 \usage{
 calculateDifficulty(chart.path = NA, chart.lines = NA,
-  chart.rate = 1, keyset.select = "4", keyset = NA,
+  chart.rate = 1, chart.keyset.select = "4", chart.keyset = NA,
   mtn.suppress = T, mtn.suppress.threshold = 50,
   mtn.suppress.scale = 2, mtn.ignore.jacks = T,
   mtn.across.weight = 0.7, mtn.in.weight = 1, mtn.out.weight = 1.3,
@@ -13,8 +13,9 @@ calculateDifficulty(chart.path = NA, chart.lines = NA,
   dns.mini.ln.threshold = 150, dns.mini.ln.tail.drop = T,
   dns.note.weight = 1, dns.lnoteh.weight = 1, dns.lnotel.weight = 1,
   dns.m.lnote.weight = 1, dns.m.lnotel.weight = 1, mnp.window = 1000,
-  mnp.bias.power = 2, decay.ms = 0.5, stress.init = 0, jck.pow = 1,
-  mtn.pow = 1, dns.pow = 1, sim.bin.size = 5000)
+  mnp.bias.power = 2, sim.decay.ms = 0.5, sim.stress.init = 0,
+  sim.jck.pow = 1, sim.mtn.pow = 1, sim.dns.pow = 1,
+  sim.bin.size = 5000)
 }
 \arguments{
 \item{chart.path}{Path to chart}
@@ -23,116 +24,134 @@ calculateDifficulty(chart.path = NA, chart.lines = NA,
 
 \item{chart.rate}{The rate to judge the chart on}
 
-\item{keyset.select}{A character vector indicating
-the default keyset to map to the keys
+\item{chart.keyset.select}{A character vector indicating the default
+chart.keyset to map to the keys.
+
 Refer to ?chartFngMapping for more details}
 
-\item{keyset}{A custom data.frame indicating the
-default keyset to map to the keys
+\item{chart.keyset}{A custom data.frame indicating the default chart.keyset
+to map to the keys.
+
 Refer to ?chartFngMapping for more details}
 
-\item{mtn.suppress}{A logical indicating if small
-motions should be suppressed
+\item{mtn.suppress}{A logical indicating if small motions should be
+suppressed
+
 Refer to ?model.motion}
 
-\item{mtn.suppress.threshold}{A numeric indicating
-the threshold of what determines a "small motion"
+\item{mtn.suppress.threshold}{A numeric indicating the threshold of what
+determines a "small motion".
+
 Refer to ?model.motion}
 
-\item{mtn.suppress.scale}{A numeric indicating the
-power of suppression on small motions
+\item{mtn.suppress.scale}{A numeric indicating the power of suppression on
+small motions
+
 Refer to ?model.motion}
 
-\item{mtn.ignore.jacks}{A logical indicating if jacks
-should be ignored by mtn and handled separately by
-JackInv
+\item{mtn.ignore.jacks}{A logical indicating if jacks should be ignored by
+mtn and handled separately by JackInv
+
 Refer to ?model.motion}
 
-\item{mtn.across.weight}{A numeric indicating the
-weight of the 'across' motion weight
+\item{mtn.across.weight}{A numeric indicating the weight of the 'across'
+motion weight
+
 Refer to ?model.motion}
 
-\item{mtn.in.weight}{A numeric indicating the
-weight of the 'in' motion weight
+\item{mtn.in.weight}{A numeric indicating the weight of the 'in' motion
+weight
+
 Refer to ?model.motion}
 
-\item{mtn.out.weight}{A numeric indicating the
-weight of the 'out' motion weight
+\item{mtn.out.weight}{A numeric indicating the weight of the 'out' motion
+weight
+
 Refer to ?model.motion}
 
-\item{mtn.jack.weight}{A numeric indicating the
-weight of the 'jack' motion weight
+\item{mtn.jack.weight}{A numeric indicating the weight of the 'jack' motion
+weight
+
 Refer to ?model.motion}
 
-\item{dns.window}{A numeric indicating the window to
-check for density
-Refer to ?model.density}
-
-\item{dns.mini.ln.parse}{A logical indicating if mini
-Long Note should be parsed
-Refer to ?model.density}
-
-\item{dns.mini.ln.threshold}{A numeric indicating the
-threshold of what determines a "mini LN"
-Refer to ?model.density}
-
-\item{dns.mini.ln.tail.drop}{A logical indicating if
-mini LNs should be dropped.
-
-It is recommended to drop mini LNs for density
-calculation
+\item{dns.window}{A numeric indicating the window to check for density
 
 Refer to ?model.density}
 
-\item{dns.note.weight}{A numeric indicating the
-weight of the 'note' density weight
+\item{dns.mini.ln.parse}{A logical indicating if mini Long Note should be
+parsed.
+
 Refer to ?model.density}
 
-\item{dns.lnoteh.weight}{A numeric indicating the
-weight of the 'lnoteh' density weight
+\item{dns.mini.ln.threshold}{A numeric indicating the threshold of what
+determines a "mini LN".
+
 Refer to ?model.density}
 
-\item{dns.lnotel.weight}{A numeric indicating the
-weight of the 'lnotel' density weight
+\item{dns.mini.ln.tail.drop}{A logical indicating if mini LNs should be
+dropped.
+
+It is recommended to drop mini LNs for density calculation.
+
 Refer to ?model.density}
 
-\item{dns.m.lnotel.weight}{A numeric indicating the
-weight of the 'm.lnotel' density weight
+\item{dns.note.weight}{A numeric indicating the weight of the 'note' density
+weight.
+
 Refer to ?model.density}
 
-\item{mnp.window}{A numeric indicating the window to check for bias
+\item{dns.lnoteh.weight}{A numeric indicating the weight of the 'lnoteh'
+density weight.
+
+Refer to ?model.density}
+
+\item{dns.lnotel.weight}{A numeric indicating the weight of the 'lnotel'
+density weight.
+
+Refer to ?model.density}
+
+\item{dns.m.lnotel.weight}{A numeric indicating the weight of the 'm.lnotel'
+density weight.
+
+Refer to ?model.density}
+
+\item{mnp.window}{A numeric indicating the window to check for bias.
+
 Refer to ?model.manipulation}
 
 \item{mnp.bias.power}{A numeric indicating the intensity to suppress lower
-biases
+biases.
+
 Refer to ?model.manipulation}
 
-\item{decay.ms}{A numeric indicating the decay of
-stress per ms
+\item{sim.decay.ms}{A numeric indicating the decay of stress per ms.
+
 Refer to ?model.sim}
 
-\item{stress.init}{A numeric indicating the starting
-stress
+\item{sim.stress.init}{A numeric indicating the starting stress.
+
 Refer to ?model.sim}
 
-\item{jck.pow}{A numeric indicating the power weight of the
-Jack model
+\item{sim.jck.pow}{A numeric indicating the power weight of the Jack model.
+
 Refer to ?model.sim}
 
-\item{mtn.pow}{A numeric indicating the power weight of the
-Motion model
+\item{sim.mtn.pow}{A numeric indicating the power weight of the Motion model.
+
 Refer to ?model.sim}
 
-\item{dns.pow}{A numeric indicating the power weight of the
-Density model
+\item{sim.dns.pow}{A numeric indicating the power weight of the Density
+model.
+
 Refer to ?model.sim}
 
-\item{sim.bin.size}{A numeric indicating the size of
-model.sim bin.size
+\item{sim.bin.size}{A numeric indicating the size of model.sim bin size.
+
 Refer to ?model.sim}
 
-\item{dns.m.lnoteh.weight}{A numeric indicating the
-weight of the 'm.lnoteh' density weight
+\item{dns.m.lnoteh.weight}{A numeric indicating the weight of the 'm.lnoteh'
+density weight.
+
 Refer to ?model.density}
 }
 \value{
@@ -145,8 +164,9 @@ Calculates difficulty using stressSim
 }
 \examples{
 calculateDifficulty(chart.path = "../7Kdifficulty.osu",
-keyset.select = '7R')
+chart.keyset.select = '7R')
 
 calculateDifficulty(chart.path = "../4Kdifficulty.osu",
-keyset.select = '4')
+chart.keyset.select = '4')
+
 }

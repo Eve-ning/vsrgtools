@@ -5,47 +5,43 @@
 \title{Static Model generator for Motion}
 \usage{
 model.motion(chart.ext, suppress = T, suppress.threshold = 50,
-  suppress.scale = 2, directions.mapping = NA, ignore.jacks = T)
+  suppress.scale = 2, ignore.jacks = T, directions.mapping = NA)
 }
 \arguments{
 \item{chart.ext}{The chart generated from chartExtract}
 
-\item{suppress}{A Logical determining if suppresion should
-occur
+\item{suppress}{A Logical determining if suppresion should occur
 
 Suppression does not happen to direction 'jack'}
 
-\item{suppress.threshold}{If suppress is True, this will
-reflect the inverse function at this point. Creating a
-piecewise function where the suppress function is}
+\item{suppress.threshold}{If suppress is True, this will reflect the inverse
+function at this point. Creating a piecewise function where the suppress
+function is}
 
-\item{suppress.scale}{If suppress is True, this will
-expand the x range. In other words, smaller diffs will
-have a lower diffs.inv when this increases.}
+\item{suppress.scale}{If suppress is True, this will expand the x range. In
+other words, smaller diffs will have a lower diffs.inv when this increases.}
 
-\item{directions.mapping}{A data.frame to be merged with
-the output directions to generate weights.
+\item{ignore.jacks}{A logical indicating if jacks should be ignored}
+
+\item{directions.mapping}{A data.frame to be merged with the output
+directions to generate weights.
 
 It must hold the columns directions and weights
 
 If NA, .dflt.model.motion.mapping will be used}
-
-\item{ignore.jacks}{A logical indicating if jacks should
-be ignored}
 }
 \value{
 Returns a data.frame compatible with model.sim
 }
 \description{
-This uses diffBroadcast and createMoveMapping
-to summarize the occurences of different patterns.
+This uses diffBroadcast and createMoveMapping to summarize the
+occurences of different patterns.
 
 Suppression
 
-Suppression works by reflecting the inverse function used
-by diffs.inv on specified suppress.threshold value.
+Suppression works by reflecting the inverse function used by diffs.inv on
+specified suppress.threshold value.
 
-Suppression for smaller values can be further controled
-via suppress.scale. Where smaller values are suppressed
-further with higher suppress.scale.
+Suppression for smaller values can be further controlled via suppress.scale.
+Where smaller values are suppressed further with higher suppress.scale.
 }

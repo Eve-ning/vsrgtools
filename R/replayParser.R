@@ -1,11 +1,9 @@
 #' Parses the replay generated through the Python API downloader.
 #'
-#' @description Using proximity matching, data of the replay is
-#' joined with the chart, so we can tell what notes are the replay
-#' related to.
+#' @description Using proximity matching, data of the replay is joined with the
+#' chart, so we can tell what notes are the replay related to.
 #'
-#' @param chart A **data.frame** that needs to have types, offsets,
-#' and keys
+#' @param chart A **data.frame** that needs to have types, offsets, and keys
 #' @param replay.path **Path** of the replay generated.
 #' @param ignore.threshold **Numeric** to indicate what deviations should
 #' be ignored.

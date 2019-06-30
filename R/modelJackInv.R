@@ -1,7 +1,7 @@
 #' Static Model generator for Jack Inverse
 #'
-#' @description This uses diffBroadcast and just inverses
-#' the difference between equal keys.froms and keys.tos
+#' @description This uses diffBroadcast and just inverses the difference between
+#' equal keys.froms and keys.tos
 #' @param chart.ext The chart generated from diffBroadcast
 #'
 #' @return Returns a data.frame compatible with model.sim

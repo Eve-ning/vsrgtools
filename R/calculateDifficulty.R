@@ -3,93 +3,109 @@
 #' @param chart.path Path to chart
 #' @param chart.lines ReadLines on the path
 #' @param chart.rate The rate to judge the chart on
-#' @param chart.keyset.select A character vector indicating
-#' the default chart.keyset to map to the keys
-#' Refer to ?chartFngMapping for more details
-#' @param chart.keyset A custom data.frame indicating the
-#' default chart.keyset to map to the keys
-#' Refer to ?chartFngMapping for more details
-#' @param mtn.suppress A logical indicating if small
-#' motions should be suppressed
-#' Refer to ?model.motion
-#' @param mtn.suppress.threshold A numeric indicating
-#' the threshold of what determines a "small motion"
-#' Refer to ?model.motion
-#' @param mtn.suppress.scale A numeric indicating the
-#' power of suppression on small motions
-#' Refer to ?model.motion
-#' @param mtn.ignore.jacks A logical indicating if jacks
-#' should be ignored by mtn and handled separately by
-#' JackInv
-#' Refer to ?model.motion
-#' @param mtn.across.weight A numeric indicating the
-#' weight of the 'across' motion weight
-#' Refer to ?model.motion
-#' @param mtn.in.weight A numeric indicating the
-#' weight of the 'in' motion weight
-#' Refer to ?model.motion
-#' @param mtn.out.weight A numeric indicating the
-#' weight of the 'out' motion weight
-#' Refer to ?model.motion
-#' @param mtn.jack.weight A numeric indicating the
-#' weight of the 'jack' motion weight
-#' Refer to ?model.motion
-#' @param dns.window A numeric indicating the window to
-#' check for density
-#' Refer to ?model.density
-#' @param dns.mini.ln.parse A logical indicating if mini
-#' Long Note should be parsed
-#' Refer to ?model.density
-#' @param dns.mini.ln.threshold A numeric indicating the
-#' threshold of what determines a "mini LN"
-#' Refer to ?model.density
-#' @param dns.mini.ln.tail.drop A logical indicating if
-#' mini LNs should be dropped.
+#' @param chart.keyset.select A character vector indicating the default
+#' chart.keyset to map to the keys.
 #'
-#' It is recommended to drop mini LNs for density
-#' calculation
+#' Refer to ?chartFngMapping for more details
+#' @param chart.keyset A custom data.frame indicating the default chart.keyset
+#' to map to the keys.
+#'
+#' Refer to ?chartFngMapping for more details
+#' @param mtn.suppress A logical indicating if small motions should be
+#' suppressed
+#'
+#' Refer to ?model.motion
+#' @param mtn.suppress.threshold A numeric indicating the threshold of what
+#' determines a "small motion".
+#'
+#' Refer to ?model.motion
+#' @param mtn.suppress.scale A numeric indicating the power of suppression on
+#' small motions
+#'
+#' Refer to ?model.motion
+#' @param mtn.ignore.jacks A logical indicating if jacks should be ignored by
+#' mtn and handled separately by JackInv
+#'
+#' Refer to ?model.motion
+#' @param mtn.across.weight A numeric indicating the weight of the 'across'
+#' motion weight
+#'
+#' Refer to ?model.motion
+#' @param mtn.in.weight A numeric indicating the weight of the 'in' motion
+#' weight
+#'
+#' Refer to ?model.motion
+#' @param mtn.out.weight A numeric indicating the weight of the 'out' motion
+#' weight
+#'
+#' Refer to ?model.motion
+#' @param mtn.jack.weight A numeric indicating the weight of the 'jack' motion
+#' weight
+#'
+#' Refer to ?model.motion
+#' @param dns.window A numeric indicating the window to check for density
 #'
 #' Refer to ?model.density
-#' @param dns.note.weight A numeric indicating the
-#' weight of the 'note' density weight
+#' @param dns.mini.ln.parse A logical indicating if mini Long Note should be
+#' parsed.
+#'
 #' Refer to ?model.density
-#' @param dns.lnoteh.weight A numeric indicating the
-#' weight of the 'lnoteh' density weight
+#' @param dns.mini.ln.threshold A numeric indicating the threshold of what
+#' determines a "mini LN".
+#'
 #' Refer to ?model.density
-#' @param dns.lnotel.weight A numeric indicating the
-#' weight of the 'lnotel' density weight
+#' @param dns.mini.ln.tail.drop A logical indicating if mini LNs should be
+#' dropped.
+#'
+#' It is recommended to drop mini LNs for density calculation.
+#'
 #' Refer to ?model.density
-#' @param dns.m.lnoteh.weight A numeric indicating the
-#' weight of the 'm.lnoteh' density weight
+#' @param dns.note.weight A numeric indicating the weight of the 'note' density
+#' weight.
+#'
 #' Refer to ?model.density
-#' @param dns.m.lnotel.weight A numeric indicating the
-#' weight of the 'm.lnotel' density weight
+#' @param dns.lnoteh.weight A numeric indicating the weight of the 'lnoteh'
+#' density weight.
+#'
 #' Refer to ?model.density
-#' @param mnp.window A numeric indicating the window to check for bias
+#' @param dns.lnotel.weight A numeric indicating the weight of the 'lnotel'
+#' density weight.
+#'
+#' Refer to ?model.density
+#' @param dns.m.lnoteh.weight A numeric indicating the weight of the 'm.lnoteh'
+#' density weight.
+#'
+#' Refer to ?model.density
+#' @param dns.m.lnotel.weight A numeric indicating the weight of the 'm.lnotel'
+#' density weight.
+#'
+#' Refer to ?model.density
+#' @param mnp.window A numeric indicating the window to check for bias.
+#'
 #' Refer to ?model.manipulation
 #' @param mnp.bias.power A numeric indicating the intensity to suppress lower
-#' biases
+#' biases.
+#'
 #' Refer to ?model.manipulation
-#' @param sim.decay.ms A numeric indicating the decay of
-#' stress per ms
-#' Refer to ?model.sim
-#' @param sim.stress.init A numeric indicating the starting
-#' stress
-#' Refer to ?model.sim
-#' @param sim.jck.pow A numeric indicating the power weight of the
-#' Jack model
-#' Refer to ?model.sim
-#' @param sim.mtn.pow A numeric indicating the power weight of the
-#' Motion model
-#' Refer to ?model.sim
-#' @param sim.dns.pow A numeric indicating the power weight of the
-#' Density model
-#' Refer to ?model.sim
+#' @param sim.decay.ms A numeric indicating the decay of stress per ms.
 #'
-#' @param sim.bin.size A numeric indicating the size of
-#' model.sim bin.size
 #' Refer to ?model.sim
+#' @param sim.stress.init A numeric indicating the starting stress.
 #'
+#' Refer to ?model.sim
+#' @param sim.jck.pow A numeric indicating the power weight of the Jack model.
+#'
+#' Refer to ?model.sim
+#' @param sim.mtn.pow A numeric indicating the power weight of the Motion model.
+#'
+#' Refer to ?model.sim
+#' @param sim.dns.pow A numeric indicating the power weight of the Density
+#' model.
+#'
+#' Refer to ?model.sim
+#' @param sim.bin.size A numeric indicating the size of model.sim bin size.
+#'
+#' Refer to ?model.sim
 #' @return Returns a list of calculated models
 #'
 #' sim: Simulated, model: merged model, ...
@@ -99,6 +115,7 @@
 #'
 #' calculateDifficulty(chart.path = "../4Kdifficulty.osu",
 #' chart.keyset.select = '4')
+#'
 #' @importFrom magrittr %<>%
 #' @importFrom dplyr mutate
 #' @importFrom rlang .data

@@ -9,8 +9,8 @@ chartParse(chart.path = NA, chart.lines = NA)
 \arguments{
 \item{chart.path}{Path of the chart to be parsed}
 
-\item{chart.lines}{Lines of the chart to be parsed, if the chart
-is not in a file format}
+\item{chart.lines}{Lines of the chart to be parsed, if the chart is not in a
+file format}
 }
 \description{
 Only .osu formats are supported for now.
