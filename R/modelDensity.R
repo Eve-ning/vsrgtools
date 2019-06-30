@@ -1,20 +1,21 @@
 #' Static Model generator for Density
 #'
-#' @description Density is not meant to be a representation
-#' of physical stress, instead it is for mental stress.
+#' @description Density is not meant to be a representation of physical stress,
+#' instead it is for mental stress.
 #'
-#' In other words, the density of objects within a certain
-#' time frame to be processed.
+#' In other words, the density of objects within a certain time frame to be
+#' processed.
+#'
 #' @param chart The chart generated from chartParse
 #' @param window The window to check for objects
-#' @param mini.ln.parse A logical indicating if miniLNs
-#' should be parsed separately
-#' @param mini.ln.threshold A numeric indicating the
-#' threshold of LNs to be considered mini
-#' @param mini.ln.tail.drop Logical indicating if the
-#' miniLN Tail should be dropped.
-#' @param types.mapping A data.frame to be merged with the
-#' output types to generate weights.
+#' @param mini.ln.parse A logical indicating if miniLNs should be parsed
+#' separately
+#' @param mini.ln.threshold A numeric indicating the threshold of LNs to be
+#' considered mini
+#' @param mini.ln.tail.drop Logical indicating if the miniLN Tail should be
+#' dropped.
+#' @param types.mapping A data.frame to be merged with the output types to
+#' generate weights.
 #'
 #' It must only hold the columns types and weights
 #'
@@ -38,10 +39,12 @@ model.density <- function(chart, window = 1000,
   if (mini.ln.parse){
     chart %<>%
       dplyr::mutate(
-        types = ifelse((.data$types == 'lnoteh') & (.data$len <= mini.ln.threshold),
-                       'm.lnote', .data$types),
-        types = ifelse((.data$types == 'lnotel') & (.data$len <= mini.ln.threshold),
-                       'm.lnotel', .data$types))
+        types = ifelse(
+          (.data$types == 'lnoteh') & (.data$len <= mini.ln.threshold),
+          'm.lnote', .data$types),
+        types = ifelse(
+          (.data$types == 'lnotel') & (.data$len <= mini.ln.threshold),
+          'm.lnotel', .data$types))
     if (mini.ln.tail.drop){
       chart %<>% dplyr::filter(.data$types != 'm.lnotel')
     }
@@ -53,7 +56,7 @@ model.density <- function(chart, window = 1000,
 
   chart %<>%
     split(chart$types, drop = T) %>%
-    .cppModelDensity(unq.offsets, ., window, F) %>%
+    .cppModelDensity(unq.offsets, .data$., window, F) %>%
     dplyr::bind_rows() %>%
     # Need to do a roundabout way to name the columns
     magrittr::set_colnames(c("offsets", types.names)) %>%
@@ -75,9 +78,3 @@ model.density <- function(chart, window = 1000,
   return(chart)
 }
 
-# d <- osutools::calculateDifficulty(chart.path = '../osutools_test/src/r/osu/7/Koxx - A Fool Moon Night (X_Deviluke_X) [Hard Lv.150].osu',
-#                               keyset.select = '7R')
-#
-# require(osutools)
-# d <- chartParse("../osutools_test/src/r/osu/7/Koxx - A Fool Moon Night (X_Deviluke_X) [Hard Lv.150].osu")
-# d.dns <- model.density(d)

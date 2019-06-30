@@ -7,7 +7,19 @@
 .cppModelManipulation(unq_offsets, obj_offsets, window = 200,
   is_sorted = FALSE)
 }
+\arguments{
+\item{unq_offsets}{a Numeric Vector of the offsets to check on}
+
+\item{obj_offsets}{a List of the objects offsets}
+
+\item{window}{a double indicating the window of the check}
+
+\item{is_sorted}{a boolean indicating if the vectors are sorted, if they
+aren't, they will be sorted.}
+}
 \description{
-Calculates how many notes in front of
-window
+Calculates how many notes in front of window.
+
+This depends heavily on cppCountForward, refer to modelManipulation.R for
+correct usage.
 }

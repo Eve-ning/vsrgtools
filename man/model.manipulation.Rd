@@ -12,21 +12,20 @@ model.manipulation(chart, window = 1000, bias.power = 2,
 
 \item{window}{The window to check for biases.}
 
-\item{bias.power}{The power value of the bias. A higher
-value will suppress lower values more}
+\item{bias.power}{The power value of the bias. A higher value will suppress
+lower values more}
 
-\item{ignore.types}{Types to be ignored during model
-creation}
+\item{ignore.types}{Types to be ignored during model creation}
 }
 \description{
 Manipulation is where certain notes can be played in an
 incorrect order while still maintaining a good accuracy and judgement.
 
-This model aims to look at notes forward of each other
-and calculates a value called a bias.
+This model aims to look at notes forward of each other and calculates a value
+called a bias.
 
-Biases are how the chart decides to favor a specific
-column over the other by having higher or lower density.
+Biases are how the chart decides to favor a specific column over the other by
+having higher or lower density.
 
 The higher the bias, the less manipulatable it'll be
 }

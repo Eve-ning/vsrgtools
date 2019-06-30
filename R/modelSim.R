@@ -10,8 +10,8 @@
 #' @param decay.ms stress decay per ms
 #' @param stress.init stress to start off with
 #' @param bin.size the bins size for model smoothing
-#' The smaller the bin size the more suspectible the
-#' model will be to sudden spikes.
+#' The smaller the bin size the more suspectible the model will be to sudden
+#' spikes.
 #'
 #' @importFrom magrittr %<>% %>%
 #' @importFrom dplyr mutate

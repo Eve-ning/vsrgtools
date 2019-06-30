@@ -27,8 +27,8 @@ model.sim(m.jck, m.mtn, m.dns, m.mnp, jck.pow, mtn.pow, dns.pow,
 \item{stress.init}{stress to start off with}
 
 \item{bin.size}{the bins size for model smoothing
-The smaller the bin size the more suspectible the
-model will be to sudden spikes.}
+The smaller the bin size the more suspectible the model will be to sudden
+spikes.}
 }
 \description{
 Simulates the Models through types

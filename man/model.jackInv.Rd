@@ -13,6 +13,6 @@ model.jackInv(chart.ext)
 Returns a data.frame compatible with model.sim
 }
 \description{
-This uses diffBroadcast and just inverses
-the difference between equal keys.froms and keys.tos
+This uses diffBroadcast and just inverses the difference between
+equal keys.froms and keys.tos
 }
