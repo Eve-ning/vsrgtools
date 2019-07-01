@@ -4,7 +4,7 @@
 \alias{model.manipulation}
 \title{A model that detects manipulatability in charts}
 \usage{
-model.manipulation(chart, window = 1000, bias.power = 2,
+model.manipulation(chart, window = 1000, bias.suppress = 2,
   ignore.types = c("lnotel"))
 }
 \arguments{
@@ -12,8 +12,8 @@ model.manipulation(chart, window = 1000, bias.power = 2,
 
 \item{window}{The window to check for biases.}
 
-\item{bias.power}{The power value of the bias. A higher value will suppress
-lower values more}
+\item{bias.suppress}{The suppress value of the bias. A higher value will
+suppress the manipulation correction more.}
 
 \item{ignore.types}{Types to be ignored during model creation}
 }
