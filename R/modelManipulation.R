@@ -48,7 +48,7 @@ model.manipulation <- function(chart,
                                                      window = window,
                                                      is_sorted = F))
   chart.count %<>%
-    magrittr::set_colnames(c("offsets", 1:(ncol(.) - 1))) %>%
+    magrittr::set_colnames(c("offsets", 1:(ncol(chart.count) - 1))) %>%
     reshape2::melt(id.vars = 1, variable.name = "keys", value.name = "counts") %>%
     dplyr::group_by(.data$offsets) %>%
     # Essentially 1 / (Variance ** Power + 1)
