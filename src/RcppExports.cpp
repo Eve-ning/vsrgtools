@@ -60,16 +60,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // cppSimulateKey
-DataFrame cppSimulateKey(NumericVector offsets, NumericVector values, double decay_ms, double stress_init);
-RcppExport SEXP _osutools_cppSimulateKey(SEXP offsetsSEXP, SEXP valuesSEXP, SEXP decay_msSEXP, SEXP stress_initSEXP) {
+DataFrame cppSimulateKey(NumericVector offsets, NumericVector values, double decay_ms, double decay_perc_s, double stress_init);
+RcppExport SEXP _osutools_cppSimulateKey(SEXP offsetsSEXP, SEXP valuesSEXP, SEXP decay_msSEXP, SEXP decay_perc_sSEXP, SEXP stress_initSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type offsets(offsetsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type values(valuesSEXP);
     Rcpp::traits::input_parameter< double >::type decay_ms(decay_msSEXP);
+    Rcpp::traits::input_parameter< double >::type decay_perc_s(decay_perc_sSEXP);
     Rcpp::traits::input_parameter< double >::type stress_init(stress_initSEXP);
-    rcpp_result_gen = Rcpp::wrap(cppSimulateKey(offsets, values, decay_ms, stress_init));
+    rcpp_result_gen = Rcpp::wrap(cppSimulateKey(offsets, values, decay_ms, decay_perc_s, stress_init));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -79,7 +80,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_osutools_cppBroadcast", (DL_FUNC) &_osutools_cppBroadcast, 2},
     {"_osutools_cppModelDensity", (DL_FUNC) &_osutools_cppModelDensity, 4},
     {"_osutools_cppModelManipulation", (DL_FUNC) &_osutools_cppModelManipulation, 4},
-    {"_osutools_cppSimulateKey", (DL_FUNC) &_osutools_cppSimulateKey, 4},
+    {"_osutools_cppSimulateKey", (DL_FUNC) &_osutools_cppSimulateKey, 5},
     {NULL, NULL, 0}
 };
 

@@ -4,7 +4,8 @@
 \alias{.cppSimulateKey}
 \title{Simulates stress using a offset and value vector}
 \usage{
-.cppSimulateKey(offsets, values, decay_ms = 0.01, stress_init = 0)
+.cppSimulateKey(offsets, values, decay_ms = 0, decay_perc_s = 0.1,
+  stress_init = 0)
 }
 \arguments{
 \item{offsets}{Offsets of the values used to indicate spikes}
@@ -12,6 +13,8 @@
 \item{values}{Spike values used to increase stress}
 
 \item{decay_ms}{Stress decay per ms}
+
+\item{decay_perc_s}{Stress decay per second}
 
 \item{stress_init}{Initial Stress}
 }

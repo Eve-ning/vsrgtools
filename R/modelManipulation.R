@@ -54,8 +54,8 @@ model.manipulation <- function(chart,
     # Essentially 1 / (Variance ** Power + 1)
     # + 1 is so that the value doesn't jump above 1.0 this helps it go in line
     # with other keys
-    dplyr::summarise(values =
-                       1 - (1 / (stats::var(.data$counts) ** bias.power + 1)))
+    dplyr::summarise(
+      values = (((1 / (stats::var(.data$counts) + 1)) - 1) / bias.power) + 1)
 
   return(chart.count)
 }

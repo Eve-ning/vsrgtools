@@ -98,6 +98,10 @@
 #' @param sim.decay.ms A numeric indicating the decay of stress per ms.
 #'
 #' Refer to ?model.sim
+#' @param sim.decay.perc.s A numeric indicating the perc decay of stress per
+#' second.
+#'
+#' Refer to ?model.sim
 #' @param sim.stress.init A numeric indicating the starting stress.
 #'
 #' Refer to ?model.sim
@@ -145,7 +149,8 @@ calculateDifficulty <- function(chart.path             = NA,
                                 dns.m.lnotel.weight    = 1,
                                 mnp.window             = 1000,
                                 mnp.bias.power         = 2,
-                                sim.decay.ms           = 0.5,
+                                sim.decay.ms           = 0,
+                                sim.decay.perc.s       = 0.1,
                                 sim.stress.init        = 0,
                                 sim.mtn.pow            = 1.0,
                                 sim.dns.pow            = 1.0,
@@ -164,10 +169,10 @@ calculateDifficulty <- function(chart.path             = NA,
                             chart.keyset.select,
                             chart.keyset)
 
-  m.mtn <- model.motion(chart.ext,
-                        mtn.suppress,
-                        mtn.suppress.threshold,
-                        mtn.suppress.scale,
+  m.mtn <- model.motion(chart.ext = chart.ext,
+                        suppress = mtn.suppress,
+                        suppress.threshold = mtn.suppress.threshold,
+                        suppress.scale = mtn.suppress.scale,
                         directions.mapping =
                           data.frame(
                             directions = c('across', 'in', 'out', 'jack'),
@@ -176,11 +181,11 @@ calculateDifficulty <- function(chart.path             = NA,
                                         mtn.out.weight,
                                         mtn.jack.weight))
                         )
-  m.dns <- model.density(chart,
-                         dns.window,
-                         dns.mini.ln.parse,
-                         dns.mini.ln.threshold,
-                         dns.mini.ln.tail.drop,
+  m.dns <- model.density(chart = chart,
+                         window = dns.window,
+                         mini.ln.parse = dns.mini.ln.parse,
+                         mini.ln.threshold = dns.mini.ln.threshold,
+                         mini.ln.tail.drop = dns.mini.ln.tail.drop,
                          types.mapping =
                            data.frame(
                              types = c('note', 'lnoteh', 'lnotel',
@@ -191,19 +196,20 @@ calculateDifficulty <- function(chart.path             = NA,
                                          dns.m.lnote.weight,
                                          dns.m.lnotel.weight)))
 
-  m.mnp <- model.manipulation(chart,
-                              mnp.window,
-                              mnp.bias.power)
+  m.mnp <- model.manipulation(chart = chart,
+                              window = mnp.window,
+                              bias.power = mnp.bias.power)
 
-  sim <- model.sim(m.mtn,
-                   m.dns,
-                   m.mnp,
-                   sim.mtn.pow,
-                   sim.dns.pow,
-                   sim.decay.ms,
-                   sim.stress.init,
-                   sim.bin.size,
-                   sim.disable)
+  sim <- model.sim(m.mtn = m.mtn,
+                   m.dns = m.dns,
+                   m.mnp = m.mnp,
+                   mtn.pow = sim.mtn.pow,
+                   dns.pow = sim.dns.pow,
+                   decay.ms = sim.decay.ms,
+                   decay.perc.s = sim.decay.perc.s,
+                   stress.init = sim.stress.init,
+                   bin.size = sim.bin.size,
+                   sim.disable = sim.disable)
 
 
   return(list("sim" = sim$sim,
@@ -212,4 +218,12 @@ calculateDifficulty <- function(chart.path             = NA,
               "dns" = m.dns,
               "mnp" = m.mnp))
 }
-
+# require(osutools)
+# e <- calculateDifficulty("../osutools_test/src/r/osu/4/Various Artists - Dan ~ REFORM ~ 2nd Pack (DDMythical) [~ EXTRA-EPSILON ~ (Marathon)].osu",
+#                          sim.disable = F,sim.decay.perc.s = 0.3,sim.decay.ms = 0)
+# require(ggplot2)
+#
+# ggplot(e$sim) +
+#   aes(offsets, stress) +
+#   geom_smooth() +
+#   geom_line(alpha = 0.2)

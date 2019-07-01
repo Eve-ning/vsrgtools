@@ -7,16 +7,18 @@ using namespace Rcpp;
 //' @param offsets Offsets of the values used to indicate spikes
 //' @param values Spike values used to increase stress
 //' @param decay_ms Stress decay per ms
+//' @param decay_perc_s Stress decay per second
 //' @param stress_init Initial Stress
 //'
 //' @export
 // [[Rcpp::export(name=".cppSimulateKey")]]
 DataFrame cppSimulateKey(NumericVector offsets,
                          NumericVector values,
-                         double decay_ms = 0.01,
+                         double decay_ms = 0.0,
+                         double decay_perc_s = 0.1,
                          double stress_init = 0.0) {
 
-  Stress stress(stress_init, decay_ms);
+  Stress stress(stress_init, decay_ms, decay_perc_s);
 
   unsigned int rows = offsets.length();
 

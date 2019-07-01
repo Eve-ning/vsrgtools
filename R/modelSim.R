@@ -6,6 +6,9 @@
 #' @param mtn.pow power factor for mtn
 #' @param dns.pow power factor for dns
 #' @param decay.ms stress decay per ms
+#' @param decay.perc.s stress decay percentage per second
+#'
+#' Note that 1.0 means 100% decay per second
 #' @param stress.init stress to start off with
 #' @param bin.size the bins size for model smoothing
 #'
@@ -20,10 +23,15 @@
 
 model.sim <- function(m.mtn, m.dns, m.mnp,
                       mtn.pow, dns.pow,
-                      decay.ms = 0.5,
+                      decay.ms = 0.0,
+                      decay.perc.s = 0.1,
                       stress.init = 0,
                       bin.size = 5000,
-                      sim.disable){
+                      sim.disable = F){
+
+  if (decay.perc.s > 1 | decay.perc.s < 0) {
+    stop("decay.perc.s cannot be more than 1 and less than 0.")
+  }
 
   # This joins all models
   model <- list(m.mtn, m.dns, m.mnp) %>%
@@ -41,6 +49,7 @@ model.sim <- function(m.mtn, m.dns, m.mnp,
     sim <- .cppSimulateKey(model$offsets,
                            model$values,
                            decay_ms = decay.ms,
+                           decay_perc_s = decay.perc.s,
                            stress_init = stress.init)
   } else { sim = NULL }
 
@@ -52,3 +61,5 @@ model.sim <- function(m.mtn, m.dns, m.mnp,
 
   return(list("sim" = sim, "model" = model))
 }
+
+

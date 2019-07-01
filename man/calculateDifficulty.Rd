@@ -13,8 +13,9 @@ calculateDifficulty(chart.path = NA, chart.lines = NA,
   dns.mini.ln.threshold = 150, dns.mini.ln.tail.drop = T,
   dns.note.weight = 1, dns.lnoteh.weight = 1, dns.lnotel.weight = 1,
   dns.m.lnote.weight = 1, dns.m.lnotel.weight = 1, mnp.window = 1000,
-  mnp.bias.power = 2, sim.decay.ms = 0.5, sim.stress.init = 0,
-  sim.mtn.pow = 1, sim.dns.pow = 1, sim.bin.size = 5000)
+  mnp.bias.power = 2, sim.decay.ms = 0, sim.decay.perc.s = 0.1,
+  sim.stress.init = 0, sim.mtn.pow = 1, sim.dns.pow = 1,
+  sim.bin.size = 5000, sim.disable = F)
 }
 \arguments{
 \item{chart.path}{Path to chart}
@@ -132,6 +133,11 @@ Refer to ?model.manipulation}
 
 Refer to ?model.sim}
 
+\item{sim.decay.perc.s}{A numeric indicating the perc decay of stress per
+second.
+
+Refer to ?model.sim}
+
 \item{sim.stress.init}{A numeric indicating the starting stress.
 
 Refer to ?model.sim}
@@ -148,6 +154,9 @@ Refer to ?model.sim}
 \item{sim.bin.size}{A numeric indicating the size of model.sim bin size.
 
 Refer to ?model.sim}
+
+\item{sim.disable}{A logical indicating if stress sim should be disabled.
+Will improve performance of calculation.}
 }
 \value{
 Returns a list of calculated models

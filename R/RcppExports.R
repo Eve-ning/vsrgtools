@@ -37,10 +37,11 @@ cppCountForward <- function(unq_offsets, obj_offsets, window, is_sorted) {
 #' @param offsets Offsets of the values used to indicate spikes
 #' @param values Spike values used to increase stress
 #' @param decay_ms Stress decay per ms
+#' @param decay_perc_s Stress decay per second
 #' @param stress_init Initial Stress
 #'
 #' @export
-.cppSimulateKey <- function(offsets, values, decay_ms = 0.01, stress_init = 0.0) {
-    .Call(`_osutools_cppSimulateKey`, offsets, values, decay_ms, stress_init)
+.cppSimulateKey <- function(offsets, values, decay_ms = 0.0, decay_perc_s = 0.1, stress_init = 0.0) {
+    .Call(`_osutools_cppSimulateKey`, offsets, values, decay_ms, decay_perc_s, stress_init)
 }
 
