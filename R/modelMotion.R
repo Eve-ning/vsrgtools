@@ -20,7 +20,6 @@
 #' function is
 #' @param suppress.scale If suppress is True, this will expand the x range. In
 #' other words, smaller diffs will have a lower diffs.inv when this increases.
-#' @param ignore.jacks A logical indicating if jacks should be ignored
 #' @param directions.mapping A data.frame to be merged with the output
 #' directions to generate weights.
 #'
@@ -38,13 +37,8 @@ model.motion <- function(chart.ext,
                          suppress = T,
                          suppress.threshold = 50,
                          suppress.scale = 2.0,
-                         ignore.jacks = T,
                          directions.mapping = NA){
 
-  if (ignore.jacks){
-    chart.ext %<>%
-      dplyr::filter(.data$directions != 'jack')
-  }
   chart.ext %<>%
     # Suppress graces
     dplyr::mutate(
@@ -55,7 +49,8 @@ model.motion <- function(chart.ext,
           # Inverse Function
           1/.data$diffs,
           # Suppress Function
-          1/abs(((.data$diffs - suppress.threshold) * suppress.scale) - suppress.threshold)))
+          1/abs(((.data$diffs - suppress.threshold) * suppress.scale)
+                - suppress.threshold)))
 
   # Summarize here
   suppressWarnings({
