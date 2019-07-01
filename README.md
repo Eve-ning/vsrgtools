@@ -32,8 +32,8 @@ As explained, we are using a **Dynamic Model**, however, it requires **Static Mo
 
 Here are the main models:
 - Density
-- Jack Inverse
 - Motion Bias
+- Manipulation
 
 ## Density
 
@@ -53,15 +53,9 @@ Objects:
 
 LNoteBody is a bit of an anomaly, however, we shouldn't disregard its power to increase difficulty. We will leave this in to allow more flexibility in calculating difficulty.
 
-## Jack Inverse
+## Manipulation
 
-Jack Inverse is the subset of `diffBroadcast`. We can easily grab the jacks from there
-
-Jack Inverse is basically the **inverse value of the distance between jacks**. It is inverted to amplify smaller distances and muffle larger ones.
-
-### Conditional Capping 
-
-However, it's important to cap the Jack Inverse value as mini-jacks can easily skyrocket this value.
+Manipulation is the measurement of how manipulatable a section of the chart is. More details in wiki (all of this will be migrated soon)
 
 ## Motion Bias
 
@@ -71,16 +65,12 @@ In other words, we calculate this via finger motion instead of what column goes 
 
 This will be really hard to calculate correctly, but thankfully it's flexible enough to allow Tensorflow to try to decrease its loss.
 
-### Jack Inverse Overlapping
-
-As both **Motion Bias** and **Jack Inverse** are dealing with patterns, we will exclude jacks from **Motion Bias**.
-
 # Small Diff Correction
 
-**Jack Inverse** and **Motion Bias** will value `diffs` that are very low in value, and possibly inflate them too much.
+**Motion Bias** will value `diffs` that are very low in value, and possibly inflate them too much.
 
-## Jack Inverse
-Despite *mini-jacks* being arguably easy to execute, we will **assume** that its justified.
+## Motion Bias Jacks
+Despite *mini-jacks* being arguably easy to execute, we will **assume** that its justified, unless proven otherwise
 
 ## Motion Bias
 The biggest issue here would be graces, small `diffs` are essentially just graced chords, so we shouldn't weight that too highly.

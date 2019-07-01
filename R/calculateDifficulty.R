@@ -101,9 +101,6 @@
 #' @param sim.stress.init A numeric indicating the starting stress.
 #'
 #' Refer to ?model.sim
-#' @param sim.jck.pow A numeric indicating the power weight of the Jack model.
-#'
-#' Refer to ?model.sim
 #' @param sim.mtn.pow A numeric indicating the power weight of the Motion model.
 #'
 #' Refer to ?model.sim
@@ -147,7 +144,6 @@ calculateDifficulty <- function(chart.path             = NA,
                                 mnp.bias.power         = 2,
                                 sim.decay.ms           = 0.5,
                                 sim.stress.init        = 0,
-                                sim.jck.pow            = 1.0,
                                 sim.mtn.pow            = 1.0,
                                 sim.dns.pow            = 1.0,
                                 sim.bin.size           = 5000) {
@@ -164,13 +160,10 @@ calculateDifficulty <- function(chart.path             = NA,
                             chart.keyset.select,
                             chart.keyset)
 
-  m.jck <- model.jackInv(chart.ext)
-
   m.mtn <- model.motion(chart.ext,
                         mtn.suppress,
                         mtn.suppress.threshold,
                         mtn.suppress.scale,
-                        mtn.ignore.jacks,
                         directions.mapping =
                           data.frame(
                             directions = c('across', 'in', 'out', 'jack'),
@@ -198,11 +191,9 @@ calculateDifficulty <- function(chart.path             = NA,
                               mnp.window,
                               mnp.bias.power)
 
-  sim <- model.sim(m.jck,
-                   m.mtn,
+  sim <- model.sim(m.mtn,
                    m.dns,
                    m.mnp,
-                   sim.jck.pow,
                    sim.mtn.pow,
                    sim.dns.pow,
                    sim.decay.ms,
@@ -211,7 +202,6 @@ calculateDifficulty <- function(chart.path             = NA,
 
   return(list("sim" = sim$sim,
               "model" = sim$model,
-              "jck" = m.jck,
               "mtn" = m.mtn,
               "dns" = m.dns,
               "mnp" = m.mnp))

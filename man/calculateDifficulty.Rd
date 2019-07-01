@@ -14,8 +14,7 @@ calculateDifficulty(chart.path = NA, chart.lines = NA,
   dns.note.weight = 1, dns.lnoteh.weight = 1, dns.lnotel.weight = 1,
   dns.m.lnote.weight = 1, dns.m.lnotel.weight = 1, mnp.window = 1000,
   mnp.bias.power = 2, sim.decay.ms = 0.5, sim.stress.init = 0,
-  sim.jck.pow = 1, sim.mtn.pow = 1, sim.dns.pow = 1,
-  sim.bin.size = 5000)
+  sim.mtn.pow = 1, sim.dns.pow = 1, sim.bin.size = 5000)
 }
 \arguments{
 \item{chart.path}{Path to chart}
@@ -134,10 +133,6 @@ Refer to ?model.manipulation}
 Refer to ?model.sim}
 
 \item{sim.stress.init}{A numeric indicating the starting stress.
-
-Refer to ?model.sim}
-
-\item{sim.jck.pow}{A numeric indicating the power weight of the Jack model.
 
 Refer to ?model.sim}
 

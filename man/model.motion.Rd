@@ -5,7 +5,7 @@
 \title{Static Model generator for Motion}
 \usage{
 model.motion(chart.ext, suppress = T, suppress.threshold = 50,
-  suppress.scale = 2, ignore.jacks = T, directions.mapping = NA)
+  suppress.scale = 2, directions.mapping = NA)
 }
 \arguments{
 \item{chart.ext}{The chart generated from chartExtract}
@@ -20,8 +20,6 @@ function is}
 
 \item{suppress.scale}{If suppress is True, this will expand the x range. In
 other words, smaller diffs will have a lower diffs.inv when this increases.}
-
-\item{ignore.jacks}{A logical indicating if jacks should be ignored}
 
 \item{directions.mapping}{A data.frame to be merged with the output
 directions to generate weights.
