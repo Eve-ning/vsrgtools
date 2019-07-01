@@ -134,10 +134,10 @@ calculateDifficulty <- function(chart.path             = NA,
                                 mtn.suppress.threshold = 50,
                                 mtn.suppress.scale     = 2.0,
                                 mtn.ignore.jacks       = T,
-                                mtn.across.weight      = 0.7,
+                                mtn.across.weight      = 0.9,
                                 mtn.in.weight          = 1.0,
-                                mtn.out.weight         = 1.3,
-                                mtn.jack.weight        = 3.0,
+                                mtn.out.weight         = 1.4,
+                                mtn.jack.weight        = 2.5,
                                 dns.window             = 1000,
                                 dns.mini.ln.parse      = T,
                                 dns.mini.ln.threshold  = 150,
@@ -150,11 +150,11 @@ calculateDifficulty <- function(chart.path             = NA,
                                 mnp.window             = 1000,
                                 mnp.bias.power         = 2,
                                 sim.decay.ms           = 0,
-                                sim.decay.perc.s       = 0.1,
+                                sim.decay.perc.s       = 0.25,
                                 sim.stress.init        = 0,
-                                sim.mtn.pow            = 1.0,
+                                sim.mtn.pow            = 0.5,
                                 sim.dns.pow            = 1.0,
-                                sim.bin.size           = 5000,
+                                sim.bin.size           = 2500,
                                 sim.disable            = F) {
 
   chart <- chartParse(chart.path, chart.lines)
@@ -219,8 +219,9 @@ calculateDifficulty <- function(chart.path             = NA,
               "mnp" = m.mnp))
 }
 # require(osutools)
-# e <- calculateDifficulty("../osutools_test/src/r/osu/4/Various Artists - Dan ~ REFORM ~ 2nd Pack (DDMythical) [~ EXTRA-EPSILON ~ (Marathon)].osu",
+# e <- calculateDifficulty("../osutools_test/src/r/osu/4/DJ Myosuke & Noizenecio - Architecture (Mat) [Mat's 4k DEATH].osu",
 #                          sim.disable = F,sim.decay.perc.s = 0.3,sim.decay.ms = 0)
+#
 # require(ggplot2)
 #
 # ggplot(e$sim) +
