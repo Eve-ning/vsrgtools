@@ -35,9 +35,10 @@ model.manipulation <- function(chart,
   # We assign all types the value of 1 as their weight excluding
   # ignore.types
   chart %<>%
-    dplyr::filter(!.data$types %in% ignore.types) %>%
-    dplyr::mutate(types = 1) %>%
-    split(x = .data$.,f = .data$keys)
+    dplyr::filter(!(.data$types %in% ignore.types)) %>%
+    dplyr::mutate(types = 1)
+  chart %<>%
+    split(chart$keys, drop = T)
 
   # The idea of a window is so that we can find biases on columns
   # If the bias is high, the variance will be high, so it's less
@@ -47,7 +48,7 @@ model.manipulation <- function(chart,
                                                      window = window,
                                                      is_sorted = F))
   chart.count %<>%
-    magrittr::set_colnames(c("offsets", 1:(ncol(.data$.) - 1))) %>%
+    magrittr::set_colnames(c("offsets", 1:(ncol(.) - 1))) %>%
     reshape2::melt(id.vars = 1, variable.name = "keys", value.name = "counts") %>%
     dplyr::group_by(.data$offsets) %>%
     # Essentially 1 / (Variance ** Power + 1)
@@ -58,4 +59,3 @@ model.manipulation <- function(chart,
 
   return(chart.count)
 }
-
