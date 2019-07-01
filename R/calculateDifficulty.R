@@ -111,6 +111,9 @@
 #' @param sim.bin.size A numeric indicating the size of model.sim bin size.
 #'
 #' Refer to ?model.sim
+#' @param sim.disable A logical indicating if stress sim should be disabled.
+#' Will improve performance of calculation.
+#'
 #' @return Returns a list of calculated models
 #'
 #' sim: Simulated, model: merged model, ...
@@ -146,7 +149,8 @@ calculateDifficulty <- function(chart.path             = NA,
                                 sim.stress.init        = 0,
                                 sim.mtn.pow            = 1.0,
                                 sim.dns.pow            = 1.0,
-                                sim.bin.size           = 5000) {
+                                sim.bin.size           = 5000,
+                                sim.disable            = F) {
 
   chart <- chartParse(chart.path, chart.lines)
 
@@ -198,7 +202,9 @@ calculateDifficulty <- function(chart.path             = NA,
                    sim.dns.pow,
                    sim.decay.ms,
                    sim.stress.init,
-                   sim.bin.size)
+                   sim.bin.size,
+                   sim.disable)
+
 
   return(list("sim" = sim$sim,
               "model" = sim$model,
@@ -206,3 +212,4 @@ calculateDifficulty <- function(chart.path             = NA,
               "dns" = m.dns,
               "mnp" = m.mnp))
 }
+
