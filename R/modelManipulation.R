@@ -30,7 +30,6 @@ model.manipulation <- function(chart,
                                bias.suppress = 2,
                                ignore.types = c('lnotel')){
 
-  chart <- chartParse("../osutools_test/src/r/osu/4/Various Artists - Dan ~ REFORM ~ 2nd Pack (DDMythical) [~ EXTRA-EPSILON ~ (Marathon)].osu")
   unq.offsets <- unique(chart$offsets)
 
   # We assign all types the value of 1 as their weight excluding
