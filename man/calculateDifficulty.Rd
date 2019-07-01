@@ -8,14 +8,14 @@ calculateDifficulty(chart.path = NA, chart.lines = NA,
   chart.rate = 1, chart.keyset.select = "4", chart.keyset = NA,
   mtn.suppress = T, mtn.suppress.threshold = 50,
   mtn.suppress.scale = 2, mtn.ignore.jacks = T,
-  mtn.across.weight = 0.7, mtn.in.weight = 1, mtn.out.weight = 1.3,
-  mtn.jack.weight = 3, dns.window = 1000, dns.mini.ln.parse = T,
+  mtn.across.weight = 0.9, mtn.in.weight = 1, mtn.out.weight = 1.4,
+  mtn.jack.weight = 2.5, dns.window = 1000, dns.mini.ln.parse = T,
   dns.mini.ln.threshold = 150, dns.mini.ln.tail.drop = T,
   dns.note.weight = 1, dns.lnoteh.weight = 1, dns.lnotel.weight = 1,
   dns.m.lnote.weight = 1, dns.m.lnotel.weight = 1, mnp.window = 1000,
-  mnp.bias.power = 2, sim.decay.ms = 0, sim.decay.perc.s = 0.1,
-  sim.stress.init = 0, sim.mtn.pow = 1, sim.dns.pow = 1,
-  sim.bin.size = 5000, sim.disable = F)
+  mnp.bias.suppress = 2, sim.decay.ms = 0, sim.decay.perc.s = 0.25,
+  sim.stress.init = 0, sim.mtn.pow = 0.5, sim.dns.pow = 1,
+  sim.bin.size = 2500, sim.disable = F)
 }
 \arguments{
 \item{chart.path}{Path to chart}
@@ -124,8 +124,8 @@ Refer to ?model.density}
 
 Refer to ?model.manipulation}
 
-\item{mnp.bias.power}{A numeric indicating the intensity to suppress lower
-biases.
+\item{mnp.bias.suppress}{A numeric indicating the intensity to suppress the
+correction
 
 Refer to ?model.manipulation}
 
