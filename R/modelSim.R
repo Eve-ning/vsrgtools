@@ -8,9 +8,10 @@
 #' @param decay.ms stress decay per ms
 #' @param stress.init stress to start off with
 #' @param bin.size the bins size for model smoothing
+#'
 #' The smaller the bin size the more suspectible the model will be to sudden
 #' spikes.
-#'
+#' @param sim.disable disables stress simulation. Improves performance
 #' @importFrom magrittr %<>% %>%
 #' @importFrom dplyr mutate
 #' @importFrom rlang .data
@@ -21,7 +22,8 @@ model.sim <- function(m.mtn, m.dns, m.mnp,
                       mtn.pow, dns.pow,
                       decay.ms = 0.5,
                       stress.init = 0,
-                      bin.size = 5000){
+                      bin.size = 5000,
+                      sim.disable){
 
   # This joins all models
   model <- list(m.mtn, m.dns, m.mnp) %>%
@@ -34,11 +36,13 @@ model.sim <- function(m.mtn, m.dns, m.mnp,
                     (((.data$mtn.vals * 10) + 1) ** mtn.pow +
                     (.data$dns.vals + 1) ** dns.pow) * .data$mnp.vals)
 
-  # Simulation is done before binning
-  sim <- .cppSimulateKey(model$offsets,
-                         model$values,
-                         decay_ms = decay.ms,
-                         stress_init = stress.init)
+  if (!sim.disable){
+    # Simulation is done before binning
+    sim <- .cppSimulateKey(model$offsets,
+                           model$values,
+                           decay_ms = decay.ms,
+                           stress_init = stress.init)
+  } else { sim = NULL }
 
   # Binning
   model %<>%
