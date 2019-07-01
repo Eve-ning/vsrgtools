@@ -1,5 +1,9 @@
 # [UI Implementation Repo](https://github.com/Eve-ning/osutools_ui)
 
+# Attention !
+
+Please note that the following info is quite old, I'll create the wiki some time later. :)
+
 # Difficulty Discussion
 
 There are several models used by VSRGs, most of them can be classified under **Static Model**. I'm approaching this with **Dynamic Model**.
