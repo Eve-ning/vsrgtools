@@ -30,6 +30,7 @@ model.manipulation <- function(chart,
                                bias.suppress = 2,
                                ignore.types = c('lnotel')){
 
+  chart <- chartParse("../osutools_test/src/r/osu/4/Various Artists - Dan ~ REFORM ~ 2nd Pack (DDMythical) [~ EXTRA-EPSILON ~ (Marathon)].osu")
   unq.offsets <- unique(chart$offsets)
 
   # We assign all types the value of 1 as their weight excluding
@@ -47,14 +48,15 @@ model.manipulation <- function(chart,
                                                      chart,
                                                      window = window,
                                                      is_sorted = F))
-  d <- chart.count %>%
+  chart.count %<>%
     magrittr::set_colnames(c("offsets", 1:(ncol(chart.count) - 1))) %>%
     reshape2::melt(id.vars = 1, variable.name = "keys", value.name = "counts") %>%
     dplyr::group_by(.data$offsets) %>%
     # Essentially 1 / (Variance ** Power + 1)
     # + 1 is so that the value doesn't jump above 1.0 this helps it go in line
     # with other keys
-    dplyr::summarise(values = stats::var(.data$counts) / bias.suppress)
+    dplyr::summarise(values = stats::var(.data$counts)) %>%
+    dplyr::mutate(values = .data$values / bias.suppress)
 
   return(chart.count)
 }
