@@ -4,7 +4,7 @@
 \alias{model.manipulation}
 \title{A model that detects manipulatability in charts}
 \usage{
-model.manipulation(chart, window = 1000, bias.suppress = 2,
+model.manipulation(chart, window = 1000, bias.suppress = 1,
   ignore.types = c("lnotel"))
 }
 \arguments{
