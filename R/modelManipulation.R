@@ -27,7 +27,7 @@
 
 model.manipulation <- function(chart,
                                window = 1000,
-                               bias.suppress = 2,
+                               bias.suppress = 1,
                                ignore.types = c('lnotel')){
 
   unq.offsets <- unique(chart$offsets)
@@ -47,6 +47,7 @@ model.manipulation <- function(chart,
                                                      chart,
                                                      window = window,
                                                      is_sorted = F))
+
   chart.count %<>%
     magrittr::set_colnames(c("offsets", 1:(ncol(chart.count) - 1))) %>%
     reshape2::melt(id.vars = 1, variable.name = "keys", value.name = "counts") %>%
@@ -55,7 +56,7 @@ model.manipulation <- function(chart,
     # + 1 is so that the value doesn't jump above 1.0 this helps it go in line
     # with other keys
     dplyr::summarise(values = stats::var(.data$counts)) %>%
-    dplyr::mutate(values = .data$values / bias.suppress)
+    dplyr::mutate(values = (.data$values - 1) / bias.suppress + 1)
 
   return(chart.count)
 }
