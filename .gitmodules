@@ -1,0 +1,3 @@
+[submodule "osutools.wiki"]
+	path = osutools.wiki
+	url = git://github.com/eve-ning/osutools.wiki
