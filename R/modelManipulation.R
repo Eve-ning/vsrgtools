@@ -64,9 +64,11 @@ model.manipulation <- function(chart,
     # with other keys
     dplyr::summarise(values = stats::var(.data$counts)) %>%
     dplyr::mutate(
-      values = 1/(.data$values * bias.scale + bias.correction) + 1)
+      values = 1/((.data$values + 1) * bias.scale + bias.correction) + 1)
 
   return(chart.count)
 }
-#
+
 # chart <- chartParse("../osutools_test/src/r/osu/4/UNDEAD CORPORATION - MEGALOMANIA (hansuyo) [GOD].osu")
+# d <- model.manipulation(chart)
+# plot(d)
