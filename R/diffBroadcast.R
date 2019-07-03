@@ -27,7 +27,8 @@ diffBroadcast <- function(chart,
 
   # Cast keys to longer table.
     reshape2::dcast(offsets ~ keys,
-                    value.var = 'types', fill = F) %>%
+                    value.var = 'types', fill = F,
+                    fun.aggregate = any) %>%
 
   # The plan is to flip the chart up-side down, then
   # we track different columns on the accumulated
