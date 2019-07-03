@@ -91,7 +91,7 @@
 #' @param mnp.window A numeric indicating the window to check for bias.
 #'
 #' Refer to ?model.manipulation
-#' @param mnp.bias.suppress A numeric indicating the intensity to suppress the
+#' @param mnp.bias.scale A numeric indicating the intensity to scale the
 #' correction
 #'
 #' Refer to ?model.manipulation
@@ -148,7 +148,7 @@ calculateDifficulty <- function(chart.path             = NA,
                                 dns.m.lnote.weight     = 1,
                                 dns.m.lnotel.weight    = 1,
                                 mnp.window             = 1000,
-                                mnp.bias.suppress      = 2,
+                                mnp.bias.scale      = 2,
                                 sim.decay.ms           = 0,
                                 sim.decay.perc.s       = 0.25,
                                 sim.stress.init        = 0,
@@ -198,7 +198,7 @@ calculateDifficulty <- function(chart.path             = NA,
 
   m.mnp <- model.manipulation(chart = chart,
                               window = mnp.window,
-                              bias.suppress = mnp.bias.suppress)
+                              bias.scale = mnp.bias.scale)
 
   sim <- model.sim(m.mtn = m.mtn,
                    m.dns = m.dns,

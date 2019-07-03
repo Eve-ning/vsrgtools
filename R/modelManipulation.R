@@ -68,7 +68,3 @@ model.manipulation <- function(chart,
 
   return(chart.count)
 }
-
-# chart <- chartParse("../osutools_test/src/r/osu/4/UNDEAD CORPORATION - MEGALOMANIA (hansuyo) [GOD].osu")
-# d <- model.manipulation(chart)
-# plot(d)

@@ -13,7 +13,7 @@ calculateDifficulty(chart.path = NA, chart.lines = NA,
   dns.mini.ln.threshold = 150, dns.mini.ln.tail.drop = T,
   dns.note.weight = 1, dns.lnoteh.weight = 1, dns.lnotel.weight = 1,
   dns.m.lnote.weight = 1, dns.m.lnotel.weight = 1, mnp.window = 1000,
-  mnp.bias.suppress = 2, sim.decay.ms = 0, sim.decay.perc.s = 0.25,
+  mnp.bias.scale = 2, sim.decay.ms = 0, sim.decay.perc.s = 0.25,
   sim.stress.init = 0, sim.mtn.pow = 0.5, sim.dns.pow = 1,
   sim.bin.size = 2500, sim.disable = F)
 }
@@ -124,7 +124,7 @@ Refer to ?model.density}
 
 Refer to ?model.manipulation}
 
-\item{mnp.bias.suppress}{A numeric indicating the intensity to suppress the
+\item{mnp.bias.scale}{A numeric indicating the intensity to scale the
 correction
 
 Refer to ?model.manipulation}
