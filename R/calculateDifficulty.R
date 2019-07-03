@@ -95,6 +95,9 @@
 #' correction
 #'
 #' Refer to ?model.manipulation
+#' @param mnp.bias.power A numeric indicating the intensity of the correction.
+#'
+#' Refer to ?model.manipulation
 #' @param sim.decay.ms A numeric indicating the decay of stress per ms.
 #'
 #' Refer to ?model.sim
@@ -149,6 +152,7 @@ calculateDifficulty <- function(chart.path             = NA,
                                 dns.m.lnotel.weight    = 1,
                                 mnp.window             = 1000,
                                 mnp.bias.scale         = 2,
+                                mnp.bias.power         = 0.1,
                                 sim.decay.ms           = 0,
                                 sim.decay.perc.s       = 0.25,
                                 sim.stress.init        = 0,
@@ -198,7 +202,8 @@ calculateDifficulty <- function(chart.path             = NA,
 
   m.mnp <- model.manipulation(chart = chart,
                               window = mnp.window,
-                              bias.scale = mnp.bias.scale)
+                              bias.scale = mnp.bias.scale,
+                              bias.power = mnp.bias.power)
 
   sim <- model.sim(m.mtn = m.mtn,
                    m.dns = m.dns,

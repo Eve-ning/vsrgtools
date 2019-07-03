@@ -15,6 +15,7 @@
 #' @param window The window to check for biases.
 #' @param bias.scale Scales the variances
 #' @param bias.correction Corrects 0 variances by adding a small value
+#' @param bias.power The lower the value, the less of a correction
 #' @param ignore.types Types to be ignored during model creation
 #'
 #' @importFrom magrittr %<>% %>% set_colnames
@@ -29,6 +30,7 @@ model.manipulation <- function(chart,
                                window = 1000,
                                bias.scale = 0.25,
                                bias.correction = 1.1,
+                               bias.power = 0.1,
                                ignore.types = c('lnotel')){
 
   if (bias.scale < 0) {
@@ -64,7 +66,7 @@ model.manipulation <- function(chart,
     # with other keys
     dplyr::summarise(values = stats::var(.data$counts)) %>%
     dplyr::mutate(
-      values = 1/(-.data$values * bias.scale - bias.correction) + 1)
+      values = (1/(-.data$values * bias.scale - bias.correction) + 1) ** bias.power)
 
   return(chart.count)
 }
