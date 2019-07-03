@@ -28,13 +28,13 @@
 model.manipulation <- function(chart,
                                window = 1000,
                                bias.scale = 2,
-                               bias.correction = 0.1,
+                               bias.correction = 1.1,
                                ignore.types = c('lnotel')){
 
   if (bias.scale < 0) {
     stop("bias.scale cannot be less than 0")
-  } else if (bias.correction <= 0) {
-    stop("bias.correction cannot be <= 0, it will cause some values to be 0")
+  } else if (bias.correction <= 1) {
+    stop("bias.correction cannot be <= 1, it will cause some values to be 0")
   }
 
   unq.offsets <- unique(chart$offsets)
@@ -64,7 +64,7 @@ model.manipulation <- function(chart,
     # with other keys
     dplyr::summarise(values = stats::var(.data$counts)) %>%
     dplyr::mutate(
-      values = 1/((.data$values + 1) * bias.scale + bias.correction) + 1)
+      values = 1/(-.data$values * bias.scale + bias.correction) + 1)
 
   return(chart.count)
 }
