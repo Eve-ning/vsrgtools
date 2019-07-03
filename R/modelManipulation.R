@@ -27,7 +27,7 @@
 
 model.manipulation <- function(chart,
                                window = 1000,
-                               bias.suppress = 1,
+                               bias.suppress = 5,
                                ignore.types = c('lnotel')){
 
   unq.offsets <- unique(chart$offsets)
