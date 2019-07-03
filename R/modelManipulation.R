@@ -27,7 +27,7 @@
 
 model.manipulation <- function(chart,
                                window = 1000,
-                               bias.scale = 2,
+                               bias.scale = 0.25,
                                bias.correction = 1.1,
                                ignore.types = c('lnotel')){
 
@@ -64,7 +64,7 @@ model.manipulation <- function(chart,
     # with other keys
     dplyr::summarise(values = stats::var(.data$counts)) %>%
     dplyr::mutate(
-      values = 1/(-.data$values * bias.scale + bias.correction) + 1)
+      values = 1/(-.data$values * bias.scale - bias.correction) + 1)
 
   return(chart.count)
 }
