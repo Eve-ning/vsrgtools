@@ -54,38 +54,22 @@
 #' @param dns.window A numeric indicating the window to check for density
 #'
 #' Refer to ?model.density
-#' @param dns.mini.ln.parse A logical indicating if mini Long Note should be
-#' parsed.
+#' @param dns.mini.ln.len.min Defines the minimum length of a Mini Long Note
 #'
 #' Refer to ?model.density
-#' @param dns.mini.ln.threshold A numeric indicating the threshold of what
-#' determines a "mini LN".
+#' @param dns.mini.ln.len.max Defines the maximum length of a Mini Long Note
 #'
 #' Refer to ?model.density
-#' @param dns.mini.ln.tail.drop A logical indicating if mini LNs should be
-#' dropped.
+#' @param dns.mini.ln.weight.max Defines the minimum weight of a Mini Long Note
 #'
-#' It is recommended to drop mini LNs for density calculation.
-#'
-#' Refer to ?model.density
-#' @param dns.note.weight A numeric indicating the weight of the 'note' density
-#' weight.
+#' Note that the weight counts separately for the head and tail. So 0.5 will
+#' treat a Long Note as 1 weight
 #'
 #' Refer to ?model.density
-#' @param dns.lnoteh.weight A numeric indicating the weight of the 'lnoteh'
-#' density weight.
+#' @param dns.mini.ln.weight.max Defines the maximum weight of a Mini Long Note
 #'
-#' Refer to ?model.density
-#' @param dns.lnotel.weight A numeric indicating the weight of the 'lnotel'
-#' density weight.
-#'
-#' Refer to ?model.density
-#' @param dns.m.lnote.weight A numeric indicating the weight of the 'm.lnote'
-#' density weight.
-#'
-#' Refer to ?model.density
-#' @param dns.m.lnotel.weight A numeric indicating the weight of the 'm.lnotel'
-#' density weight.
+#' Note that the weight counts separately for the head and tail. So 0.5 will
+#' treat a Long Note as 1 weight
 #'
 #' Refer to ?model.density
 #' @param mnp.window A numeric indicating the window to check for bias.
@@ -142,14 +126,10 @@ calculateDifficulty <- function(chart.path             = NA,
                                 mtn.out.weight         = 1.4,
                                 mtn.jack.weight        = 2.5,
                                 dns.window             = 1000,
-                                dns.mini.ln.parse      = T,
-                                dns.mini.ln.threshold  = 150,
-                                dns.mini.ln.tail.drop  = T,
-                                dns.note.weight        = 1,
-                                dns.lnoteh.weight      = 1,
-                                dns.lnotel.weight      = 1,
-                                dns.m.lnote.weight     = 1,
-                                dns.m.lnotel.weight    = 1,
+                                dns.mini.ln.len.min    = 100,
+                                dns.mini.ln.len.max    = 400,
+                                dns.mini.ln.weight.min = 0.65,
+                                dns.mini.ln.weight.max = 1,
                                 mnp.window             = 1000,
                                 mnp.bias.scale         = 2,
                                 mnp.bias.power         = 0.1,
@@ -187,18 +167,10 @@ calculateDifficulty <- function(chart.path             = NA,
                         )
   m.dns <- model.density(chart = chart,
                          window = dns.window,
-                         mini.ln.parse = dns.mini.ln.parse,
-                         mini.ln.threshold = dns.mini.ln.threshold,
-                         mini.ln.tail.drop = dns.mini.ln.tail.drop,
-                         types.mapping =
-                           data.frame(
-                             types = c('note', 'lnoteh', 'lnotel',
-                                       'm.lnote', 'm.lnotel'),
-                             weights = c(dns.note.weight,
-                                         dns.lnoteh.weight,
-                                         dns.lnotel.weight,
-                                         dns.m.lnote.weight,
-                                         dns.m.lnotel.weight)))
+                         mini.ln.len.min = dns.mini.ln.len.min,
+                         mini.ln.len.max = dns.mini.ln.len.max,
+                         mini.ln.weight.min = dns.mini.ln.weight.min,
+                         mini.ln.weight.max = dns.mini.ln.weight.max)
 
   m.mnp <- model.manipulation(chart = chart,
                               window = mnp.window,
