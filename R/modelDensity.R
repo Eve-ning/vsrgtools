@@ -32,27 +32,36 @@
 
 model.density <- function(chart, window = 1000,
                           mini.ln.parse = T,
-                          mini.ln.threshold = 150,
+                          mini.ln.len.min = 100,
+                          mini.ln.len.max = 400,
+                          mini.ln.weight.min = 0.65,
+                          mini.ln.weight.max = 1,
                           mini.ln.tail.drop = T,
                           types.mapping = NA) {
 
-  if (mini.ln.parse){
-    chart %<>%
-      dplyr::mutate(
-        types = ifelse(
-          (.data$types == 'lnoteh') & (.data$len <= mini.ln.threshold),
-          'm.lnote', .data$types),
-        types = ifelse(
-          (.data$types == 'lnotel') & (.data$len <= mini.ln.threshold),
-          'm.lnotel', .data$types))
-    if (mini.ln.tail.drop){
-      chart %<>% dplyr::filter(.data$types != 'm.lnotel')
-    }
-  }
-
+  # chart <- chartParse("../osutools_test/src/r/osu/4/Betwixt & Between - out of Blue (Shoegazer) [Abyss].osu")
+  #
+  # Rcpp::sourceCpp("src/modelDensity.cpp")
   unq.offsets <- unique(chart$offsets)
   # Lists are sorted alphabetically, this is required for colnames
   types.names <- sort(unique(chart$types))
+
+  mini.ln.len.width <- mini.ln.len.max - mini.ln.len.min
+  mini.ln.weight.width <- mini.ln.weight.max - mini.ln.weight.min
+
+  chart %<>%
+    dplyr::mutate(
+      weights = (.data$len - mini.ln.len.min) / mini.ln.len.width,
+      weights = (.data$weights * mini.ln.weight.width) + mini.ln.weight.min,
+      # Crop min
+      weights = dplyr::if_else(.data$weights < mini.ln.weight.min,
+        mini.ln.weight.min, .data$weights),
+      # Crop max
+      weights = dplyr::if_else(weights > mini.ln.weight.max,
+        mini.ln.weight.max, .data$weights),
+      # Weight notes correctly
+      weights = dplyr::if_else(.data$types == 'note',
+        1, .data$weights))
 
   chart %<>%
     split(chart$types, drop = T)
