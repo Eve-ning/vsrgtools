@@ -33,7 +33,7 @@ List cppModelDensity(NumericVector unq_offsets,
   for (int i = 0; i < obj_offsets.length(); i++) {
     DataFrame index = as<DataFrame>(obj_offsets[i]);
     out.push_back(cppCountForward(unq_offsets, index["offsets"],
-                                  window, is_sorted));
+                                  window, is_sorted, index["weights"]));
   }
 
   return out;
