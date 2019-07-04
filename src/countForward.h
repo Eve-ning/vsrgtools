@@ -5,4 +5,5 @@ using namespace Rcpp;
 NumericVector cppCountForward(NumericVector unq_offsets,
                               NumericVector obj_offsets,
                               double window,
-                              bool is_sorted = false);
+                              bool is_sorted = false,
+                              Nullable<NumericVector> obj_weights = R_NilValue);

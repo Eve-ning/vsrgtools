@@ -9,13 +9,13 @@ calculateDifficulty(chart.path = NA, chart.lines = NA,
   mtn.suppress = T, mtn.suppress.threshold = 50,
   mtn.suppress.scale = 2, mtn.ignore.jacks = T,
   mtn.across.weight = 0.9, mtn.in.weight = 1, mtn.out.weight = 1.4,
-  mtn.jack.weight = 2.5, dns.window = 1000, dns.mini.ln.parse = T,
-  dns.mini.ln.threshold = 150, dns.mini.ln.tail.drop = T,
-  dns.note.weight = 1, dns.lnoteh.weight = 1, dns.lnotel.weight = 1,
-  dns.m.lnote.weight = 1, dns.m.lnotel.weight = 1, mnp.window = 1000,
-  mnp.bias.scale = 2, sim.decay.ms = 0, sim.decay.perc.s = 0.25,
-  sim.stress.init = 0, sim.mtn.pow = 0.5, sim.dns.pow = 1,
-  sim.bin.size = 2500, sim.disable = F)
+  mtn.jack.weight = 2.5, dns.window = 1000,
+  dns.mini.ln.len.min = 100, dns.mini.ln.len.max = 400,
+  dns.mini.ln.weight.min = 0.65, dns.mini.ln.weight.max = 1,
+  mnp.window = 1000, mnp.bias.scale = 2, mnp.bias.power = 0.1,
+  sim.decay.ms = 0, sim.decay.perc.s = 0.25, sim.stress.init = 0,
+  sim.mtn.pow = 0.5, sim.dns.pow = 1, sim.bin.size = 2500,
+  sim.disable = F)
 }
 \arguments{
 \item{chart.path}{Path to chart}
@@ -78,45 +78,25 @@ Refer to ?model.motion}
 
 Refer to ?model.density}
 
-\item{dns.mini.ln.parse}{A logical indicating if mini Long Note should be
-parsed.
+\item{dns.mini.ln.len.min}{Defines the minimum length of a Mini Long Note
 
 Refer to ?model.density}
 
-\item{dns.mini.ln.threshold}{A numeric indicating the threshold of what
-determines a "mini LN".
+\item{dns.mini.ln.len.max}{Defines the maximum length of a Mini Long Note
 
 Refer to ?model.density}
 
-\item{dns.mini.ln.tail.drop}{A logical indicating if mini LNs should be
-dropped.
+\item{dns.mini.ln.weight.min}{Defines the minimum weight of a Mini Long Note
 
-It is recommended to drop mini LNs for density calculation.
-
-Refer to ?model.density}
-
-\item{dns.note.weight}{A numeric indicating the weight of the 'note' density
-weight.
+Note that the weight counts separately for the head and tail. So 0.5 will
+treat a Long Note as 1 weight
 
 Refer to ?model.density}
 
-\item{dns.lnoteh.weight}{A numeric indicating the weight of the 'lnoteh'
-density weight.
+\item{dns.mini.ln.weight.max}{Defines the maximum weight of a Mini Long Note
 
-Refer to ?model.density}
-
-\item{dns.lnotel.weight}{A numeric indicating the weight of the 'lnotel'
-density weight.
-
-Refer to ?model.density}
-
-\item{dns.m.lnote.weight}{A numeric indicating the weight of the 'm.lnote'
-density weight.
-
-Refer to ?model.density}
-
-\item{dns.m.lnotel.weight}{A numeric indicating the weight of the 'm.lnotel'
-density weight.
+Note that the weight counts separately for the head and tail. So 0.5 will
+treat a Long Note as 1 weight
 
 Refer to ?model.density}
 
@@ -126,6 +106,10 @@ Refer to ?model.manipulation}
 
 \item{mnp.bias.scale}{A numeric indicating the intensity to scale the
 correction
+
+Refer to ?model.manipulation}
+
+\item{mnp.bias.power}{A numeric indicating the intensity of the correction.
 
 Refer to ?model.manipulation}
 
