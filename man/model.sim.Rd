@@ -23,7 +23,7 @@ model.sim(m.mtn, m.dns, m.mnp, mtn.pow, dns.pow, decay.ms = 0,
 
 \item{decay.perc.s}{stress decay percentage per second
 
-Note that 1.0 means 100% decay per second}
+Note that 1.0 means 100 percent decay per second}
 
 \item{stress.init}{stress to start off with}
 

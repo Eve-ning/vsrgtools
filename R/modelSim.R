@@ -8,7 +8,7 @@
 #' @param decay.ms stress decay per ms
 #' @param decay.perc.s stress decay percentage per second
 #'
-#' Note that 1.0 means 100% decay per second
+#' Note that 1.0 means 100 percent decay per second
 #' @param stress.init stress to start off with
 #' @param bin.size the bins size for model smoothing
 #'

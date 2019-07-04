@@ -86,7 +86,14 @@ Refer to ?model.density}
 
 Refer to ?model.density}
 
-\item{dns.mini.ln.weight.max}{Defines the minimum weight of a Mini Long Note
+\item{dns.mini.ln.weight.min}{Defines the minimum weight of a Mini Long Note
+
+Note that the weight counts separately for the head and tail. So 0.5 will
+treat a Long Note as 1 weight
+
+Refer to ?model.density}
+
+\item{dns.mini.ln.weight.max}{Defines the maximum weight of a Mini Long Note
 
 Note that the weight counts separately for the head and tail. So 0.5 will
 treat a Long Note as 1 weight
@@ -134,13 +141,6 @@ Refer to ?model.sim}
 
 \item{sim.disable}{A logical indicating if stress sim should be disabled.
 Will improve performance of calculation.}
-
-\item{dns.mini.ln.weight.max}{Defines the maximum weight of a Mini Long Note
-
-Note that the weight counts separately for the head and tail. So 0.5 will
-treat a Long Note as 1 weight
-
-Refer to ?model.density}
 }
 \value{
 Returns a list of calculated models

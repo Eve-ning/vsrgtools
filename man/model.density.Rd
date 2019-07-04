@@ -17,17 +17,17 @@ model.density(chart, window = 1000, mini.ln.len.min = 100,
 
 \item{mini.ln.len.max}{Defines the maximum length of a Mini Long Note}
 
-\item{mini.ln.weight.max}{Defines the minimum weight of a Mini Long Note
+\item{mini.ln.weight.min}{Defines the minimum weight of a Mini Long Note
 
 Note that the weight counts separately for the head and tail. So 0.5 will
 treat a Long Note as 1 weight}
-
-\item{weight.note}{Defines the weight of a note}
 
 \item{mini.ln.weight.max}{Defines the maximum weight of a Mini Long Note
 
 Note that the weight counts separately for the head and tail. So 0.5 will
 treat a Long Note as 1 weight}
+
+\item{weight.note}{Defines the weight of a note}
 }
 \value{
 Returns a data.frame compatible with model.sim
