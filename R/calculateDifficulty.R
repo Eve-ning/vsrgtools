@@ -60,7 +60,7 @@
 #' @param dns.mini.ln.len.max Defines the maximum length of a Mini Long Note
 #'
 #' Refer to ?model.density
-#' @param dns.mini.ln.weight.max Defines the minimum weight of a Mini Long Note
+#' @param dns.mini.ln.weight.min Defines the minimum weight of a Mini Long Note
 #'
 #' Note that the weight counts separately for the head and tail. So 0.5 will
 #' treat a Long Note as 1 weight

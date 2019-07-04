@@ -10,7 +10,7 @@
 #' @param window The window to check for objects
 #' @param mini.ln.len.min Defines the minimum length of a Mini Long Note
 #' @param mini.ln.len.max Defines the maximum length of a Mini Long Note
-#' @param mini.ln.weight.max Defines the minimum weight of a Mini Long Note
+#' @param mini.ln.weight.min Defines the minimum weight of a Mini Long Note
 #'
 #' Note that the weight counts separately for the head and tail. So 0.5 will
 #' treat a Long Note as 1 weight
@@ -50,7 +50,7 @@ model.density <- function(chart, window = 1000,
       weights = dplyr::if_else(.data$weights < mini.ln.weight.min,
         mini.ln.weight.min, .data$weights),
       # Crop max
-      weights = dplyr::if_else(weights > mini.ln.weight.max,
+      weights = dplyr::if_else(.data$weights > mini.ln.weight.max,
         mini.ln.weight.max, .data$weights),
       # Weight notes correctly
       weights = dplyr::if_else(.data$types == 'note',
