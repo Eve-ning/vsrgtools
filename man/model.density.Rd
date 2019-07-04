@@ -4,29 +4,30 @@
 \alias{model.density}
 \title{Static Model generator for Density}
 \usage{
-model.density(chart, window = 1000, mini.ln.parse = T,
-  mini.ln.threshold = 150, mini.ln.tail.drop = T, types.mapping = NA)
+model.density(chart, window = 1000, mini.ln.len.min = 100,
+  mini.ln.len.max = 400, mini.ln.weight.min = 0.65,
+  mini.ln.weight.max = 1, weight.note = 1)
 }
 \arguments{
 \item{chart}{The chart generated from chartParse}
 
 \item{window}{The window to check for objects}
 
-\item{mini.ln.parse}{A logical indicating if miniLNs should be parsed
-separately}
+\item{mini.ln.len.min}{Defines the minimum length of a Mini Long Note}
 
-\item{mini.ln.threshold}{A numeric indicating the threshold of LNs to be
-considered mini}
+\item{mini.ln.len.max}{Defines the maximum length of a Mini Long Note}
 
-\item{mini.ln.tail.drop}{Logical indicating if the miniLN Tail should be
-dropped.}
+\item{mini.ln.weight.max}{Defines the minimum weight of a Mini Long Note
 
-\item{types.mapping}{A data.frame to be merged with the output types to
-generate weights.
+Note that the weight counts separately for the head and tail. So 0.5 will
+treat a Long Note as 1 weight}
 
-It must only hold the columns types and weights
+\item{weight.note}{Defines the weight of a note}
 
-If NA, .dflt.model.density.mapping will be used}
+\item{mini.ln.weight.max}{Defines the maximum weight of a Mini Long Note
+
+Note that the weight counts separately for the head and tail. So 0.5 will
+treat a Long Note as 1 weight}
 }
 \value{
 Returns a data.frame compatible with model.sim

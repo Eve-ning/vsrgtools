@@ -6,8 +6,8 @@
 using namespace Rcpp;
 
 // cppCountForward
-NumericVector cppCountForward(NumericVector unq_offsets, NumericVector obj_offsets, double window, bool is_sorted);
-RcppExport SEXP _osutools_cppCountForward(SEXP unq_offsetsSEXP, SEXP obj_offsetsSEXP, SEXP windowSEXP, SEXP is_sortedSEXP) {
+NumericVector cppCountForward(NumericVector unq_offsets, NumericVector obj_offsets, double window, bool is_sorted, Nullable<NumericVector> obj_weights);
+RcppExport SEXP _osutools_cppCountForward(SEXP unq_offsetsSEXP, SEXP obj_offsetsSEXP, SEXP windowSEXP, SEXP is_sortedSEXP, SEXP obj_weightsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -15,7 +15,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type obj_offsets(obj_offsetsSEXP);
     Rcpp::traits::input_parameter< double >::type window(windowSEXP);
     Rcpp::traits::input_parameter< bool >::type is_sorted(is_sortedSEXP);
-    rcpp_result_gen = Rcpp::wrap(cppCountForward(unq_offsets, obj_offsets, window, is_sorted));
+    Rcpp::traits::input_parameter< Nullable<NumericVector> >::type obj_weights(obj_weightsSEXP);
+    rcpp_result_gen = Rcpp::wrap(cppCountForward(unq_offsets, obj_offsets, window, is_sorted, obj_weights));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -76,7 +77,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_osutools_cppCountForward", (DL_FUNC) &_osutools_cppCountForward, 4},
+    {"_osutools_cppCountForward", (DL_FUNC) &_osutools_cppCountForward, 5},
     {"_osutools_cppBroadcast", (DL_FUNC) &_osutools_cppBroadcast, 2},
     {"_osutools_cppModelDensity", (DL_FUNC) &_osutools_cppModelDensity, 4},
     {"_osutools_cppModelManipulation", (DL_FUNC) &_osutools_cppModelManipulation, 4},
