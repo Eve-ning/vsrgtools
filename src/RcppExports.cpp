@@ -47,7 +47,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // cppModelLongNote
-DataFrame cppModelLongNote(DataFrame chart, std::string longNoteStartName, std::string longNoteEndName, std::string newName, bool labelStart, bool labelEnd);
+List cppModelLongNote(DataFrame chart, std::string longNoteStartName, std::string longNoteEndName, std::string newName, bool labelStart, bool labelEnd);
 RcppExport SEXP _osutools_cppModelLongNote(SEXP chartSEXP, SEXP longNoteStartNameSEXP, SEXP longNoteEndNameSEXP, SEXP newNameSEXP, SEXP labelStartSEXP, SEXP labelEndSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

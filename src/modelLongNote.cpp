@@ -24,12 +24,12 @@ template < typename T > std::string to_string( const T& n )
 //' @export
 //'
 // [[Rcpp::export(name=".cppModelLongNote")]]
-DataFrame cppModelLongNote(DataFrame chart,
-                           std::string longNoteStartName,
-                           std::string longNoteEndName,
-                           std::string newName,
-                           bool labelStart,
-                           bool labelEnd) {
+List cppModelLongNote(DataFrame chart,
+                      std::string longNoteStartName,
+                      std::string longNoteEndName,
+                      std::string newName,
+                      bool labelStart,
+                      bool labelEnd) {
 
   unsigned int cols = chart.ncol();
   unsigned int rows = chart.nrow();
