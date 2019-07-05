@@ -105,6 +105,8 @@ chartFngMapping <- function(chart.keyset.select=NA,
   getDetails <- function(mapping) {
     mapping %<>%
       dplyr::mutate(
+        # Read the document above for details about these parameters
+
         directions = 'in',
         distances = abs(.data$keys.tos - .data$keys.froms),
 
@@ -126,6 +128,8 @@ chartFngMapping <- function(chart.keyset.select=NA,
 
     return(mapping)
   }
+
+
 
   move.mapping <- loadMapping()
   move.chart.keyset <- loadchart.keyset(chart.keyset,
