@@ -17,7 +17,14 @@
 #'
 #' If NA, .dflt.model.motion.mapping will be used
 #'
+#' @importFrom magrittr %<>% %>%
+#' @importFrom dplyr filter select mutate group_by summarise
+#' @importFrom reshape2 melt
+#' @importFrom stats complete.cases
+#' @importFrom rlang .data
+#'
 #' @export
+
 model.longNote <- function(chart,
                            chart.keyset.select = NA,
                            chart.keyset = NA,
