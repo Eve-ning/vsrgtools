@@ -70,5 +70,5 @@ model.longNote <- function(chart,
     dplyr::group_by(.data$offsets) %>%
     dplyr::summarise(values = sum(.data$values))
 
-  return(chart)
+  return(chart.merge)
 }
