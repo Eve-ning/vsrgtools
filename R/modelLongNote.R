@@ -1,18 +1,23 @@
 #' Static Model generator for Long Notes
 #'
 #'
-require(osutools)
-require(dplyr)
-require(magrittr)
+model.longNote <- function(chart,
+                           chart.keyset.select = NA,
+                           chart.keyset = NA,
+                           directions.mapping = NA){
 
-chart <- chartParse("../osutools_test/src/r/osu/7/Ayane - Endless Tears... (richardfeder) [CrossOver].osu")
+  # Load in parameters
+  keyset <- chartFngMapping(chart.keyset.select = chart.keyset.select,
+                            chart.keyset = chart.keyset)
+  suppressWarnings({
+    if (is.na(directions.mapping)) directions.mapping <- .dflt.mtn.mapping()})
 
-Rcpp::sourceCpp("src/modelLongNote.cpp")
-model.longNote <- function(chart){
+  # Define what constitutes a "note"
   chart.note <- chart %>%
-    dplyr::filter(.data$types == 'note') %>%
+    dplyr::filter(.data$types %in% c('note', 'lnoteh')) %>%
     dplyr::select(.data$keys, .data$offsets)
 
+  # Define what constitutes a long note body
   chart.longNote <- chart %>%
     reshape2::dcast(offsets ~ keys,value.var = 'types', fill = NA) %>%
     .cppModelLongNote('lnoteh', 'lnotel', 'lnote', T, T) %>%
@@ -23,12 +28,20 @@ model.longNote <- function(chart){
 
   chart.merge <- merge(
     chart.note, chart.longNote,
-    by = 'offsets', all = T, suffixes = c('.note', '.lnote'))
+    by = 'offsets', all = T, suffixes = c('.tos', '.froms'))
 
-  f <- chart.merge %>%
-    dplyr::filter(stats::complete.cases(.))
+  chart.merge %<>%
+    merge(keyset) %>%
+    merge(directions.mapping, by = 'directions') %>%
+    dplyr::filter(stats::complete.cases(.)) %>%
+    merge(keyset) %>%
+    dplyr::mutate(
+      # Same as modelMotion it has a specific calcultion algo
+      rfls.dist = .data$rfls * 8 + .data$distances,
+      values = .data$rfls.dist * .data$weights
+    ) %>%
+    dplyr::group_by(offsets) %>%
+    dplyr::summarise(values = sum(.data$values))
 
-  moves <- .dflt.move.keysets()
-  moves$`7R`
-    return(chart)
+  return(chart)
 }
