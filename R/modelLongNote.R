@@ -18,7 +18,7 @@
 #' If NA, .dflt.model.motion.mapping will be used
 #'
 #' @importFrom magrittr %<>% %>%
-#' @importFrom dplyr filter select mutate group_by summarise
+#' @importFrom dplyr filter select mutate group_by summarise first
 #' @importFrom reshape2 melt
 #' @importFrom stats complete.cases
 #' @importFrom rlang .data
@@ -28,7 +28,8 @@
 model.longNote <- function(chart,
                            chart.keyset.select = NA,
                            chart.keyset = NA,
-                           directions.mapping = NA){
+                           directions.mapping = NA,
+                           scale = 1){
 
   # Load in parameters
   keyset <- chartFngMapping(chart.keyset.select = chart.keyset.select,
@@ -43,7 +44,7 @@ model.longNote <- function(chart,
 
   # Define what constitutes a long note body
   chart.longNote <- chart %>%
-    reshape2::dcast(offsets ~ keys,value.var = 'types', fill = NA) %>%
+    reshape2::dcast(offsets ~ keys, value.var = 'types', fun.aggregate = dplyr::first) %>%
     .cppModelLongNote('lnoteh', 'lnotel', 'lnote', T, T)
 
   chart.longNote %<>% # Required to split since ncol(.) doesn't support piping
@@ -64,11 +65,13 @@ model.longNote <- function(chart,
     merge(directions.mapping, by = 'directions') %>%
     dplyr::mutate(
       # Same as modelMotion it has a specific calcultion algo
+      # TODO We need to tweak this
       rfls.dist = .data$rfls * 8 + .data$distances,
-      values = .data$rfls.dist * .data$weights
+      values = .data$rfls.dist * .data$weights / 100
     ) %>%
     dplyr::group_by(.data$offsets) %>%
-    dplyr::summarise(values = sum(.data$values))
+    dplyr::summarise(values = sum(.data$values)) %>%
+    dplyr::mutate(values = (.data$values / scale) + 1)
 
   return(chart.merge)
 }

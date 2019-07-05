@@ -82,6 +82,8 @@
 #' @param mnp.bias.power A numeric indicating the intensity of the correction.
 #'
 #' Refer to ?model.manipulation
+#' @param lng.scale A numeric indicating the scaling of the value.
+#'
 #' @param sim.decay.ms A numeric indicating the decay of stress per ms.
 #'
 #' Refer to ?model.sim
@@ -133,6 +135,7 @@ calculateDifficulty <- function(chart.path             = NA,
                                 mnp.window             = 1000,
                                 mnp.bias.scale         = 2,
                                 mnp.bias.power         = 0.1,
+                                lng.scale              = 1,
                                 sim.decay.ms           = 0,
                                 sim.decay.perc.s       = 0.25,
                                 sim.stress.init        = 0,
@@ -177,9 +180,23 @@ calculateDifficulty <- function(chart.path             = NA,
                               bias.scale = mnp.bias.scale,
                               bias.power = mnp.bias.power)
 
+  m.lng <- model.longNote(chart = chart,
+                          chart.keyset.select = chart.keyset.select,
+                          chart.keyset = chart.keyset,
+                          directions.mapping =
+                            data.frame(
+                              directions = c('across', 'in', 'out', 'jack'),
+                              weights = c(mtn.across.weight,
+                                          mtn.in.weight,
+                                          mtn.out.weight,
+                                          mtn.jack.weight)),
+                          scale = lng.scale
+                          )
+
   sim <- model.sim(m.mtn = m.mtn,
                    m.dns = m.dns,
                    m.mnp = m.mnp,
+                   m.lng = m.lng,
                    mtn.pow = sim.mtn.pow,
                    dns.pow = sim.dns.pow,
                    decay.ms = sim.decay.ms,
@@ -193,7 +210,8 @@ calculateDifficulty <- function(chart.path             = NA,
               "model" = sim$model,
               "mtn" = m.mtn,
               "dns" = m.dns,
-              "mnp" = m.mnp))
+              "mnp" = m.mnp,
+              "lng" = m.lng))
 }
 # require(osutools)
 # e <- calculateDifficulty("../osutools_test/src/r/osu/4/DJ Myosuke & Noizenecio - Architecture (Mat) [Mat's 4k DEATH].osu",
