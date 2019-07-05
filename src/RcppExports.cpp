@@ -46,6 +46,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// cppModelLongNote
+DataFrame cppModelLongNote(DataFrame chart, std::string longNoteStartName, std::string longNoteEndName, std::string newName, bool labelStart, bool labelEnd);
+RcppExport SEXP _osutools_cppModelLongNote(SEXP chartSEXP, SEXP longNoteStartNameSEXP, SEXP longNoteEndNameSEXP, SEXP newNameSEXP, SEXP labelStartSEXP, SEXP labelEndSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type chart(chartSEXP);
+    Rcpp::traits::input_parameter< std::string >::type longNoteStartName(longNoteStartNameSEXP);
+    Rcpp::traits::input_parameter< std::string >::type longNoteEndName(longNoteEndNameSEXP);
+    Rcpp::traits::input_parameter< std::string >::type newName(newNameSEXP);
+    Rcpp::traits::input_parameter< bool >::type labelStart(labelStartSEXP);
+    Rcpp::traits::input_parameter< bool >::type labelEnd(labelEndSEXP);
+    rcpp_result_gen = Rcpp::wrap(cppModelLongNote(chart, longNoteStartName, longNoteEndName, newName, labelStart, labelEnd));
+    return rcpp_result_gen;
+END_RCPP
+}
 // cppModelManipulation
 List cppModelManipulation(NumericVector unq_offsets, List obj_offsets, double window, bool is_sorted);
 RcppExport SEXP _osutools_cppModelManipulation(SEXP unq_offsetsSEXP, SEXP obj_offsetsSEXP, SEXP windowSEXP, SEXP is_sortedSEXP) {
@@ -80,6 +96,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_osutools_cppCountForward", (DL_FUNC) &_osutools_cppCountForward, 5},
     {"_osutools_cppBroadcast", (DL_FUNC) &_osutools_cppBroadcast, 2},
     {"_osutools_cppModelDensity", (DL_FUNC) &_osutools_cppModelDensity, 4},
+    {"_osutools_cppModelLongNote", (DL_FUNC) &_osutools_cppModelLongNote, 6},
     {"_osutools_cppModelManipulation", (DL_FUNC) &_osutools_cppModelManipulation, 4},
     {"_osutools_cppSimulateKey", (DL_FUNC) &_osutools_cppSimulateKey, 5},
     {NULL, NULL, 0}

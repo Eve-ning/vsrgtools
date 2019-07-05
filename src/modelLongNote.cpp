@@ -1,6 +1,15 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+#include <sstream> // for to_string
+// std::to_string doesn't work for some reason, will have to workaround
+template < typename T > std::string to_string( const T& n )
+{
+  std::ostringstream stm ;
+  stm << n ;
+  return stm.str() ;
+}
+
 //' Helps model.longNote in speeding up operations
 //'
 //' @param chart A casted chart provided via model.longNote
@@ -14,7 +23,7 @@ using namespace Rcpp;
 //'
 //' @export
 //'
-// [[Rcpp::export]]
+// [[Rcpp::export(name=".cppModelLongNote")]]
 DataFrame cppModelLongNote(DataFrame chart,
                            std::string longNoteStartName,
                            std::string longNoteEndName,
@@ -48,7 +57,7 @@ DataFrame cppModelLongNote(DataFrame chart,
         if (lnFlag) colVector[row] = newName;
       }
     }
-    out.push_back(colVector, std::to_string(col));
+    out.push_back(colVector, to_string(col));
   }
   return out;
 }

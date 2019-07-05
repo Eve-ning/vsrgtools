@@ -13,6 +13,23 @@
     .Call(`_osutools_cppModelDensity`, unq_offsets, obj_offsets, window, is_sorted)
 }
 
+#' Helps model.longNote in speeding up operations
+#'
+#' @param chart A casted chart provided via model.longNote
+#' @param longNoteStartName The string indicating the start of a long note
+#' @param longNoteEndName The string indicating the start of a long note
+#' @param newName The string indicating the replaced name of long note bodies
+#' @param labelStart A boolean indicating if the start of the long notes must
+#' be labelled
+#' @param labelEnd A boolean indicating if the end of the long notes must be
+#' labelled
+#'
+#' @export
+#'
+.cppModelLongNote <- function(chart, longNoteStartName, longNoteEndName, newName, labelStart, labelEnd) {
+    .Call(`_osutools_cppModelLongNote`, chart, longNoteStartName, longNoteEndName, newName, labelStart, labelEnd)
+}
+
 #' Helps model.manipulation in speeding up operations
 #'
 #' @description Calculates how many notes in front of window.
