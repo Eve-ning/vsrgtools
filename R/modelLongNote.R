@@ -1,6 +1,23 @@
 #' Static Model generator for Long Notes
 #'
+#' @description
+#' Note that we define difficulty by the Long Note to Note Movement, so the
+#' froms are Long Notes, tos are Notes.
 #'
+#' In other words, if you're holding X, we define difficulty for a Y as
+#' X -> Y akin to model.motion.
+#'
+#' @param chart The chart generated from chartParse
+#' @param chart.keyset.select Read ?createMoveMapping for more details
+#' @param chart.keyset Read ?createMoveMapping for more details
+#' @param directions.mapping A data.frame to be merged with the output
+#' directions to generate weights.
+#'
+#' It must hold the columns directions and weights
+#'
+#' If NA, .dflt.model.motion.mapping will be used
+#'
+#' @export
 model.longNote <- function(chart,
                            chart.keyset.select = NA,
                            chart.keyset = NA,
@@ -20,16 +37,20 @@ model.longNote <- function(chart,
   # Define what constitutes a long note body
   chart.longNote <- chart %>%
     reshape2::dcast(offsets ~ keys,value.var = 'types', fill = NA) %>%
-    .cppModelLongNote('lnoteh', 'lnotel', 'lnote', T, T) %>%
-    magrittr::set_colnames(c('offsets', 1:(ncol(.) - 1))) %>%
+    .cppModelLongNote('lnoteh', 'lnotel', 'lnote', T, T)
+
+  chart.longNote %<>% # Required to split since ncol(.) doesn't support piping
+    magrittr::set_colnames(c('offsets', 1:(ncol(chart.longNote) - 1))) %>%
     reshape2::melt(id.vars = 1, value.name = 'types', variable.name = 'keys') %>%
     dplyr::filter(.data$types == 'lnote') %>%
     dplyr::select(.data$offsets, .data$keys)
 
+  # Merge by crossjoin
   chart.merge <- merge(
     chart.note, chart.longNote,
     by = 'offsets', all = T, suffixes = c('.tos', '.froms'))
 
+  # Set the values of all of the moves
   chart.merge %<>%
     merge(keyset) %>%
     merge(directions.mapping, by = 'directions') %>%
