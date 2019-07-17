@@ -62,20 +62,18 @@ model.longNote <- function(chart,
 
   # Set the values of all of the moves
   chart.merge %<>%
-    dplyr::filter(stats::complete.cases(chart.merge)) %>%
     merge(keyset) %>%
     merge(directions.mapping, by = 'directions') %>%
     dplyr::mutate(
       # Same as modelMotion it has a specific calcultion algo
       # TODO We need to tweak this
       rfls.dist = .data$rfls * 8 + .data$distances,
-      values = .data$rfls.dist * .data$weights / 100
+      values = .data$rfls.dist * .data$weights
     ) %>%
     dplyr::group_by(.data$offsets, .data$keys.froms) %>%
     dplyr::summarise(values = max(.data$values)) %>%
     dplyr::group_by(.data$offsets) %>%
     dplyr::summarise(values = sum(.data$values)) %>%
-    dplyr::mutate(values = (.data$values /(scale * keys)) + 1 )
-
+    dplyr::mutate(values = (.data$values /(scale * keys)))
   return(chart.merge)
 }
