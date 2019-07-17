@@ -2,6 +2,8 @@
 .Rhistory
 .Rapp.history
 
+R/test_charts/*
+
 # Session Data files
 .RData
 
