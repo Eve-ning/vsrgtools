@@ -21,4 +21,6 @@ model.export <- function(m.mtn, m.dns, m.mnp, m.lng){
                   mnp.vals = 4,
                   lng.vals = 5) %>%
     tidyr::replace_na(0)
+
+  return(model)
 }
