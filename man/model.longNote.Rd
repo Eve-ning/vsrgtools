@@ -5,7 +5,7 @@
 \title{Static Model generator for Long Notes}
 \usage{
 model.longNote(chart, chart.keyset.select = NA, chart.keyset = NA,
-  directions.mapping = NA)
+  directions.mapping = NA, scale = 1)
 }
 \arguments{
 \item{chart}{The chart generated from chartParse}
