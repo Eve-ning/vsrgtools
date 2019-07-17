@@ -13,7 +13,7 @@
 
 model.export <- function(m.mtn, m.dns, m.mnp, m.lng){
   # This joins all models
-  model <- list(mtn, dns, mnp, lng) %>%
+  model <- list(m.mtn, m.dns, m.mnp, m.lng) %>%
     purrr::reduce(dplyr::left_join, by = 'offsets') %>%
     dplyr::rename(mtn.vals = 2,
                   dns.vals = 3,
