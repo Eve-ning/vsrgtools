@@ -81,7 +81,7 @@ chartParse <- function(chart.path = NA,
                       'lnoteh', as.character(.data$types)))
 
 
-    return(list("chart" = chart, "keys" = keys))
+    return(list("chart" = chart, "keys" = chart.keys))
   }
   # To add a switch/ifelse statement if more formats are done
 
