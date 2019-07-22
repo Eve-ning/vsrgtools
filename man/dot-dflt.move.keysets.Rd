@@ -7,5 +7,6 @@
 .dflt.move.keysets()
 }
 \description{
-Default Move Keyset for chartFngMapping
+Note that those with multiple playstyle choices have a default mapping,
+usually defaulted to Right Hand Playstyle.
 }
