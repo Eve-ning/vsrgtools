@@ -23,6 +23,7 @@
 #' @importFrom rlang .data
 #' @importFrom reshape2 melt
 #' @importFrom stats var
+#' @importFrom tidyr drop_na
 #'
 #' @export
 
@@ -80,7 +81,8 @@ model.manipulation <- function(chart,
     # with other keys
     dplyr::summarise(values = sum(.data$counts)) %>%
     dplyr::mutate(
-      values = (1/(-.data$values * bias.scale - bias.correction) + 1) ** bias.power)
+      values = (1/(-.data$values * bias.scale - bias.correction) + 1) ** bias.power) %>%
+    tidyr::drop_na()
 
   return(chart.count)
 }
