@@ -57,14 +57,28 @@ model.manipulation <- function(chart,
                                                      window = window,
                                                      is_sorted = F))
 
-  chart.count %<>%
+
+  chart.keys <- ncol(chart.count)
+
+  # This dulplicates chart.count and shifts all records by 1 upwards
+  chart.count.shifted <- rbind(chart.count[2:nrow(chart.count),], NA)
+
+  # This gets the difference between the 2 counts
+  chart.count.diff <-
+    chart.count.shifted[,2:chart.keys] - chart.count[,2:chart.keys]
+
+  chart.count <- chart.count[,1] %>%
+    # Bind with the diff
+    cbind(chart.count.diff) %>%
+    # This sets the names
     magrittr::set_colnames(c("offsets", 1:(ncol(chart.count) - 1))) %>%
     reshape2::melt(id.vars = 1, variable.name = "keys", value.name = "counts") %>%
+    dplyr::mutate(counts = abs(.data$counts)) %>%
     dplyr::group_by(.data$offsets) %>%
-    # Essentially 1 / (Variance ** Power + 1)
+    # Essentially 1 / (Sum ** Power + 1)
     # + 1 is so that the value doesn't jump above 1.0 this helps it go in line
     # with other keys
-    dplyr::summarise(values = stats::var(.data$counts)) %>%
+    dplyr::summarise(values = sum(.data$counts)) %>%
     dplyr::mutate(
       values = (1/(-.data$values * bias.scale - bias.correction) + 1) ** bias.power)
 
