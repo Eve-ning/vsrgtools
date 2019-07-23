@@ -28,12 +28,6 @@ model.manipulation <- function(chart,
                                window = 1000,
                                ignore.types = c('lnotel')){
 
-  if (bias.scale < 0) {
-    stop("bias.scale cannot be less than 0")
-  } else if (bias.correction <= 1) {
-    stop("bias.correction cannot be <= 1, it will cause some values to be 0")
-  }
-
   unq.offsets <- unique(chart$offsets)
 
   # We assign all types the value of 1 as their weight excluding
