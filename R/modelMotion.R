@@ -40,14 +40,14 @@ model.motion <- function(chart.ext,
                          directions.mapping = NA){
 
   chart.ext %<>%
+    # Drop jacks, it will be handled by a different model
+    dplyr::filter(.data$directions != "jack") %>%
     # Suppress graces
     dplyr::mutate(
       diffs.invs =
         dplyr::if_else(
           # Condition
-          (.data$diffs >= suppress.threshold) | (.data$directions == 'jack'),
-          # Inverse Function
-          1/.data$diffs,
+          (.data$diffs >= suppress.threshold),
           # Suppress Function
           1/abs(((.data$diffs - suppress.threshold) * suppress.scale)
                 - suppress.threshold)))
