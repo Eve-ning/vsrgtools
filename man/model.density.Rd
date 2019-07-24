@@ -5,8 +5,8 @@
 \title{Static Model generator for Density}
 \usage{
 model.density(chart, window = 1000, mini.ln.len.min = 100,
-  mini.ln.len.max = 400, mini.ln.weight.min = 0.65,
-  mini.ln.weight.max = 1, weight.note = 1)
+  mini.ln.len.max = 400, mini.ln.weight.min = 0.2,
+  mini.ln.weight.max = 0.7, weight.note = 1)
 }
 \arguments{
 \item{chart}{The chart generated from chartParse}
