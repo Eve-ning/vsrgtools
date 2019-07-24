@@ -33,7 +33,7 @@ Returns a data.frame compatible with model.sim
 }
 \description{
 This uses diffBroadcast and createMoveMapping to summarize the
-occurences of different patterns.
+occurences of different patterns. This excludes jacks.
 
 Suppression
 
