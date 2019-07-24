@@ -47,9 +47,11 @@ model.motion <- function(chart.ext,
       diffs.invs =
         dplyr::if_else(
           # Condition
-          (.data$diffs >= suppress.threshold),
+          .data$diffs >= suppress.threshold,
+          # Default Inv
+          1/.data$diffs,
           # Suppress Function
-          1/abs(((.data$diffs - suppress.threshold) * suppress.scale)
+          1/abs((.data$diffs - suppress.threshold) * suppress.scale
                 - suppress.threshold)))
 
   # Summarize here
