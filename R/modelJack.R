@@ -18,7 +18,7 @@ model.jackInv <- function(chart.ext){
     dplyr::rename(keys = .data$keys.froms) %>%
     dplyr::mutate(values = 1/.data$diffs) %>%
     dplyr::group_by(.data$offsets) %>%
-    dplyr::summarise(values = max(.data$values))
+    dplyr::summarise(values = max(.data$values) + mean(.data$values))
 
   return(chart.ext)
 }
