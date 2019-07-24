@@ -11,7 +11,7 @@
 #' @importFrom rlang .data
 #' @export
 
-model.jackInv <- function(chart.ext){
+model.jack <- function(chart.ext){
 
   chart.ext %<>%
     dplyr::filter(.data$directions == 'jack') %>%
