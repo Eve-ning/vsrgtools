@@ -11,14 +11,15 @@
 #'
 #' @export
 
-model.join <- function(m.mtn, m.dns, m.mnp, m.lng){
+model.join <- function(m.mtn, m.dns, m.mnp, m.lng, m.jck){
   # This joins all models
-  model <- list(m.mtn, m.dns, m.mnp, m.lng) %>%
+  model <- list(m.mtn, m.dns, m.mnp, m.lng, m.jck) %>%
     purrr::reduce(dplyr::left_join, by = 'offsets') %>%
     dplyr::rename(mtn.vals = 2,
                   dns.vals = 3,
                   mnp.vals = 4,
-                  lng.vals = 5) %>%
+                  lng.vals = 5,
+                  jck.vals = 6) %>%
     replace(is.na(.), 0)
 
   return(model)
