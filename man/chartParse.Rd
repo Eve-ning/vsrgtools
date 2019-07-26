@@ -4,13 +4,20 @@
 \alias{chartParse}
 \title{Parses the chart into a data.frame}
 \usage{
-chartParse(chart.path = NA, chart.lines = NA)
+chartParse(chart.path = NA, chart.lines = NA, return.keys = F)
 }
 \arguments{
 \item{chart.path}{Path of the chart to be parsed}
 
 \item{chart.lines}{Lines of the chart to be parsed, if the chart is not in a
 file format}
+
+\item{return.keys}{To return keys or not.
+
+If true, a list will be returned.
+Chart can be accessed via "chart" and Keys can be accessed via "keys"
+
+If false, just the chart as DataFrame will be returned.}
 }
 \description{
 Only .osu formats are supported for now.

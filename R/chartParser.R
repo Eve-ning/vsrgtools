@@ -6,6 +6,12 @@
 #' @param chart.path Path of the chart to be parsed
 #' @param chart.lines Lines of the chart to be parsed, if the chart is not in a
 #' file format
+#' @param return.keys To return keys or not.
+#'
+#' If true, a list will be returned.
+#' Chart can be accessed via "chart" and Keys can be accessed via "keys"
+#'
+#' If false, just the chart as DataFrame will be returned.
 #'
 #' @importFrom magrittr %<>% %>%
 #' @importFrom dplyr mutate filter mutate_if select
@@ -17,7 +23,8 @@
 #' @export
 
 chartParse <- function(chart.path = NA,
-                       chart.lines = NA){
+                       chart.lines = NA,
+                       return.keys = F){
 
   loadInput <- function(){
     if (!is.na(chart.lines)) { chart <- chart.lines }
@@ -30,6 +37,8 @@ chartParse <- function(chart.path = NA,
     return(chart)
   }
 
+  # TODO: More formats in the chartParse<filename> convention
+  # All formats must return keys as keys = <keys> in a list
   chartParseOsu <- function(chart) {
     f.extract <- function(chart) {
       cs.i <- pmatch('CircleSize:', chart)
@@ -72,10 +81,16 @@ chartParse <- function(chart.path = NA,
                       'lnoteh', as.character(.data$types)))
 
 
-    return(chart)
+    return(list("chart" = chart, "keys" = chart.keys))
   }
   # To add a switch/ifelse statement if more formats are done
 
   chart <- suppressWarnings(loadInput())
-  return(chartParseOsu(chart))
+  chart <- chartParseOsu(chart)
+
+  if (return.keys){
+    return(list("chart" = chart$chart, "keys" = chart$keys))
+  } else {
+    return(chart$chart)
+  }
 }

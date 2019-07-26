@@ -22,6 +22,9 @@
 #'
 #' 8SPR: 8 Key Special (Right)
 #'
+#' This can also accept just '8', however it'll default to a Right Hand
+#' Playstyle. Use specific styles for precision.
+#'
 #' @param chart.keyset A data.frame based on type of chart.keyset.
 #'
 #' Either chart.keyset or chart.keyset.select must be defined
@@ -83,7 +86,7 @@ chartFngMapping <- function(chart.keyset.select=NA,
       return(chart.keyset)
     } else if (!is.na(chart.keyset.select)){
       move.chart.keysets <- .dflt.move.keysets()
-      return(move.chart.keysets[[chart.keyset.select]])
+      return(move.chart.keysets[[as.character(chart.keyset.select)]])
     } else {
       stop("Either chart.keyset or chart.keyset.select must be defined.")
     }

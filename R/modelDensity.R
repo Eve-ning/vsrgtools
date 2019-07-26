@@ -31,8 +31,8 @@
 model.density <- function(chart, window = 1000,
                           mini.ln.len.min = 100,
                           mini.ln.len.max = 400,
-                          mini.ln.weight.min = 0.65,
-                          mini.ln.weight.max = 1,
+                          mini.ln.weight.min = 0.2,
+                          mini.ln.weight.max = 0.7,
                           weight.note = 1) {
 
   unq.offsets <- unique(chart$offsets)

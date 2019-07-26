@@ -22,7 +22,10 @@ Only 8K has special chart.keysets
 
 8SPL: 8 Key Special (Left)
 
-8SPR: 8 Key Special (Right)}
+8SPR: 8 Key Special (Right)
+
+This can also accept just '8', however it'll default to a Right Hand
+Playstyle. Use specific styles for precision.}
 
 \item{chart.keyset}{A data.frame based on type of chart.keyset.
 
