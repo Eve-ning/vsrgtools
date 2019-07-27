@@ -70,10 +70,10 @@ model.longNote <- function(chart,
       rfls.dist = .data$rfls * 8 + .data$distances,
       values = .data$rfls.dist * .data$weights
     ) %>%
-    dplyr::group_by(.data$offsets, .data$keys.froms) %>%
-    dplyr::summarise(values = max(.data$values)) %>%
     dplyr::group_by(.data$offsets) %>%
-    dplyr::summarise(values = sum(.data$values)) %>%
+    dplyr::summarise(values = max(.data$values) + mean(.data$values)) %>%
+    # dplyr::group_by(.data$offsets) %>%
+    # dplyr::summarise(values = sum(.data$values)) %>%
     dplyr::mutate(values = (.data$values /(scale * keys)))
   return(chart.merge)
 }
