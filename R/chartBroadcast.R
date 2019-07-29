@@ -12,7 +12,7 @@
 #' @importFrom rlang .data
 #' @export
 
-diffBroadcast <- function(chart,
+chartBroadcast <- function(chart,
                           ignore.types = c('lnotel')){
 
   chart.bcst <- chart %>%

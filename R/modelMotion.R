@@ -1,6 +1,6 @@
 #' Static Model generator for Motion
 #'
-#' @description This uses diffBroadcast and createMoveMapping to summarize the
+#' @description This uses chartBroadcast and createMoveMapping to summarize the
 #' occurences of different patterns. This excludes jacks.
 #'
 #' Suppression

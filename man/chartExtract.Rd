@@ -16,7 +16,7 @@ chartExtract(chart, chart.keyset.select = NA, chart.keyset = NA,
 
 \item{ignore.types}{Types of notes to ignore
 
-?diffBroadcast for more details}
+?chartBroadcast for more details}
 }
 \value{
 Returns a data.frame compatible with models

@@ -32,7 +32,7 @@ If NA, .dflt.model.motion.mapping will be used}
 Returns a data.frame compatible with model.sim
 }
 \description{
-This uses diffBroadcast and createMoveMapping to summarize the
+This uses chartBroadcast and createMoveMapping to summarize the
 occurences of different patterns. This excludes jacks.
 
 Suppression

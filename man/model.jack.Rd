@@ -7,12 +7,12 @@
 model.jack(chart.ext)
 }
 \arguments{
-\item{chart.ext}{The chart generated from diffBroadcast}
+\item{chart.ext}{The chart generated from chartBroadcast}
 }
 \value{
 Returns a data.frame compatible with model.sim
 }
 \description{
-This uses diffBroadcast and just inverses the difference between
+This uses chartBroadcast and just inverses the difference between
 equal keys.froms and keys.tos
 }
