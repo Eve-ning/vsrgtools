@@ -65,11 +65,14 @@ model.motion <- function(chart.ext,
       # reflections and distances
       # rfls.dist roughly represent how hard is a pair to execute
       rfls.dist = .data$rfls * 8 + .data$distances,
-      values = .data$rfls.dist * .data$weights * .data$diffs.invs
+      values = (.data$rfls.dist * .data$weights * .data$diffs.invs) ** 2
     ) %>%
     dplyr::group_by(.data$offsets) %>%
     dplyr::summarise(
       values = sum(.data$values)
+    ) %>%
+    dplyr::mutate(
+      values = sqrt(values)
     )
 
   return(chart.ext)
